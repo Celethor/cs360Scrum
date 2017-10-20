@@ -26,7 +26,7 @@ public class GUI extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -37,7 +37,6 @@ public class GUI extends JFrame {
 				}
 			}
 		});
-	}
 
 	/**
 	 * Create the frame.
@@ -53,8 +52,20 @@ public class GUI extends JFrame {
 		JPanel boardPanel = new JPanel();
 		boardPanel.setBounds(10, 40, 282, 210);
 		contentPane.add(boardPanel);
-		boardPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		boardPanel.setLayout(new GridLayout(9, 9));
 		
+		JButton[][] tiles = new JButton[9][9];
+		for(int i=0;i<9;i++) {
+			for(int j=0;j<9;j++) {
+				tiles[i][j]=new JButton();
+			}
+		}
+		//add all buttons to the boardPanel
+		for(int i=0;i<9;i++) {
+			for(int j=0;j<9;j++) {
+				boardPanel.add(tiles[i][j]);
+			}
+		}
 		JPanel headerPanel = new JPanel();
 		headerPanel.setBounds(10, 11, 414, 29);
 		contentPane.add(headerPanel);
@@ -104,4 +115,6 @@ public class GUI extends JFrame {
 		queueTilesPanel.setBounds(0, 102, 122, 108);
 		sidePanel.add(queueTilesPanel);
 	}
+	
+	
 }

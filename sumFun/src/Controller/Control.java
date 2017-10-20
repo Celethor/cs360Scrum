@@ -13,4 +13,7 @@ public class Control {
 		this.model=new Model(gameType);
 		this.view=new View();
 	}
+	public static void main(String []args) {
+		new Control("xyz");
+	}
 }
