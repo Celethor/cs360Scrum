@@ -1,4 +1,4 @@
-package sumFun;
+package Model;
 
 import javax.swing.JButton;
 

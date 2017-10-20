@@ -1,4 +1,4 @@
-package sumFun;
+package Model;
 
 public class Queue {
 	/* class implements a queue using a circular array

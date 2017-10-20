@@ -1,4 +1,4 @@
-package sumFun;
+package Model;
 
 public class Model {
 	
