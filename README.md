@@ -21,18 +21,18 @@ General Process to be followed in the program :
 3. User will see a UI generated with all components -> Part of View
 4. User will start the game
 5. User will select a location to place the tile on the board : 
-    a. Control will call for updation : 
-       * First place current tile in the location
-       * Need to obtain surrounding tiles as neighbours
+    1. Control will call for updation  
+       1. First place current tile in the location
+       2. Need to obtain surrounding tiles as neighbours
          -> Check useful ones and filter them (usefulNeigbours are those which have a value; Hint: usefulNeighbours might be disabled by               default!)
-       * Check for successful placement : 
-         -> If successful placement : 
-            // Update Tiles : 
-               :: Change to empty values
-               :: Update the GUI -> Call to view
-            // Update Points : 
-               :: Check and update bonus points if required. Else updates general points
-            // Update moves if gametype is limited moves game
-         -> If unsuccessful placement : 
-            // Make sure placed tile updates with the value
-            // Update moves if required by gametype
+       3.  Check for successful placement : 
+         1. If successful placement : 
+            1. Update Tiles : 
+               1. Change to empty values
+               1. Update the GUI -> Call to view
+            2. Update Points : 
+               1. Check and update bonus points if required. Else updates general points
+            3. Update moves if gametype is limited moves game
+         2. If unsuccessful placement : 
+            1. Make sure placed tile updates with the value
+            2. Update moves if required by gametype
