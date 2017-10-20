@@ -1,4 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Delete resource &apos;sumFunProject&apos;" deleteContents="true" description="Delete resource &apos;sumFunProject&apos;" element1="/sumFunProject" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1508452192827"/>
+<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;sumFunProject&apos;" deleteContents="true" description="Delete resource &apos;sumFunProject&apos;" element1="/sumFunProject" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1508452192827"/>&#x0A;<refactoring comment="Delete resource &apos;sumFun&apos;" deleteContents="false" description="Delete resource &apos;sumFun&apos;" element1="/sumFun" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1508514274671"/>&#x0A;&#x0A;<refactoring comment="Delete resource &apos;cs360Scrum&apos;" deleteContents="false" description="Delete resource &apos;cs360Scrum&apos;" element1="/cs360Scrum" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1508515318702"/>
 </session>
