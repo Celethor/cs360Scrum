@@ -18,10 +18,12 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+import javax.swing.JTable;
 
 public class GUI extends JFrame {
 
 	private JPanel contentPane;
+	private JTable queueTable;
 
 	/**
 	 * Launch the application.
@@ -43,31 +45,16 @@ public class GUI extends JFrame {
 	 */
 	public GUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		
+		setBounds(100, 100, 640, 480);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel boardPanel = new JPanel();
-		boardPanel.setBounds(10, 40, 282, 210);
-		contentPane.add(boardPanel);
-		boardPanel.setLayout(new GridLayout(9, 9));
 		
-		JButton[][] tiles = new JButton[9][9];
-		for(int i=0;i<9;i++) {
-			for(int j=0;j<9;j++) {
-				tiles[i][j]=new JButton();
-			}
-		}
-		//add all buttons to the boardPanel
-		for(int i=0;i<9;i++) {
-			for(int j=0;j<9;j++) {
-				boardPanel.add(tiles[i][j]);
-			}
-		}
 		JPanel headerPanel = new JPanel();
-		headerPanel.setBounds(10, 11, 414, 29);
+		headerPanel.setBounds(10, 11, 604, 29);
 		contentPane.add(headerPanel);
 		headerPanel.setLayout(null);
 		
@@ -98,23 +85,44 @@ public class GUI extends JFrame {
 		headerPanel.add(lblMovesLeft);
 		
 		JPanel sidePanel = new JPanel();
-		sidePanel.setBounds(302, 40, 122, 210);
+		sidePanel.setBounds(461, 40, 153, 390);
 		contentPane.add(sidePanel);
 		sidePanel.setLayout(null);
 		
 		JPanel optionPanel = new JPanel();
-		optionPanel.setBounds(0, 0, 122, 102);
+		optionPanel.setBounds(0, 0, 153, 159);
 		sidePanel.add(optionPanel);
 		optionPanel.setLayout(null);
 		
 		JButton playGameBtn = new JButton("Start Game");
-		playGameBtn.setBounds(10, 11, 102, 23);
+		playGameBtn.setBounds(24, 11, 102, 23);
 		optionPanel.add(playGameBtn);
 		
 		JPanel queueTilesPanel = new JPanel();
-		queueTilesPanel.setBounds(0, 102, 122, 108);
+		queueTilesPanel.setBounds(0, 160, 153, 219);
 		sidePanel.add(queueTilesPanel);
+		
+		queueTable = new JTable();
+		queueTilesPanel.add(queueTable);
+		
+		JPanel boardPanel = new JPanel();
+		boardPanel.setBounds(10, 40, 441, 390);
+		
+		boardPanel.setLayout(new GridLayout(9, 9));
+		
+		JButton[][] tiles = new JButton[9][9];
+		for(int i=0;i<9;i++) {
+			for(int j=0;j<9;j++) {
+				tiles[i][j]=new JButton();
+			}
+		}
+		//add all buttons to the boardPanel
+		for(int i=0;i<9;i++) {
+			for(int j=0;j<9;j++) {
+				boardPanel.add(tiles[i][j]);
+			}
+		}
+		contentPane.add(boardPanel);
+		setVisible(true);
 	}
-	
-	
 }
