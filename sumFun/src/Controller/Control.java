@@ -12,6 +12,7 @@ public class Control {
 	public Control(String gameType){
 		this.model=new Model(gameType);
 		this.view=new View();
+		
 	}
 	public static void main(String []args) {
 		new Control("xyz");

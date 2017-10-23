@@ -1,28 +1,28 @@
 package Model;
 
 public class Coordinates {
-	private int rows;
-	private int cols;
+	private int row;
+	private int col;
 	
 	public Coordinates(int rows,int cols){
-		this.rows=rows;
-		this.cols=cols;
+		this.row=rows;
+		this.col=cols;
 	}
 
-	public int getRows() {
-		return rows;
+	public int getRow() {
+		return row;
 	}
 
-	public void setRows(int rows) {
-		this.rows = rows;
+	public void setRow(int rows) {
+		this.row = rows;
 	}
 
-	public int getCols() {
-		return cols;
+	public int getCol() {
+		return col;
 	}
 
-	public void setCols(int cols) {
-		this.cols = cols;
+	public void setCol(int cols) {
+		this.col = cols;
 	}
 	
 	

@@ -22,7 +22,7 @@ public class Queue {
 	}
 	
 	//enqueue adds integer to the write of the queue
-	private void enqueue(int x) throws Exception{
+	public void enqueue(int x) throws Exception{
 		if (read == (write + 1) % (queue.length)){
 			throw new Exception("Queue is full");
 		}
@@ -31,7 +31,7 @@ public class Queue {
 	}
 	
 	//returns the element at the fromt of the queue
-	private int dequeue() throws Exception{
+	public int dequeue() throws Exception{
 		int result;
 		
 		if(read == write){
@@ -46,7 +46,7 @@ public class Queue {
 	}
 	
 	//returns item in queue at element
-	private int getQueueElement(int index){
+	public int getQueueElement(int index){
 		int element;
 		element = queue[(read + index) % queue.length];
 		return element;
