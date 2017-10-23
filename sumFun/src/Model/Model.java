@@ -3,7 +3,8 @@ package Model;
 import java.util.Random;
 
 public class Model {
-	private Tile [][]tiles;
+	//private Tile [][]tiles;
+	private Integer [][]tiles; 		//integer type should be enough since we are using JButtons in our view.
 	private Queue tilesQueue;
 	private int score;
 	private String gameType;
@@ -15,18 +16,20 @@ public class Model {
 	 */
 	public Model(String gameType){
 		//random object for assigning random values in the tiles
-		Random rand=new Random(9);
-		this.tiles=new Tile[9][9];
+		Random rand=new Random();
+		//this.tiles=new Tile[9][9];
+		this.tiles=new Integer[9][9];
 		//initialize every tile
 		for(int i=0;i<9;i++){
 			for(int j=0;j<9;j++){
-				this.tiles[i][j]=new Tile();
+				this.tiles[i][j]=new Integer(-1);
 			}
 		}
 		//set values for the tiles now; ignore borders
 		for(int i=1;i<8;i++){
 			for(int j=1;j<8;j++){
-				tiles[i][j].setValue(rand.nextInt());
+				//tiles[i][j].setValue(rand.nextInt());
+				tiles[i][j]=rand.nextInt(9);
 			}
 		}
 		//initialize the queue
@@ -37,11 +40,11 @@ public class Model {
 		this.gameType=gameType;
 	}
 
-	public Tile[][] getTiles() {
+	public Integer[][] getTiles() {
 		return tiles;
 	}
 
-	public void setTiles(Tile[][] tiles) {
+	public void setTiles(Integer[][] tiles) {
 		this.tiles = tiles;
 	}
 
