@@ -66,6 +66,7 @@ public class Model extends Observable{
 		int sum=0;
 		int usefulNeighborCtr=0;
 		//get coordinates of all useful neighbors
+		//useful neighbors are those which are not empty. 
 		ArrayList<Coordinates>usefulNeighbors=getUsefulNeighbors(coord);
 		//loop through all useful neighbors and calculate the sum of their values
 		for(int i=0;i<usefulNeighbors.size();i++){
@@ -77,14 +78,14 @@ public class Model extends Observable{
 		//get top element of queue
 		int elementPlaced=-1;
 		try {
-			elementPlaced = tilesQueue.getQueueElement(0);
+			elementPlaced = tilesQueue.getQueueElement(0);//do not dequeue as it is part of separate operation
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new NullPointerException("tilesQueue getQueueElement in successfulplacement null ptr in CATCH. Not Working!\n");
 		}
 		//compare value according to given rule
 		if(elementPlaced==-1){
-			throw new NullPointerException("tilesQueue getQueueElement in successfulplacement null ptr. Not Working!");
+			throw new NullPointerException("tilesQueue getQueueElement in successfulplacement null ptr in FOLLOWING IF. Not Working!\n");
 		}
 		else if(sum%10==elementPlaced){
 			success=true;
@@ -97,6 +98,8 @@ public class Model extends Observable{
 		else{
 			return -1;
 		}*/
+		
+		//method now returns if tiles surrounding the current tile can be removed or not
 		return success;
 	}
 	
@@ -122,6 +125,20 @@ public class Model extends Observable{
 					{row+1,col-1},{row+1,col},{row+1,col+1}};
 		}*/
 		//all possible combinations for a tile placed in a grid having coordinates {row,col}
+		//Logic as follows
+		/*
+		 * Assume that a tile is placed at location row,col in a matrix
+		 * The matrix looks like:
+		 * 			row-1,col-1	|	row-1,col	|	row-1,col+1
+		 * 			row,col-1	|	row,col		|	row,col+1
+		 * 			row+1,col	|	row+1,col	|	row+1,col+1
+		 * The neighbors will be all the surrounding tiles. 
+		 * Now, if the tile is placed at the corners, the values of [i,j] where i belongs to all 
+		 * values of rows and j belongs to all values of columns have to be within the limits 
+		 * of 0<=row<=8 since it is a 9*9 board. So running a simple if-else conditional structure 
+		 * to check these limits for all the above neighbor coordinates can simplify the procedure
+		 * WE CAN AVOID THE ABOVE COMMENTED CODE, WHICH IS LENGTHY AND REPETITIVE
+		 */
 		int [][]allNeighborsCoords={{row-1,col-1},{row-1,col},{row-1,col+1},
 				{row,col-1},{row,col+1},
 				{row+1,col-1},{row+1,col},{row+1,col+1}};
@@ -141,6 +158,10 @@ public class Model extends Observable{
 				usefulNeighbors.add(allNeighbors.get(i));
 			}
 		}
+		/*
+		 *return only non empty neighbors. This will be useful since in the future, all non-empty neighbors
+		 *will be removed if it is a successful placement. Need not check later if they are empty
+		 */
 		return usefulNeighbors;
 	}
 		
@@ -189,6 +210,37 @@ public class Model extends Observable{
 				}
 				empty+=usefulNeighbors.size();
 			}
+			/**
+			 * This part is supposed to contain the score calculation/method call to a 
+			 * scoreCalculate Method. 
+			 * use a method signature like: public int scoreCalculate(int removedNeighbors){} for this purpose. 
+			 * The size of the usefulNeighbors arraylist used above will be passed as parameter. usefulNeighbors
+			 * consists of the coordinates of all neighbors to the current tile that are not empty. So if it is
+			 * a successful placement, all such tiles need to be removed.
+			 */
+			//Score calculation
+			
+			
+			
+			//score calculation ends
+			
+			/**
+			 * This part is supposed to update the tilesQueue, since one of the values have been 
+			 * dequeued. Use a separate method with a signature such as:
+			 * public Queue updateTilesQueue(){} for this purpose. 
+			 * Firstly, this method will push all the existing elements of the queue up by one place.
+			 * Then, this method will add a new element to the bottom of the queue. 
+			 * The new queue will be returned. 
+			 * 
+			 * METHOD SIGNATURE CAN BE MODIFIED TO RETURN NEW QUEUE OR JUST RETURN BOOLEAN OF TRUE/FALSE
+			 * IF THE QUEUE IS UPDATED OR NOT. 
+			 * IMPLEMENTATION IS LEFT TO DEVELOPER
+			 */
+			//tilesQueue update starts
+			
+			
+			//tilesQueue update ends
+			
 			//check game status again
 			if(empty==0){//if the number of empty tiles in the board is zero, game is over!
 				//SHOULD MODIFY TO CHECK FOR BOTH TIMED AND UNTIMED IN LATER SPRINT CYCLES
