@@ -10,6 +10,10 @@ public class Model extends Observable{
 	private Queue tilesQueue;
 	private int score;
 	private String gameType;
+	private int remainingMoves;
+	private boolean gameOver;
+	private int empty;
+	private boolean won;
 	private final int moveLimit=50;
 	private final int queueSize=5;
 	/**
@@ -50,6 +54,9 @@ public class Model extends Observable{
 				System.out.println("Queue initialization exception");
 			}
 		}
+		this.remainingMoves=50;
+		this.gameOver=false;
+		this.empty=32;//present number in the borders
 	}
 	
 	public int isSuccessfulPlacement(Coordinates coord){
@@ -70,14 +77,14 @@ public class Model extends Observable{
 		//get top element of queue
 		int elementPlaced=-1;
 		try {
-			elementPlaced = tilesQueue.dequeue();
+			elementPlaced = tilesQueue.getQueueElement(0);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		//compare value according to given rule
 		if(elementPlaced==-1){
-			throw new NullPointerException("tilesQueue Deque null ptr. Not Working!");
+			throw new NullPointerException("tilesQueue getQueueElement in successfulplacement null ptr. Not Working!");
 		}
 		else if(sum%10==elementPlaced){
 			success=true;
@@ -136,7 +143,67 @@ public class Model extends Observable{
 		return usefulNeighbors;
 	}
 		
-	
+	public boolean updateTilesinBoard(Coordinates coord){
+		//first get row and col from the given coordinates 
+		int row=coord.getRow();
+		int col=coord.getCol();
+		//check if the given tile is empty. If not, return false
+		//indicating that tile cannot be placed
+		if(tiles[row][col]!=-1){
+			return false;
+		}
+		else{
+			//if untimed game
+			if(gameType.equals("untimed")){
+				//update moves
+				remainingMoves--;
+				//check if game is over
+				if(remainingMoves<=0){
+					//update gameOver status
+					gameOver=true;
+					//return true since tile was successfully placed
+					return true;
+				}
+			}
+		}
+			int placement=isSuccessfulPlacement(coord);
+			//tile at given position is updated 
+			try {
+				tiles[row][col]=tilesQueue.dequeue();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//now come to the other tiles/neighbors
+			if(placement==-1){//if it is not a successful placement
+				empty--;
+			}
+			else{//if the placement is successful
+				ArrayList<Coordinates> usefulNeighbors=getUsefulNeighbors(coord);//get all the useful neighbors that were removed
+				//change the placed tile to empty since it was a successful placement
+				tiles[row][col]=-1;
+				//now loop through all useful neighbors and change their values to empty
+				for(int i=0;i<usefulNeighbors.size();i++){
+					tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
+				}
+				empty+=placement;
+			}
+			//check game status again
+			if(empty==0){//if the number of empty tiles in the board is zero, game is over!
+				//SHOULD MODIFY TO CHECK FOR BOTH TIMED AND UNTIMED IN LATER SPRINT CYCLES
+				gameOver=true;
+				//return true since tile was updated and some operation took place
+				return true;
+			}
+			else if(empty==81){
+				//game is won; update that in the model 
+				won=true;
+				//return true for updated tiles 
+				return true;
+			}
+			//if nothing works
+			return false;
+	}
 	public Integer[][] getTiles() {
 		return tiles;
 	}
