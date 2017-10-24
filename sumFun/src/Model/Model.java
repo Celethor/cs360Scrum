@@ -59,7 +59,7 @@ public class Model extends Observable{
 		this.empty=32;//present number in the borders
 	}
 	
-	public int isSuccessfulPlacement(Coordinates coord){
+	public boolean isSuccessfulPlacement(Coordinates coord){
 		int row=coord.getRow();
 		int col=coord.getCol();
 		boolean success=false;
@@ -89,14 +89,15 @@ public class Model extends Observable{
 		else if(sum%10==elementPlaced){
 			success=true;
 		}
-		
+		/*
 		//returns number of removed neighbors + 1 (since placed tile is also counted removed) if success
 		if(success){
 			return usefulNeighborCtr+1;
 		}
 		else{
 			return -1;
-		}
+		}*/
+		return success;
 	}
 	
 	public ArrayList<Coordinates>getUsefulNeighbors(Coordinates coord){
@@ -166,7 +167,7 @@ public class Model extends Observable{
 				}
 			}
 		}
-			int placement=isSuccessfulPlacement(coord);
+			boolean placement=isSuccessfulPlacement(coord);
 			//tile at given position is updated 
 			try {
 				tiles[row][col]=tilesQueue.dequeue();
@@ -175,7 +176,7 @@ public class Model extends Observable{
 				e.printStackTrace();
 			}
 			//now come to the other tiles/neighbors
-			if(placement==-1){//if it is not a successful placement
+			if(placement==false){//if it is not a successful placement
 				empty--;
 			}
 			else{//if the placement is successful
@@ -186,7 +187,7 @@ public class Model extends Observable{
 				for(int i=0;i<usefulNeighbors.size();i++){
 					tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
 				}
-				empty+=placement;
+				empty+=usefulNeighbors.size();
 			}
 			//check game status again
 			if(empty==0){//if the number of empty tiles in the board is zero, game is over!
