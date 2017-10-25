@@ -12,6 +12,7 @@ import javax.swing.border.LineBorder;
 
 import com.sun.glass.ui.Window;
 
+import Controller.Control;
 import View.GUI;
 
 import java.awt.GridLayout;
@@ -69,7 +70,7 @@ public class splashGUI extends JFrame {
 		JButton btnPlayUntimed = new JButton("Play Untimed");
 		btnPlayUntimed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//new GUI();
+				new Control("untimed");
 				mainFrame.setVisible(false);
 				
 			}
