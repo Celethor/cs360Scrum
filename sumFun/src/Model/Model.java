@@ -7,7 +7,7 @@ import java.util.Random;
 public class Model extends Observable{
 	//private Tile [][]tiles;
 	private Integer [][]tiles; 		//integer type should be enough since we are using JButtons in our view.
-	private Queue tilesQueue;
+	private Queue<Integer> tilesQueue; // @TODO check implementation
 	private int score;
 	private String gameType;
 	private int remainingMoves;
@@ -39,13 +39,13 @@ public class Model extends Observable{
 			}
 		}
 		//initialize the queue
-		this.tilesQueue=new Queue(5);
+		//this.tilesQueue=new ArrayList<Integer>();   // Initialized Twice???????????
 		//initialize the score (initial)
 		this.score=0;
 		//initialize the gameType
 		this.gameType=gameType;
 		//initialize queue
-		this.tilesQueue=new Queue(queueSize);
+		this.tilesQueue=new Queue<Integer>();
 		for(int i=0;i<queueSize;i++){
 			try {
 				tilesQueue.enqueue(rand.nextInt(9));
@@ -78,7 +78,7 @@ public class Model extends Observable{
 		//get top element of queue
 		int elementPlaced=-1;
 		try {
-			elementPlaced = tilesQueue.getQueueElement(0);//do not dequeue as it is part of separate operation
+			elementPlaced = tilesQueue.getElement(0);//do not dequeue as it is part of separate operation
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			throw new NullPointerException("tilesQueue getQueueElement in successfulplacement null ptr in CATCH. Not Working!\n");
@@ -236,8 +236,13 @@ public class Model extends Observable{
 			 * IF THE QUEUE IS UPDATED OR NOT. 
 			 * IMPLEMENTATION IS LEFT TO DEVELOPER
 			 */
-			//tilesQueue update starts
-			
+			//tilesQueue update starts @TODO check implementation
+			Random rand=new Random();
+			if(tilesQueue.getSize() < 5) {
+				while(tilesQueue.getSize() < queueSize) {
+				tilesQueue.enqueue(rand.nextInt(9));
+				}
+			}
 			
 			//tilesQueue update ends
 			
@@ -289,11 +294,11 @@ public class Model extends Observable{
 		notifyObservers();
 	}
 
-	public Queue getTilesQueue() {
+	public ArrayList<Integer> getTilesQueue() {
 		return tilesQueue;
 	}
 
-	public void setTilesQueue(Queue tilesQueue) {
+	public void setTilesQueue(Queue<Integer> tilesQueue) {
 		this.tilesQueue = tilesQueue;
 		setChanged();
 		notifyObservers();
