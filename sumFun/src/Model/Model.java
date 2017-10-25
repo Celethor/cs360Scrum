@@ -257,6 +257,28 @@ public class Model extends Observable{
 			//if nothing works
 			return false;
 	}
+	
+	//if that returns true the method scores that placement accordingly
+	public void scorePlacement(Coordinates coord) {
+		
+		ArrayList<Coordinates> neighbors = this.getUsefulNeighbors(coord);
+		
+		//add placed tile value to score
+		this.setScore(this.score + tiles[coord.getRow()][coord.getCol()].intValue());
+		
+		//add all neighbors values to score
+		for(int i= 0; i < neighbors.size(); i++) {
+			this.setScore(this.score + tiles[neighbors.get(i).getRow()][neighbors.get(i).getCol()].intValue());
+		}
+		
+		//add bonus points if applicable
+		if(neighbors.size() >= 3) {
+			this.setScore(this.score + (10 * neighbors.size()));
+		}
+		
+		return;
+	}
+	
 	public Integer[][] getTiles() {
 		return tiles;
 	}

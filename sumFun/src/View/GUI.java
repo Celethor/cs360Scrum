@@ -19,6 +19,7 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 public class GUI extends JFrame {
 
@@ -90,16 +91,24 @@ public class GUI extends JFrame {
 		sidePanel.setLayout(null);
 		
 		JPanel optionPanel = new JPanel();
-		optionPanel.setBounds(0, 0, 153, 159);
+		optionPanel.setBounds(0, 6, 153, 126);
 		sidePanel.add(optionPanel);
 		optionPanel.setLayout(null);
 		
-		JButton playGameBtn = new JButton("Start Game");
-		playGameBtn.setBounds(24, 11, 102, 23);
-		optionPanel.add(playGameBtn);
+		JLabel lblScore = new JLabel("Score:");
+		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
+		lblScore.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
+		lblScore.setBounds(6, 6, 65, 29);
+		optionPanel.add(lblScore);
+		
+		JLabel label = new JLabel("0");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
+		label.setBounds(82, 6, 65, 29);
+		optionPanel.add(label);
 		
 		JPanel queueTilesPanel = new JPanel();
-		queueTilesPanel.setBounds(0, 160, 153, 219);
+		queueTilesPanel.setBounds(0, 138, 153, 241);
 		sidePanel.add(queueTilesPanel);
 		
 		queueTable = new JTable();
