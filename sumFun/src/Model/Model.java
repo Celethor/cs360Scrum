@@ -332,7 +332,7 @@ public class Model extends Observable{
 		notifyObservers();
 	}
 
-	public ArrayList<Integer> getTilesQueue() {
+	public Queue<Integer> getTilesQueue() {
 		return tilesQueue;
 	}
 

@@ -29,7 +29,7 @@ public class Queue<E> extends ArrayList<E>{
 	}
 	
 	//getElement returns element 
-	E getElement(int index) {
+	public E getElement(int index) {
 		return queue.get(index);
 	}
 	

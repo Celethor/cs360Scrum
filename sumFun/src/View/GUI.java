@@ -10,14 +10,17 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import Model.Model;
+import Model.Queue;
 
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -29,9 +32,9 @@ import javax.swing.JTextField;
 public class GUI extends JFrame implements Observer {
 
 	private JPanel contentPane;
-	private JTable queueTable;
 	private Model theModel;
 	private JButton[][] tiles;
+	private JLabel [] queueTiles;
 	private JLabel lblTimeDesc;
 	private JLabel lblMovesDesc;
 	private JLabel lblTimeLeft ;
@@ -126,8 +129,18 @@ public class GUI extends JFrame implements Observer {
 		queueTilesPanel.setBounds(0, 138, 153, 241);
 		sidePanel.add(queueTilesPanel);
 		
-		queueTable = new JTable();
-		queueTilesPanel.add(queueTable);
+		queueTilesPanel.setLayout(new GridLayout(5, 1, 0, 0));
+		
+		Queue<Integer> modelQueueTiles = theModel.getTilesQueue();
+		this.queueTiles = new JLabel[5];
+		for(int i=0;i<5;i++) {
+			queueTiles[i]=new JLabel(modelQueueTiles.getElement(i).toString());
+			queueTiles[i].setHorizontalAlignment(SwingConstants.CENTER);
+			queueTiles[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			queueTilesPanel.add(queueTiles[i]);
+		}
+		//System.out.println(modelQueueTiles.getElement(0).toString());
+		
 		
 		JPanel boardPanel = new JPanel();
 		boardPanel.setBounds(10, 40, 441, 390);
