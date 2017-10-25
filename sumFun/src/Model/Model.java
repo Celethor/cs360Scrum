@@ -57,8 +57,45 @@ public class Model extends Observable{
 		this.remainingMoves=50;
 		this.gameOver=false;
 		this.empty=32;//present number in the borders
+		
 	}
 	
+	public int getRemainingMoves() {
+		return remainingMoves;
+	}
+
+	public void setRemainingMoves(int remainingMoves) {
+		this.remainingMoves = remainingMoves;
+	}
+
+	public boolean isGameOver() {
+		return gameOver;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
+
+	public int getEmpty() {
+		return empty;
+	}
+
+	public void setEmpty(int empty) {
+		this.empty = empty;
+	}
+
+	public boolean isWon() {
+		return won;
+	}
+
+	public void setWon(boolean won) {
+		this.won = won;
+	}
+
+	public int getQueueSize() {
+		return queueSize;
+	}
+
 	public boolean isSuccessfulPlacement(Coordinates coord){
 		int row=coord.getRow();
 		int col=coord.getCol();
@@ -265,20 +302,21 @@ public class Model extends Observable{
 	
 	//if that returns true the method scores that placement accordingly
 	public void scorePlacement(Coordinates coord) {
-		
-		ArrayList<Coordinates> neighbors = this.getUsefulNeighbors(coord);
-		
-		//add placed tile value to score
-		this.setScore(this.score + tiles[coord.getRow()][coord.getCol()].intValue());
-		
-		//add all neighbors values to score
-		for(int i= 0; i < neighbors.size(); i++) {
-			this.setScore(this.score + tiles[neighbors.get(i).getRow()][neighbors.get(i).getCol()].intValue());
-		}
-		
-		//add bonus points if applicable
-		if(neighbors.size() >= 3) {
-			this.setScore(this.score + (10 * neighbors.size()));
+		if(isSuccessfulPlacement(coord)){
+			ArrayList<Coordinates> neighbors = this.getUsefulNeighbors(coord);
+			
+			//add placed tile value to score
+			this.setScore(this.score + tiles[coord.getRow()][coord.getCol()].intValue());
+			
+			//add all neighbors values to score
+			for(int i= 0; i < neighbors.size(); i++) {
+				this.setScore(this.score + tiles[neighbors.get(i).getRow()][neighbors.get(i).getCol()].intValue());
+			}
+			
+			//add bonus points if applicable
+			if(neighbors.size() >= 3) {
+				this.setScore(this.score + (10 * neighbors.size()));
+			}
 		}
 		
 		return;

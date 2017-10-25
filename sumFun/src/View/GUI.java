@@ -9,7 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import Model.Model;
+
 import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
+
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -21,10 +26,17 @@ import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-public class GUI extends JFrame {
+public class GUI extends JFrame implements Observer {
 
 	private JPanel contentPane;
 	private JTable queueTable;
+	private Model theModel;
+	private JButton[][] tiles;
+	private JLabel lblTimeDesc;
+	private JLabel lblMovesDesc;
+	private JLabel lblTimeLeft ;
+	private JLabel lblMovesLeft;
+	private JLabel lblScoreDesc;
 
 	/**
 	 * Launch the application.
@@ -44,7 +56,8 @@ public class GUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public GUI() {
+	public GUI(Model model) {
+		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setBounds(100, 100, 640, 480);
@@ -53,32 +66,34 @@ public class GUI extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		this.theModel=model;
+		this.theModel.addObserver(this);
 		
 		JPanel headerPanel = new JPanel();
 		headerPanel.setBounds(10, 11, 604, 29);
 		contentPane.add(headerPanel);
 		headerPanel.setLayout(null);
 		
-		JLabel lblTimeDesc = new JLabel("Time Left (s)");
+		lblTimeDesc = new JLabel("Time Left (s)");
 		lblTimeDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimeDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblTimeDesc.setBounds(10, 0, 96, 29);
 		headerPanel.add(lblTimeDesc);
 		
-		JLabel lblMovesDesc = new JLabel("Moves Left");
+		lblMovesDesc = new JLabel("Moves Left");
 		lblMovesDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMovesDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblMovesDesc.setBounds(212, 0, 96, 29);
 		headerPanel.add(lblMovesDesc);
 		
-		JLabel lblTimeLeft = new JLabel("--");
+		lblTimeLeft = new JLabel("--");
 		lblTimeLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimeLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblTimeLeft.setBounds(106, 0, 96, 29);
 		lblTimeLeft.setBorder(new LineBorder(Color.BLACK));
 		headerPanel.add(lblTimeLeft);
 		
-		JLabel lblMovesLeft = new JLabel("--");
+		lblMovesLeft = new JLabel("--");
 		lblMovesLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblMovesLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMovesLeft.setBounds(308, 0, 96, 29);
@@ -95,7 +110,7 @@ public class GUI extends JFrame {
 		sidePanel.add(optionPanel);
 		optionPanel.setLayout(null);
 		
-		JLabel lblScoreDesc = new JLabel("Score:");
+		lblScoreDesc = new JLabel("Score:");
 		lblScoreDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScoreDesc.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
 		lblScoreDesc.setBounds(6, 6, 65, 29);
@@ -118,11 +133,16 @@ public class GUI extends JFrame {
 		boardPanel.setBounds(10, 40, 441, 390);
 		
 		boardPanel.setLayout(new GridLayout(9, 9));
-		
-		JButton[][] tiles = new JButton[9][9];
+		Integer [][]modelTiles=theModel.getTiles();
+		tiles = new JButton[9][9];
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<9;j++) {
 				tiles[i][j]=new JButton();
+			}
+		}
+		for(int i=1;i<8;i++){
+			for(int j=1;j<8;j++){
+				tiles[i][j].setText(modelTiles[i][j].toString());
 			}
 		}
 		//add all buttons to the boardPanel
@@ -133,5 +153,17 @@ public class GUI extends JFrame {
 		}
 		contentPane.add(boardPanel);
 		setVisible(true);
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		Integer [][]modelTiles=theModel.getTiles();
+		for(int i=0;i<tiles.length;i++){
+			for(int j=0;j<tiles[i].length;j++){
+				tiles[i][j].setText(modelTiles[i][j].toString());
+			}
+		}
+		
 	}
 }

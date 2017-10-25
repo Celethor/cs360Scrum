@@ -11,10 +11,10 @@ public class Control {
 	 */
 	public Control(String gameType){
 		this.model=new Model(gameType);
-		this.view=new View();
+		this.view=new View(this.model);
 		
 	}
 	public static void main(String []args) {
-		new Control("xyz");
+		new Control("untimed");
 	}
 }

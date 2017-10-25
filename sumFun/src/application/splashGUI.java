@@ -69,7 +69,7 @@ public class splashGUI extends JFrame {
 		JButton btnPlayUntimed = new JButton("Play Untimed");
 		btnPlayUntimed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new GUI();
+				//new GUI();
 				mainFrame.setVisible(false);
 				
 			}
