@@ -32,6 +32,11 @@ public class Queue<E> extends ArrayList<E>{
 		return queue.get(index);
 	}
 	
+	//size of the array
+	private int getSize() {
+		return queue.size();
+	}
+	
 	//used to print elements of ArrayList<E>
 	private String printQueue() {
 		String answer = "";
