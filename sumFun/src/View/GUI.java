@@ -95,17 +95,17 @@ public class GUI extends JFrame {
 		sidePanel.add(optionPanel);
 		optionPanel.setLayout(null);
 		
-		JLabel lblScore = new JLabel("Score:");
+		JLabel lblScoreDesc = new JLabel("Score:");
+		lblScoreDesc.setHorizontalAlignment(SwingConstants.CENTER);
+		lblScoreDesc.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
+		lblScoreDesc.setBounds(6, 6, 65, 29);
+		optionPanel.add(lblScoreDesc);
+		
+		JLabel lblScore = new JLabel("0");
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScore.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
-		lblScore.setBounds(6, 6, 65, 29);
+		lblScore.setBounds(82, 6, 65, 29);
 		optionPanel.add(lblScore);
-		
-		JLabel label = new JLabel("0");
-		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
-		label.setBounds(82, 6, 65, 29);
-		optionPanel.add(label);
 		
 		JPanel queueTilesPanel = new JPanel();
 		queueTilesPanel.setBounds(0, 138, 153, 241);
