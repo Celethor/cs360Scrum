@@ -35,7 +35,7 @@ public class Model extends Observable{
 		for(int i=1;i<8;i++){
 			for(int j=1;j<8;j++){
 				//tiles[i][j].setValue(rand.nextInt());
-				tiles[i][j]=rand.nextInt(9);
+				tiles[i][j]=rand.nextInt(10);
 			}
 		}
 		//initialize the queue
@@ -224,10 +224,12 @@ public class Model extends Observable{
 				//update moves
 				remainingMoves--;
 				//check if game is over
-				if(remainingMoves<=0){
+				if(remainingMoves==0){
 					//update gameOver status
 					gameOver=true;
 					//return true since tile was successfully placed
+					setChanged();
+					notifyObservers();
 					return true;
 				}
 			}
@@ -269,6 +271,8 @@ public class Model extends Observable{
 			if(empty==0){//if the number of empty tiles in the board is zero, game is over!
 				//SHOULD MODIFY TO CHECK FOR BOTH TIMED AND UNTIMED IN LATER SPRINT CYCLES
 				gameOver=true;
+				setChanged();
+				notifyObservers();
 				//return true since tile was updated and some operation took place
 				return true;
 			}

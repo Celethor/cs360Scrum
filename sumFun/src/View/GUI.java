@@ -43,6 +43,7 @@ public class GUI extends JFrame implements Observer {
 	private JLabel lblMovesLeft;
 	private JLabel lblScoreDesc;
 	private JLabel lblScore;
+	private JLabel lblGameStatus;
 	/**
 	 * Launch the application.
 	 */
@@ -127,6 +128,12 @@ public class GUI extends JFrame implements Observer {
 		lblScore.setBounds(82, 6, 65, 29);
 		optionPanel.add(lblScore);
 		
+		lblGameStatus = new JLabel("Game in Progress");
+		lblGameStatus.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
+		lblGameStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGameStatus.setBounds(10, 68, 133, 29);
+		optionPanel.add(lblGameStatus);
+		
 		JPanel queueTilesPanel = new JPanel();
 		queueTilesPanel.setBounds(0, 138, 153, 241);
 		sidePanel.add(queueTilesPanel);
@@ -175,6 +182,9 @@ public class GUI extends JFrame implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
+		boolean gameOver=theModel.isGameOver();
+		boolean gameWon=theModel.isWon();
+		
 		//first update the tiles from the model
 		Integer [][]modelTiles=theModel.getTiles();
 		for(int i=0;i<tiles.length;i++){
@@ -186,13 +196,23 @@ public class GUI extends JFrame implements Observer {
 				}
 				else{
 					tiles[i][j].setText(modelTiles[i][j].toString());
+					tiles[i][j].setEnabled(false);
 				}
 			}
 		}
 		//update queue of tiles from the model
 		Queue<Integer> modelQueueTiles = theModel.getTilesQueue();
-		for(int i=0;i<queueTiles.length;i++){
+		if(gameWon||gameOver){
+			for(int i=0;i<queueTiles.length-1;i++){
+				queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
+			}
+			queueTiles[4].setText("");
+		}
+		else{
+			//Queue<Integer> modelQueueTiles = theModel.getTilesQueue();
+			for(int i=0;i<queueTiles.length;i++){
 			queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
+			}
 		}
 		//update the score board
 		int modelScore=theModel.getScore();
@@ -200,6 +220,26 @@ public class GUI extends JFrame implements Observer {
 		//update the moves left
 		int modelMovesLeft=theModel.getRemainingMoves();
 		lblMovesLeft.setText(Integer.toString(modelMovesLeft));
+		if(gameOver){
+			System.out.println("Game over is true");
+			for(int i=0;i<tiles.length;i++){
+				for(int j=0;j<tiles[i].length;j++){
+					tiles[i][j].setEnabled(false);
+				}
+			}
+			lblGameStatus.setText("Game Over! Loser!");
+			return;
+		}
+		else if(gameWon){
+			System.out.println("Game Won!!!!");
+			for(int i=0;i<tiles.length;i++){
+				for(int j=0;j<tiles[i].length;j++){
+					tiles[i][j].setEnabled(true);
+				}
+			}
+			lblGameStatus.setText("Game Won! Legend!");
+			return;
+		}
 	}
 	
 	public class TilesClickListener implements ActionListener{
