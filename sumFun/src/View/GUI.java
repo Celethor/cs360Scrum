@@ -15,6 +15,8 @@ import Model.Queue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -68,6 +70,7 @@ public class GUI extends JFrame implements Observer {
 		
 		setBounds(100, 100, 640, 480);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -76,30 +79,43 @@ public class GUI extends JFrame implements Observer {
 		this.theModel.addObserver(this);
 		
 		JPanel headerPanel = new JPanel();
+		headerPanel.setBackground(Color.BLACK);
 		headerPanel.setBounds(10, 11, 604, 29);
 		contentPane.add(headerPanel);
 		headerPanel.setLayout(null);
 		
-		lblTimeDesc = new JLabel("Time Left (s)");
+		lblTimeDesc = new JLabel("Time Left (s):");
+		lblTimeDesc.setOpaque(true);
+		lblTimeDesc.setBackground(Color.BLACK);
+		lblTimeDesc.setForeground(Color.WHITE);
 		lblTimeDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimeDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblTimeDesc.setBounds(10, 0, 96, 29);
 		headerPanel.add(lblTimeDesc);
 		
-		lblMovesDesc = new JLabel("Moves Left");
+		lblMovesDesc = new JLabel("Moves Left : ");
+		lblMovesDesc.setBackground(Color.BLACK);
+		lblMovesDesc.setForeground(Color.WHITE);
+		lblMovesDesc.setOpaque(true);
 		lblMovesDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMovesDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblMovesDesc.setBounds(212, 0, 96, 29);
 		headerPanel.add(lblMovesDesc);
 		
 		lblTimeLeft = new JLabel("--");
+		lblTimeLeft.setBackground(Color.BLACK);
+		lblTimeLeft.setForeground(Color.RED);
+		lblTimeLeft.setOpaque(true);
 		lblTimeLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimeLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblTimeLeft.setBounds(106, 0, 96, 29);
 		lblTimeLeft.setBorder(new LineBorder(Color.BLACK));
 		headerPanel.add(lblTimeLeft);
 		
-		lblMovesLeft = new JLabel("--");
+		lblMovesLeft = new JLabel("50");
+		lblMovesLeft.setBackground(Color.BLACK);
+		lblMovesLeft.setForeground(Color.RED);
+		lblMovesLeft.setOpaque(true);
 		lblMovesLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblMovesLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMovesLeft.setBounds(308, 0, 96, 29);
@@ -107,34 +123,47 @@ public class GUI extends JFrame implements Observer {
 		headerPanel.add(lblMovesLeft);
 		
 		JPanel sidePanel = new JPanel();
+		sidePanel.setBackground(Color.BLACK);
 		sidePanel.setBounds(461, 40, 153, 390);
 		contentPane.add(sidePanel);
 		sidePanel.setLayout(null);
 		
 		JPanel optionPanel = new JPanel();
+		optionPanel.setBackground(Color.BLACK);
 		optionPanel.setBounds(0, 6, 153, 126);
 		sidePanel.add(optionPanel);
 		optionPanel.setLayout(null);
 		
 		lblScoreDesc = new JLabel("Score:");
+		lblScoreDesc.setBackground(Color.BLACK);
+		lblScoreDesc.setForeground(Color.BLUE);
+		lblScoreDesc.setOpaque(true);
 		lblScoreDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScoreDesc.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
 		lblScoreDesc.setBounds(6, 6, 65, 29);
 		optionPanel.add(lblScoreDesc);
 		
 		lblScore = new JLabel("0");
+		lblScore.setBackground(Color.BLACK);
+		lblScore.setForeground(Color.YELLOW);
+		lblScore.setOpaque(true);
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScore.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
 		lblScore.setBounds(82, 6, 65, 29);
 		optionPanel.add(lblScore);
 		
 		lblGameStatus = new JLabel("Game in Progress");
+		lblGameStatus.setBackground(Color.BLACK);
+		lblGameStatus.setForeground(new Color(255, 140, 0));
+		lblGameStatus.setOpaque(true);
 		lblGameStatus.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
 		lblGameStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGameStatus.setBounds(10, 68, 133, 29);
 		optionPanel.add(lblGameStatus);
 		
 		JPanel queueTilesPanel = new JPanel();
+		queueTilesPanel.setForeground(Color.WHITE);
+		queueTilesPanel.setBackground(Color.BLACK);
 		queueTilesPanel.setBounds(0, 138, 153, 241);
 		sidePanel.add(queueTilesPanel);
 		
@@ -145,7 +174,9 @@ public class GUI extends JFrame implements Observer {
 		for(int i=0;i<5;i++) {
 			queueTiles[i]=new JLabel(modelQueueTiles.getElement(i).toString());
 			queueTiles[i].setHorizontalAlignment(SwingConstants.CENTER);
-			queueTiles[i].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			queueTiles[i].setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+			queueTiles[i].setForeground(Color.CYAN);
+			queueTiles[i].setBackground(Color.black);
 			queueTilesPanel.add(queueTiles[i]);
 		}
 		//System.out.println(modelQueueTiles.getElement(0).toString());
@@ -160,7 +191,12 @@ public class GUI extends JFrame implements Observer {
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<9;j++) {
 				tiles[i][j]=new Tile(i,j);
+				tiles[i][j].setOpaque(true);
+				//tiles[i][j].setBackground(Color.gray);
+				tiles[i][j].setForeground(Color.white);
+				
 				tiles[i][j].addActionListener(new TilesClickListener());
+				tiles[i][j].addMouseListener(new MouseActionTiles());
 			}
 		}
 		for(int i=1;i<8;i++){
@@ -228,6 +264,7 @@ public class GUI extends JFrame implements Observer {
 				}
 			}
 			lblGameStatus.setText("Game Over! Loser!");
+			lblGameStatus.setForeground(Color.RED);
 			return;
 		}
 		else if(gameWon){
@@ -238,6 +275,7 @@ public class GUI extends JFrame implements Observer {
 				}
 			}
 			lblGameStatus.setText("Game Won! Legend!");
+			lblGameStatus.setForeground(Color.GREEN);
 			return;
 		}
 	}
@@ -250,6 +288,39 @@ public class GUI extends JFrame implements Observer {
 			Tile t=(Tile)e.getSource();
 			theModel.updateTilesinBoard(t.getCoord());
 			//System.out.println("Tile clicked");
+		}
+		
+	}
+	public class MouseActionTiles implements MouseListener{
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			Tile t=(Tile)arg0.getSource();
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			Tile t=(Tile)arg0.getSource();
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}
