@@ -212,6 +212,13 @@ public class Model extends Observable{
 			return false;
 		}
 		else{
+			//tile at given position is updated 
+			try {
+				tiles[row][col]=tilesQueue.dequeue();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//if untimed game
 			if(gameType.equals("untimed")){
 				//update moves
@@ -225,14 +232,17 @@ public class Model extends Observable{
 				}
 			}
 		}
+		
 			boolean placement=isSuccessfulPlacement(coord);
-			//tile at given position is updated 
-			try {
-				tiles[row][col]=tilesQueue.dequeue();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			//Score calculation
+			
+			this.score+=scorePlacement(coord);
+			//this.score+=sum;
+			//this.setScore(this.score+scorePlacement(coord));
+			System.out.println(this.score);
+			//score calculation ends
+			int sum=0;
+			
 			//now come to the other tiles/neighbors
 			if(placement==false){//if it is not a successful placement
 				empty--;
@@ -243,36 +253,12 @@ public class Model extends Observable{
 				tiles[row][col]=-1;
 				//now loop through all useful neighbors and change their values to empty
 				for(int i=0;i<usefulNeighbors.size();i++){
+					sum+=tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()];
 					tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
 				}
 				empty+=usefulNeighbors.size();
 			}
-			/**
-			 * This part is supposed to contain the score calculation/method call to a 
-			 * scoreCalculate Method. 
-			 * use a method signature like: public int scoreCalculate(int removedNeighbors){} for this purpose. 
-			 * The size of the usefulNeighbors arraylist used above will be passed as parameter. usefulNeighbors
-			 * consists of the coordinates of all neighbors to the current tile that are not empty. So if it is
-			 * a successful placement, all such tiles need to be removed.
-			 */
-			//Score calculation
 			
-			
-			
-			//score calculation ends
-			
-			/**
-			 * This part is supposed to update the tilesQueue, since one of the values have been 
-			 * dequeued. Use a separate method with a signature such as:
-			 * public Queue updateTilesQueue(){} for this purpose. 
-			 * Firstly, this method will push all the existing elements of the queue up by one place.
-			 * Then, this method will add a new element to the bottom of the queue. 
-			 * The new queue will be returned. 
-			 * 
-			 * METHOD SIGNATURE CAN BE MODIFIED TO RETURN NEW QUEUE OR JUST RETURN BOOLEAN OF TRUE/FALSE
-			 * IF THE QUEUE IS UPDATED OR NOT. 
-			 * IMPLEMENTATION IS LEFT TO DEVELOPER
-			 */
 			//tilesQueue update starts @TODO check implementation
 			Random rand=new Random();
 			if(tilesQueue.getSize() < 5) {
@@ -296,30 +282,37 @@ public class Model extends Observable{
 				//return true for updated tiles 
 				return true;
 			}
+			setChanged();
+			notifyObservers();
 			//if nothing works
 			return false;
 	}
 	
 	//if that returns true the method scores that placement accordingly
-	public void scorePlacement(Coordinates coord) {
+	public int scorePlacement(Coordinates coord) {
+		int score=0;
 		if(isSuccessfulPlacement(coord)){
 			ArrayList<Coordinates> neighbors = this.getUsefulNeighbors(coord);
 			
 			//add placed tile value to score
-			this.setScore(this.score + tiles[coord.getRow()][coord.getCol()].intValue());
-			
+			//this.setScore(this.score + tiles[coord.getRow()][coord.getCol()].intValue());
+			System.out.println("Removal tile : "+tiles[coord.getRow()][coord.getCol()]);
+			score+=tiles[coord.getRow()][coord.getCol()].intValue();
+			int sum=0;
 			//add all neighbors values to score
 			for(int i= 0; i < neighbors.size(); i++) {
-				this.setScore(this.score + tiles[neighbors.get(i).getRow()][neighbors.get(i).getCol()].intValue());
+				//this.setScore(this.score + tiles[neighbors.get(i).getRow()][neighbors.get(i).getCol()].intValue());
+				sum+=tiles[neighbors.get(i).getRow()][neighbors.get(i).getCol()];
+				System.out.println("Neighbors: \n"+tiles[neighbors.get(i).getRow()][neighbors.get(i).getCol()]+"\t");
 			}
-			
+			score+=sum;
 			//add bonus points if applicable
 			if(neighbors.size() >= 3) {
-				this.setScore(this.score + (10 * neighbors.size()));
+				//this.setScore(this.score + (10 * neighbors.size()));
+				score+=10*neighbors.size();
 			}
 		}
-		
-		return;
+		return score;
 	}
 	
 	public Integer[][] getTiles() {

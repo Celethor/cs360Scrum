@@ -13,6 +13,8 @@ import Model.Model;
 import Model.Queue;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -33,14 +35,14 @@ public class GUI extends JFrame implements Observer {
 
 	private JPanel contentPane;
 	private Model theModel;
-	private JButton[][] tiles;
+	private Tile[][] tiles;
 	private JLabel [] queueTiles;
 	private JLabel lblTimeDesc;
 	private JLabel lblMovesDesc;
 	private JLabel lblTimeLeft ;
 	private JLabel lblMovesLeft;
 	private JLabel lblScoreDesc;
-
+	private JLabel lblScore;
 	/**
 	 * Launch the application.
 	 */
@@ -119,7 +121,7 @@ public class GUI extends JFrame implements Observer {
 		lblScoreDesc.setBounds(6, 6, 65, 29);
 		optionPanel.add(lblScoreDesc);
 		
-		JLabel lblScore = new JLabel("0");
+		lblScore = new JLabel("0");
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScore.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
 		lblScore.setBounds(82, 6, 65, 29);
@@ -147,10 +149,11 @@ public class GUI extends JFrame implements Observer {
 		
 		boardPanel.setLayout(new GridLayout(9, 9));
 		Integer [][]modelTiles=theModel.getTiles();
-		tiles = new JButton[9][9];
+		tiles = new Tile[9][9];
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<9;j++) {
-				tiles[i][j]=new JButton();
+				tiles[i][j]=new Tile(i,j);
+				tiles[i][j].addActionListener(new TilesClickListener());
 			}
 		}
 		for(int i=1;i<8;i++){
@@ -171,11 +174,40 @@ public class GUI extends JFrame implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
+		//first update the tiles from the model
 		Integer [][]modelTiles=theModel.getTiles();
 		for(int i=0;i<tiles.length;i++){
 			for(int j=0;j<tiles[i].length;j++){
-				tiles[i][j].setText(modelTiles[i][j].toString());
+				String text=modelTiles[i][j].toString();
+				if(text.equals("-1")){
+					tiles[i][j].setText("");
+				}
+				else{
+					tiles[i][j].setText(modelTiles[i][j].toString());
+				}
 			}
+		}
+		//update queue of tiles from the model
+		Queue<Integer> modelQueueTiles = theModel.getTilesQueue();
+		for(int i=0;i<queueTiles.length;i++){
+			queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
+		}
+		//update the score board
+		int modelScore=theModel.getScore();
+		lblScore.setText(Integer.toString(modelScore));
+		//update the moves left
+		int modelMovesLeft=theModel.getRemainingMoves();
+		lblMovesLeft.setText(Integer.toString(modelMovesLeft));
+	}
+	
+	public class TilesClickListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			Tile t=(Tile)e.getSource();
+			theModel.updateTilesinBoard(t.getCoord());
+			//System.out.println("Tile clicked");
 		}
 		
 	}

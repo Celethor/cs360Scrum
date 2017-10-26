@@ -40,12 +40,12 @@ import java.io.File;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
 
-public class splashGUI extends JFrame {
+public class SplashGUI extends JFrame {
 	
 	JPanel contentPane;
 	Container headerLabel;
 	
-	public splashGUI() {
+	public SplashGUI() {
 		JFrame mainFrame = new JFrame("Sum Fun");
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setSize(654, 412);
@@ -71,8 +71,7 @@ public class splashGUI extends JFrame {
 		btnPlayUntimed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new Control("untimed");
-				mainFrame.setVisible(false);
-				
+				mainFrame.setVisible(false);	
 			}
 		});
 		btnPlayUntimed.setBounds(362, 238, 127, 29);
@@ -82,7 +81,7 @@ public class splashGUI extends JFrame {
 		backgroundLabel.setBounds(0, 0, 633, 359);
 		backgroundLabel.setVisible(true);
 		contentPanel.add(backgroundLabel);
-		backgroundLabel.setIcon(new ImageIcon(splashGUI.class.getResource("/application/grade-1-addition-and-subtraction-1-638.jpg")));
+		backgroundLabel.setIcon(new ImageIcon(SplashGUI.class.getResource("/application/grade-1-addition-and-subtraction-1-638.jpg")));
 		
 		this.setVisible(true);
 		
@@ -93,6 +92,6 @@ public class splashGUI extends JFrame {
 	}
 
 public static void main(String[] args) {
-  new splashGUI();
+  new SplashGUI();
 }
 }
