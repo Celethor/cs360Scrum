@@ -237,11 +237,8 @@ public class Model extends Observable{
 			//Score calculation
 			
 			this.score+=scorePlacement(coord);
-			//this.score+=sum;
-			//this.setScore(this.score+scorePlacement(coord));
-			System.out.println(this.score);
 			//score calculation ends
-			int sum=0;
+			
 			
 			//now come to the other tiles/neighbors
 			if(placement==false){//if it is not a successful placement
@@ -253,7 +250,6 @@ public class Model extends Observable{
 				tiles[row][col]=-1;
 				//now loop through all useful neighbors and change their values to empty
 				for(int i=0;i<usefulNeighbors.size();i++){
-					sum+=tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()];
 					tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
 				}
 				empty+=usefulNeighbors.size();
@@ -295,15 +291,12 @@ public class Model extends Observable{
 			ArrayList<Coordinates> neighbors = this.getUsefulNeighbors(coord);
 			
 			//add placed tile value to score
-			//this.setScore(this.score + tiles[coord.getRow()][coord.getCol()].intValue());
-			System.out.println("Removal tile : "+tiles[coord.getRow()][coord.getCol()]);
 			score+=tiles[coord.getRow()][coord.getCol()].intValue();
 			int sum=0;
 			//add all neighbors values to score
 			for(int i= 0; i < neighbors.size(); i++) {
 				//this.setScore(this.score + tiles[neighbors.get(i).getRow()][neighbors.get(i).getCol()].intValue());
 				sum+=tiles[neighbors.get(i).getRow()][neighbors.get(i).getCol()];
-				System.out.println("Neighbors: \n"+tiles[neighbors.get(i).getRow()][neighbors.get(i).getCol()]+"\t");
 			}
 			score+=sum;
 			//add bonus points if applicable

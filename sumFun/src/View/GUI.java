@@ -159,6 +159,7 @@ public class GUI extends JFrame implements Observer {
 		for(int i=1;i<8;i++){
 			for(int j=1;j<8;j++){
 				tiles[i][j].setText(modelTiles[i][j].toString());
+				tiles[i][j].setEnabled(false);
 			}
 		}
 		//add all buttons to the boardPanel
@@ -181,6 +182,7 @@ public class GUI extends JFrame implements Observer {
 				String text=modelTiles[i][j].toString();
 				if(text.equals("-1")){
 					tiles[i][j].setText("");
+					tiles[i][j].setEnabled(true);
 				}
 				else{
 					tiles[i][j].setText(modelTiles[i][j].toString());
