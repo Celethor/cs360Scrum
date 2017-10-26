@@ -1,6 +1,5 @@
 package application;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
@@ -46,9 +45,9 @@ public class SplashGUI extends JFrame {
 	Container headerLabel;
 	
 	public SplashGUI() {
-		JFrame mainFrame = new JFrame("Sum Fun");
-		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		mainFrame.setSize(654, 412);
+		setTitle("Sum Fun");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setSize(654, 412);
 		//getContentPane().setLayout(null);
 		
 		JPanel contentPanel = new JPanel();
@@ -71,7 +70,7 @@ public class SplashGUI extends JFrame {
 		btnPlayUntimed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new Control("untimed");
-				mainFrame.setVisible(false);	
+				setVisible(false);	
 			}
 		});
 		btnPlayUntimed.setBounds(362, 238, 127, 29);
@@ -85,9 +84,9 @@ public class SplashGUI extends JFrame {
 		
 		this.setVisible(true);
 		
-		mainFrame.setVisible(true);
+		this.setVisible(true);
 		
-		mainFrame.add(contentPanel);  //mainFrame.getContentPane().add(contentPanel);
+		this.add(contentPanel);  //this.getContentPane().add(contentPanel);
 		
 	}
 
