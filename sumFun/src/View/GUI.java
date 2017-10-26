@@ -192,9 +192,8 @@ public class GUI extends JFrame implements Observer {
 			for(int j=0;j<9;j++) {
 				tiles[i][j]=new Tile(i,j);
 				tiles[i][j].setOpaque(true);
-				//tiles[i][j].setBackground(Color.gray);
 				tiles[i][j].setForeground(Color.white);
-				
+				tiles[i][j].setFocusable(false);
 				tiles[i][j].addActionListener(new TilesClickListener());
 				tiles[i][j].addMouseListener(new MouseActionTiles());
 			}
@@ -301,14 +300,25 @@ public class GUI extends JFrame implements Observer {
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+			
 			Tile t=(Tile)arg0.getSource();
+			
+			//if tile is an empty tile, turn background of tile green on hover
+			if(t.isEnabled()) {
+				t.setBackground(Color.GREEN);
+			}
 		}
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
 			// TODO Auto-generated method stub
 			Tile t=(Tile)arg0.getSource();
+			
+			//upon leaving a hover turns green background of tile back to the default
+			if(t.getBackground().equals(Color.GREEN)) {
+				t.setBackground(null);
+			}
+			
 		}
 
 		@Override
