@@ -127,14 +127,6 @@ public class Model extends Observable{
 		else if(sum%10==elementPlaced){
 			success=true;
 		}
-		/*
-		//returns number of removed neighbors + 1 (since placed tile is also counted removed) if success
-		if(success){
-			return usefulNeighborCtr+1;
-		}
-		else{
-			return -1;
-		}*/
 		
 		//method now returns if tiles surrounding the current tile can be removed or not
 		return success;
@@ -161,6 +153,7 @@ public class Model extends Observable{
 					{row,col-1},{row,col+1},
 					{row+1,col-1},{row+1,col},{row+1,col+1}};
 		}*/
+		/**
 		//all possible combinations for a tile placed in a grid having coordinates {row,col}
 		//Logic as follows
 		/*
@@ -227,24 +220,23 @@ public class Model extends Observable{
 				if(remainingMoves==0){
 					//update gameOver status
 					gameOver=true;
-					//return true since tile was successfully placed
+					//update the observable interface
 					setChanged();
 					notifyObservers();
+					//return true since tile was successfully placed
 					return true;
 				}
 			}
 		}
 		
-			boolean placement=isSuccessfulPlacement(coord);
 			//Score calculation
-			
 			this.score+=scorePlacement(coord);
 			//score calculation ends
 			
-			
 			//now come to the other tiles/neighbors
+			boolean placement=isSuccessfulPlacement(coord);
 			if(placement==false){//if it is not a successful placement
-				empty--;
+				empty--;//decrease the number of empty tiles in the board 
 			}
 			else{//if the placement is successful
 				ArrayList<Coordinates> usefulNeighbors=getUsefulNeighbors(coord);//get all the useful neighbors that were removed
@@ -254,17 +246,18 @@ public class Model extends Observable{
 				for(int i=0;i<usefulNeighbors.size();i++){
 					tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
 				}
+				//the number of empty tiles now will be equal to the size of usefulNeighbors.
+				//so update the number of empty tiles in the board
 				empty+=usefulNeighbors.size();
 			}
 			
-			//tilesQueue update starts @TODO check implementation
+			//tilesQueue update starts 
 			Random rand=new Random();
 			if(tilesQueue.getSize() < 5) {
 				while(tilesQueue.getSize() < queueSize) {
 				tilesQueue.enqueue(rand.nextInt(9));
 				}
 			}
-			
 			//tilesQueue update ends
 			
 			//check game status again
@@ -276,9 +269,11 @@ public class Model extends Observable{
 				//return true since tile was updated and some operation took place
 				return true;
 			}
-			else if(empty==81){
+			else if(empty==81){//since there are 81 tiles in the board. If all are empty, game won!
 				//game is won; update that in the model 
 				won=true;
+				setChanged();
+				notifyObservers();
 				//return true for updated tiles 
 				return true;
 			}

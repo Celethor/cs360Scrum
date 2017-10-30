@@ -256,7 +256,6 @@ public class GUI extends JFrame implements Observer {
 		int modelMovesLeft=theModel.getRemainingMoves();
 		lblMovesLeft.setText(Integer.toString(modelMovesLeft));
 		if(gameOver){
-			System.out.println("Game over is true");
 			for(int i=0;i<tiles.length;i++){
 				for(int j=0;j<tiles[i].length;j++){
 					tiles[i][j].setEnabled(false);
@@ -267,7 +266,6 @@ public class GUI extends JFrame implements Observer {
 			return;
 		}
 		else if(gameWon){
-			System.out.println("Game Won!!!!");
 			for(int i=0;i<tiles.length;i++){
 				for(int j=0;j<tiles[i].length;j++){
 					tiles[i][j].setEnabled(true);
