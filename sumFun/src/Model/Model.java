@@ -47,14 +47,8 @@ public class Model extends Observable{
 		this.gameType=gameType;
 		//initialize queue
 		this.tilesQueue=new Queue<Integer>();
-		for(int i=0;i<queueSize;i++){
-			try {
-				tilesQueue.enqueue(rand.nextInt(10));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				System.out.println("Queue initialization exception");
-			}
-		}
+		populateQueue();
+		
 		this.remainingMoves=50;
 		this.gameOver=false;
 		this.empty=32;//present number in the borders
@@ -259,10 +253,8 @@ public class Model extends Observable{
 			
 			//tilesQueue update starts 
 			Random rand=new Random();
-			if(tilesQueue.getSize() < 5) {
-				while(tilesQueue.getSize() < queueSize) {
-				tilesQueue.enqueue(rand.nextInt(10));
-				}
+			if(tilesQueue.getSize() < queueSize) {
+				populateQueue();
 			}
 			//tilesQueue update ends
 			
@@ -287,6 +279,20 @@ public class Model extends Observable{
 			notifyObservers();
 			//if nothing works
 			return false;
+	}
+	
+	//
+	public void populateQueue(){
+		
+		Random rand = new Random();
+		while(this.tilesQueue.getSize() < this.getQueueSize()){
+			try {
+				tilesQueue.enqueue(rand.nextInt(10));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				System.out.println("Queue initialization/population exception");
+			}
+		}
 	}
 	
 	//if that returns true the method scores that placement accordingly
