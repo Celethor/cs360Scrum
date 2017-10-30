@@ -16,6 +16,7 @@ public class Model extends Observable{
 	private boolean won;
 	private final int moveLimit=50;
 	private final int queueSize=5;
+	private int removedElement;
 	/**
 	 * Default constructor
 	 * Initializes all the data members 
@@ -48,7 +49,7 @@ public class Model extends Observable{
 		this.tilesQueue=new Queue<Integer>();
 		for(int i=0;i<queueSize;i++){
 			try {
-				tilesQueue.enqueue(rand.nextInt(9));
+				tilesQueue.enqueue(rand.nextInt(10));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				System.out.println("Queue initialization exception");
@@ -96,7 +97,7 @@ public class Model extends Observable{
 		return queueSize;
 	}
 
-	public boolean isSuccessfulPlacement(Coordinates coord){
+	public boolean isSuccessfulPlacement(Coordinates coord,int element){
 		int row=coord.getRow();
 		int col=coord.getCol();
 		boolean success=false;
@@ -109,22 +110,20 @@ public class Model extends Observable{
 		for(int i=0;i<usefulNeighbors.size();i++){
 			int r=usefulNeighbors.get(i).getRow();
 			int c=usefulNeighbors.get(i).getCol();
+			//System.out.println("Neighbor: "+tiles[r][c]);
 			sum+=tiles[r][c];
 			usefulNeighborCtr++;
 		}
+		//System.out.println(usefulNeighbors.size()+" "+sum);
 		//get top element of queue
-		int elementPlaced=-1;
-		try {
-			elementPlaced = tilesQueue.getElement(0);//do not dequeue as it is part of separate operation
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			throw new NullPointerException("tilesQueue getQueueElement in successfulplacement null ptr in CATCH. Not Working!\n");
-		}
+		int elementPlaced=element;
+		//System.out.println("Element : "+elementPlaced);
 		//compare value according to given rule
 		if(elementPlaced==-1){
 			throw new NullPointerException("tilesQueue getQueueElement in successfulplacement null ptr in FOLLOWING IF. Not Working!\n");
 		}
-		else if(sum%10==elementPlaced){
+		
+		else if((sum%10)==elementPlaced){
 			success=true;
 		}
 		
@@ -182,12 +181,15 @@ public class Model extends Observable{
 				allNeighbors.add(new Coordinates(r,c));
 			}
 		}
+		//System.out.println(allNeighbors.size());
 		//find all non-empty neighbors
 		for(int i=0;i<allNeighbors.size();i++){
 			if(tiles[allNeighbors.get(i).getRow()][allNeighbors.get(i).getCol()]!=-1){
+				//System.out.println("Neighbor: "+"r :"+allNeighbors.get(i).getRow()+ " c: "+allNeighbors.get(i).getCol());
 				usefulNeighbors.add(allNeighbors.get(i));
 			}
 		}
+		//System.out.println(usefulNeighbors.size());
 		/*
 		 *return only non empty neighbors. This will be useful since in the future, all non-empty neighbors
 		 *will be removed if it is a successful placement. Need not check later if they are empty
@@ -196,6 +198,7 @@ public class Model extends Observable{
 	}
 		
 	public boolean updateTilesinBoard(Coordinates coord){
+		
 		//first get row and col from the given coordinates 
 		int row=coord.getRow();
 		int col=coord.getCol();
@@ -207,7 +210,8 @@ public class Model extends Observable{
 		else{
 			//tile at given position is updated 
 			try {
-				tiles[row][col]=tilesQueue.dequeue();
+				removedElement=tilesQueue.dequeue();
+				tiles[row][col]=removedElement;
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -234,16 +238,18 @@ public class Model extends Observable{
 			//score calculation ends
 			
 			//now come to the other tiles/neighbors
-			boolean placement=isSuccessfulPlacement(coord);
+			boolean placement=isSuccessfulPlacement(coord,removedElement);
 			if(placement==false){//if it is not a successful placement
 				empty--;//decrease the number of empty tiles in the board 
 			}
 			else{//if the placement is successful
 				ArrayList<Coordinates> usefulNeighbors=getUsefulNeighbors(coord);//get all the useful neighbors that were removed
 				//change the placed tile to empty since it was a successful placement
+				//System.out.println(usefulNeighbors.size());
 				tiles[row][col]=-1;
 				//now loop through all useful neighbors and change their values to empty
 				for(int i=0;i<usefulNeighbors.size();i++){
+					//System.out.println("Neighbor: "+tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]);
 					tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
 				}
 				//the number of empty tiles now will be equal to the size of usefulNeighbors.
@@ -286,7 +292,7 @@ public class Model extends Observable{
 	//if that returns true the method scores that placement accordingly
 	public int scorePlacement(Coordinates coord) {
 		int score=0;
-		if(isSuccessfulPlacement(coord)){
+		if(isSuccessfulPlacement(coord,removedElement)){
 			ArrayList<Coordinates> neighbors = this.getUsefulNeighbors(coord);
 			
 			//add placed tile value to score
