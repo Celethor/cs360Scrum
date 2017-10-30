@@ -251,8 +251,7 @@ public class Model extends Observable{
 				empty+=usefulNeighbors.size();
 			}
 			
-			//tilesQueue update starts 
-			Random rand=new Random();
+			//tilesQueue update starts
 			if(tilesQueue.getSize() < queueSize) {
 				populateQueue();
 			}
