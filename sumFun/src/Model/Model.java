@@ -261,7 +261,7 @@ public class Model extends Observable{
 			Random rand=new Random();
 			if(tilesQueue.getSize() < 5) {
 				while(tilesQueue.getSize() < queueSize) {
-				tilesQueue.enqueue(rand.nextInt(9));
+				tilesQueue.enqueue(rand.nextInt(10));
 				}
 			}
 			//tilesQueue update ends
