@@ -39,9 +39,9 @@ public class GUI extends JFrame implements Observer {
 	private Model theModel;
 	private Tile[][] tiles;
 	private JLabel [] queueTiles;
-	private JLabel lblTimeDesc;
+	//private JLabel lblTimeDesc;
 	private JLabel lblMovesDesc;
-	private JLabel lblTimeLeft ;
+	//private JLabel lblTimeLeft ;
 	private JLabel lblMovesLeft;
 	private JLabel lblScoreDesc;
 	private JLabel lblScore;
@@ -84,25 +84,25 @@ public class GUI extends JFrame implements Observer {
 		contentPane.add(headerPanel);
 		headerPanel.setLayout(null);
 		
-		lblTimeDesc = new JLabel("Time Left (s):");
+		/*lblTimeDesc = new JLabel("Time Left (s):");
 		lblTimeDesc.setOpaque(true);
 		lblTimeDesc.setBackground(Color.BLACK);
 		lblTimeDesc.setForeground(Color.WHITE);
 		lblTimeDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimeDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblTimeDesc.setBounds(10, 0, 96, 29);
-		headerPanel.add(lblTimeDesc);
+		headerPanel.add(lblTimeDesc);*/
 		
 		lblMovesDesc = new JLabel("Moves Left : ");
 		lblMovesDesc.setBackground(Color.BLACK);
 		lblMovesDesc.setForeground(Color.WHITE);
 		lblMovesDesc.setOpaque(true);
 		lblMovesDesc.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMovesDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
+		lblMovesDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
 		lblMovesDesc.setBounds(212, 0, 96, 29);
 		headerPanel.add(lblMovesDesc);
 		
-		lblTimeLeft = new JLabel("--");
+		/*lblTimeLeft = new JLabel("--");
 		lblTimeLeft.setBackground(Color.BLACK);
 		lblTimeLeft.setForeground(Color.RED);
 		lblTimeLeft.setOpaque(true);
@@ -110,13 +110,13 @@ public class GUI extends JFrame implements Observer {
 		lblTimeLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblTimeLeft.setBounds(106, 0, 96, 29);
 		lblTimeLeft.setBorder(new LineBorder(Color.BLACK));
-		headerPanel.add(lblTimeLeft);
+		headerPanel.add(lblTimeLeft);*/
 		
 		lblMovesLeft = new JLabel("50");
 		lblMovesLeft.setBackground(Color.BLACK);
 		lblMovesLeft.setForeground(Color.RED);
 		lblMovesLeft.setOpaque(true);
-		lblMovesLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
+		lblMovesLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
 		lblMovesLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMovesLeft.setBounds(308, 0, 96, 29);
 		lblMovesLeft.setBorder(new LineBorder(Color.BLACK));
