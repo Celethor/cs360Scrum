@@ -152,9 +152,10 @@ public class Model extends Observable{
 		/*
 		 * Assume that a tile is placed at location row,col in a matrix
 		 * The matrix looks like:
-		 * 			row-1,col-1	|	row-1,col	|	row-1,col+1
-		 * 			row,col-1	|	row,col		|	row,col+1
-		 * 			row+1,col	|	row+1,col	|	row+1,col+1
+		 * 							row-1,col-1	|	row-1,col	|	row-1,col+1
+		 * 							row,col-1	|	row,col		|	row,col+1
+		 * 							row+1,col	|	row+1,col	|	row+1,col+1
+		 * 
 		 * The neighbors will be all the surrounding tiles. 
 		 * Now, if the tile is placed at the corners, the values of [i,j] where i belongs to all 
 		 * values of rows and j belongs to all values of columns have to be within the limits 
