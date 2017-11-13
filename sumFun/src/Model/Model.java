@@ -192,7 +192,7 @@ public class Model extends Observable{
 		return usefulNeighbors;
 	}
 		
-	public boolean updateTilesinBoard(Coordinates coord){
+	public void updateTilesinBoard(Coordinates coord){
 		
 		//first get row and col from the given coordinates 
 		int row=coord.getRow();
@@ -200,7 +200,8 @@ public class Model extends Observable{
 		//check if the given tile is empty. If not, return false
 		//indicating that tile cannot be placed
 		if(tiles[row][col]!=-1){
-			return false;
+			//return false;
+			return;
 		}
 		else{
 			//tile at given position is updated 
@@ -215,72 +216,74 @@ public class Model extends Observable{
 			if(gameType.equals("untimed")){
 				//update moves
 				remainingMoves--;
-				//check if game is over
-				if(remainingMoves==0){
-					//update gameOver status
-					gameOver=true;
-					//update the observable interface
-					setChanged();
-					notifyObservers();
-					//return true since tile was successfully placed
-					return true;
-				}
+				commonProcedure(coord, gameType);
+				setChanged();
+				notifyObservers();
 			}
 		}
-		
-			//Score calculation
-			this.score+=scorePlacement(coord);
-			//score calculation ends
-			
-			//now come to the other tiles/neighbors
-			boolean placement=isSuccessfulPlacement(coord,removedElement);
-			if(placement==false){//if it is not a successful placement
-				empty--;//decrease the number of empty tiles in the board 
-			}
-			else{//if the placement is successful
-				ArrayList<Coordinates> usefulNeighbors=getUsefulNeighbors(coord);//get all the useful neighbors that were removed
-				//change the placed tile to empty since it was a successful placement
-				//System.out.println(usefulNeighbors.size());
-				tiles[row][col]=-1;
-				//now loop through all useful neighbors and change their values to empty
-				for(int i=0;i<usefulNeighbors.size();i++){
-					//System.out.println("Neighbor: "+tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]);
-					tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
-				}
-				//the number of empty tiles now will be equal to the size of usefulNeighbors.
-				//so update the number of empty tiles in the board
-				empty+=usefulNeighbors.size();
-			}
-			
-			//tilesQueue update starts
-			if(tilesQueue.getSize() < queueSize) {
-				populateQueue();
-			}
-			//tilesQueue update ends
-			
-			//check game status again
-			if(empty==0){//if the number of empty tiles in the board is zero, game is over!
-				//SHOULD MODIFY TO CHECK FOR BOTH TIMED AND UNTIMED IN LATER SPRINT CYCLES
+	}
+	public boolean commonProcedure(Coordinates coord, String gameType){
+		if(gameType.equals("untimed")){
+			if(remainingMoves==0){
+				//update gameOver status
 				gameOver=true;
-				setChanged();
-				notifyObservers();
-				//return true since tile was updated and some operation took place
 				return true;
 			}
-			else if(empty==81){//since there are 81 tiles in the board. If all are empty, game won!
-				//game is won; update that in the model 
-				won=true;
-				setChanged();
-				notifyObservers();
-				//return true for updated tiles 
-				return true;
+		}
+		int row=coord.getRow();
+		int col=coord.getCol();
+		//Score calculation
+		this.score+=scorePlacement(coord);
+		//score calculation ends
+		
+		//now come to the other tiles/neighbors
+		boolean placement=isSuccessfulPlacement(coord,removedElement);
+		if(placement==false){//if it is not a successful placement
+			empty--;//decrease the number of empty tiles in the board 
+		}
+		else{//if the placement is successful
+			ArrayList<Coordinates> usefulNeighbors=getUsefulNeighbors(coord);//get all the useful neighbors that were removed
+			//change the placed tile to empty since it was a successful placement
+			tiles[row][col]=-1;
+			//now loop through all useful neighbors and change their values to empty
+			for(int i=0;i<usefulNeighbors.size();i++){
+				//System.out.println("Neighbor: "+tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]);
+				tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
 			}
+			//the number of empty tiles now will be equal to the size of usefulNeighbors.
+			//so update the number of empty tiles in the board
+			empty+=usefulNeighbors.size();
+		}
+		
+		//tilesQueue update starts
+		if(tilesQueue.getSize() < queueSize) {
+			populateQueue();
+		}
+		//tilesQueue update ends
+		
+		//check game status again
+		if(empty==0){//if the number of empty tiles in the board is zero, game is over!
+			//SHOULD MODIFY TO CHECK FOR BOTH TIMED AND UNTIMED IN LATER SPRINT CYCLES
+			gameOver=true;
+			//setChanged();
+			//notifyObservers();
+			//return true since tile was updated and some operation took place
+			return true;
+		}
+		else if(empty==81){//since there are 81 tiles in the board. If all are empty, game won!
+			//game is won; update that in the model 
+			won=true;
 			setChanged();
 			notifyObservers();
-			//if nothing works
-			return false;
+			//return true for updated tiles 
+			return true;
+		}
+		
+		//setChanged();
+		//notifyObservers();
+		//if nothing works
+		return false;
 	}
-	
 	//
 	public void populateQueue(){
 		
