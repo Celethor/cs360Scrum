@@ -13,8 +13,10 @@ import java.util.ArrayList;
 		private Queue<Integer> tilesQueue; // @TODO check implementation
 		private int score;
 		private String gameType;
+		private GameTimer timer;
 		private int remainingMoves;
-		private Timer timer;
+		private String remainingTime;
+		private boolean noTime;
 		private boolean gameOver;
 		private int empty;
 		private boolean won;
@@ -52,11 +54,25 @@ import java.util.ArrayList;
 			//initialize queue
 			this.tilesQueue=new Queue<Integer>();
 			populateQueue();
-
-			this.remainingMoves=50;
+			//if(gameType.equals("untimed"))
+				this.remainingMoves=50;
+			 if(gameType.equals("timed")){
+				timer=new GameTimer();
+				this.remainingTime=timer.getTimeLeft();
+			}
 			this.gameOver=false;
 			this.empty=32;//present number in the borders
 
+		}
+		
+		public String getRemainingTime() {
+			return remainingTime;
+		}
+
+		public void setRemainingTime(String remainingTime) {
+			this.remainingTime = remainingTime;
+			setChanged();
+			notifyObservers();
 		}
 
 		public int getRemainingMoves() {
@@ -198,12 +214,25 @@ import java.util.ArrayList;
 					setChanged();
 					notifyObservers();
 				}
+				else{
+					remainingTime=timer.getTimeLeft();
+					commonProcedure(coord, gameType);
+					setChanged();
+					notifyObservers();
+				}
+				
 			}
 		}
 		public boolean commonProcedure(Coordinates coord, String gameType){
 			if(gameType.equals("untimed")){
 				if(remainingMoves==0){
 					//update gameOver status
+					gameOver=true;
+					return true;
+				}
+			}
+			else if(gameType.equals("timed")){
+				if(timer.getTimeLimit()==0){
 					gameOver=true;
 					return true;
 				}
@@ -358,7 +387,7 @@ import java.util.ArrayList;
 			
 			//should be called by the timer every second
 			//checks if the time is up, if not decrements
-			public boolean updateTime() {
+			public void updateTime() {
 				if(timeLimit > 0) {
 					timeLimit--;
 					timeLeft = getMinutes() + " : " + getSeconds();
@@ -367,7 +396,9 @@ import java.util.ArrayList;
 					stopTimer();
 					timeUp = true;
 				}
-				return timeUp;
+				setChanged();
+				notifyObservers();
+				//return timeUp;
 			}
 			
 			//returns minutes lefts
@@ -396,11 +427,15 @@ import java.util.ArrayList;
 			void startTimer() {
 				timer.start();
 			}
-			
+			int getTimeLimit(){
+				return timeLimit;
+			}
 			private class TimerListener implements ActionListener {
 				
 				public void actionPerformed(ActionEvent e) {
 					updateTime();
+					setChanged();
+					notifyObservers();
 				}
 				
 			}

@@ -29,9 +29,9 @@ public class GUI extends JFrame implements Observer {
 	private Game theGame;
 	private Tile[][] tiles;
 	private JLabel [] queueTiles;
-	//private JLabel lblTimeDesc;
+	private JLabel lblTimeDesc;
 	private JLabel lblMovesDesc;
-	//private JLabel lblTimeLeft ;
+	private JLabel lblTimeLeft ;
 	private JLabel lblMovesLeft;
 	private JLabel lblScoreDesc;
 	private JLabel lblScore;
@@ -74,14 +74,14 @@ public class GUI extends JFrame implements Observer {
 		contentPane.add(headerPanel);
 		headerPanel.setLayout(null);
 		
-		/*lblTimeDesc = new JLabel("Time Left (s):");
+		lblTimeDesc = new JLabel("Time Left (s):");
 		lblTimeDesc.setOpaque(true);
 		lblTimeDesc.setBackground(Color.BLACK);
 		lblTimeDesc.setForeground(Color.WHITE);
 		lblTimeDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTimeDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblTimeDesc.setBounds(10, 0, 96, 29);
-		headerPanel.add(lblTimeDesc);*/
+		headerPanel.add(lblTimeDesc);
 		
 		lblMovesDesc = new JLabel("Moves Left : ");
 		lblMovesDesc.setBackground(Color.BLACK);
@@ -92,7 +92,7 @@ public class GUI extends JFrame implements Observer {
 		lblMovesDesc.setBounds(212, 0, 96, 29);
 		headerPanel.add(lblMovesDesc);
 		
-		/*lblTimeLeft = new JLabel("--");
+		lblTimeLeft = new JLabel("--");
 		lblTimeLeft.setBackground(Color.BLACK);
 		lblTimeLeft.setForeground(Color.RED);
 		lblTimeLeft.setOpaque(true);
@@ -100,7 +100,7 @@ public class GUI extends JFrame implements Observer {
 		lblTimeLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
 		lblTimeLeft.setBounds(106, 0, 96, 29);
 		lblTimeLeft.setBorder(new LineBorder(Color.BLACK));
-		headerPanel.add(lblTimeLeft);*/
+		headerPanel.add(lblTimeLeft);
 		
 		lblMovesLeft = new JLabel("50");
 		lblMovesLeft.setBackground(Color.BLACK);
@@ -206,9 +206,13 @@ public class GUI extends JFrame implements Observer {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
+		
 		// TODO Auto-generated method stub
 		boolean gameOver= theGame.isGameOver();
 		boolean gameWon= theGame.isWon();
+		
+		//update the remaining time
+		lblTimeLeft.setText(theGame.getRemainingTime());
 		
 		//first update the tiles from the model
 		Integer [][]modelTiles= theGame.getTiles();
