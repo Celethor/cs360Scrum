@@ -1,9 +1,11 @@
 	package Model;
 
-	import java.util.ArrayList;
+	import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 	import java.util.Observable;
 	import java.util.Random;
-	import java.util.Timer;
+	import javax.swing.Timer;
 
 	public class Game extends Observable{
 		//private Tile [][]tiles;
@@ -91,12 +93,6 @@
 
 		public int getQueueSize() {
 			return queueSize;
-		}
-
-		public void startTimer() {
-			this.timer = new Timer();
-			timer.schedule(new EndGameTask(), 180000);
-			//test
 		}
 
 		public boolean isSuccessfulPlacement(Coordinates coord,int element){
@@ -344,5 +340,69 @@
 			this.tiles[coord.getRow()][coord.getCol()]=value;
 			setChanged();
 			notifyObservers();
+		}
+	
+		private class GameTimer {
+			private Timer timer;
+			private boolean timeUp;
+			private int timeLimit;
+			private String timeLeft;
+			
+			public GameTimer() {
+				this.timeLimit = 180;
+				this.timeUp = false;
+				//1000 ms delay, actionlistener for the timer
+				this.timer = new Timer(1000, new TimerListener());
+				startTimer();
+			}
+			
+			//should be called by the timer every second
+			//checks if the time is up, if not decrements
+			public boolean updateTime() {
+				if(timeLimit > 0) {
+					timeLimit--;
+					timeLeft = getMinutes() + " : " + getSeconds();
+				}
+				else if(timeLimit == 0) {
+					stopTimer();
+					timeUp = true;
+				}
+				return timeUp;
+			}
+			
+			//returns minutes lefts
+			public String getMinutes() {
+				return Integer.toString(timeLimit/60);	
+			}
+			
+			//returns seconds left
+			public String getSeconds() {
+				int seconds = timeLimit%60;
+				if(seconds<10) {
+					return "0" + Integer.toString(seconds);
+				}
+				return Integer.toString(seconds);
+			}
+			
+			//getter for time left
+			public String getTimeLeft() {
+				return timeLeft;
+			}
+			
+			void stopTimer() {
+				timer.stop();
+			}
+			
+			void startTimer() {
+				timer.start();
+			}
+			
+			private class TimerListener implements ActionListener {
+				
+				public void actionPerformed(ActionEvent e) {
+					updateTime();
+				}
+				
+			}
 		}
 	}
