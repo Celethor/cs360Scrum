@@ -29,10 +29,8 @@ public class GUI extends JFrame implements Observer {
 	private Game theGame;
 	private Tile[][] tiles;
 	private JLabel [] queueTiles;
-	private JLabel lblTimeDesc;
-	private JLabel lblMovesDesc;
-	private JLabel lblTimeLeft ;
-	private JLabel lblMovesLeft;
+	private JLabel lblDesc;
+	private JLabel lblLeft;
 	private JLabel lblScoreDesc;
 	private JLabel lblScore;
 	private JLabel lblGameStatus;
@@ -74,43 +72,27 @@ public class GUI extends JFrame implements Observer {
 		contentPane.add(headerPanel);
 		headerPanel.setLayout(null);
 		
-		lblTimeDesc = new JLabel("Time Left (s):");
-		lblTimeDesc.setOpaque(true);
-		lblTimeDesc.setBackground(Color.BLACK);
-		lblTimeDesc.setForeground(Color.WHITE);
-		lblTimeDesc.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTimeDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
-		lblTimeDesc.setBounds(10, 0, 96, 29);
-		headerPanel.add(lblTimeDesc);
+		lblDesc = new JLabel("Moves Left : ");
+		lblDesc.setBackground(Color.BLACK);
+		lblDesc.setForeground(Color.WHITE);
+		lblDesc.setOpaque(true);
+		lblDesc.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
+		lblDesc.setBounds(212, 0, 96, 29);
+		headerPanel.add(lblDesc);
 		
-		lblMovesDesc = new JLabel("Moves Left : ");
-		lblMovesDesc.setBackground(Color.BLACK);
-		lblMovesDesc.setForeground(Color.WHITE);
-		lblMovesDesc.setOpaque(true);
-		lblMovesDesc.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMovesDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
-		lblMovesDesc.setBounds(212, 0, 96, 29);
-		headerPanel.add(lblMovesDesc);
-		
-		lblTimeLeft = new JLabel("--");
-		lblTimeLeft.setBackground(Color.BLACK);
-		lblTimeLeft.setForeground(Color.RED);
-		lblTimeLeft.setOpaque(true);
-		lblTimeLeft.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTimeLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 17));
-		lblTimeLeft.setBounds(106, 0, 96, 29);
-		lblTimeLeft.setBorder(new LineBorder(Color.BLACK));
-		headerPanel.add(lblTimeLeft);
-		
-		lblMovesLeft = new JLabel("50");
-		lblMovesLeft.setBackground(Color.BLACK);
-		lblMovesLeft.setForeground(Color.RED);
-		lblMovesLeft.setOpaque(true);
-		lblMovesLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
-		lblMovesLeft.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMovesLeft.setBounds(308, 0, 96, 29);
-		lblMovesLeft.setBorder(new LineBorder(Color.BLACK));
-		headerPanel.add(lblMovesLeft);
+		if(theGame.getGameType().equals("untimed"))
+		lblLeft = new JLabel("50");
+		else
+			lblLeft=new JLabel("3:00");
+		lblLeft.setBackground(Color.BLACK);
+		lblLeft.setForeground(Color.RED);
+		lblLeft.setOpaque(true);
+		lblLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
+		lblLeft.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLeft.setBounds(308, 0, 96, 29);
+		lblLeft.setBorder(new LineBorder(Color.BLACK));
+		headerPanel.add(lblLeft);
 		
 		JPanel sidePanel = new JPanel();
 		sidePanel.setBackground(Color.BLACK);
@@ -210,9 +192,10 @@ public class GUI extends JFrame implements Observer {
 		// TODO Auto-generated method stub
 		boolean gameOver= theGame.isGameOver();
 		boolean gameWon= theGame.isWon();
-		
+		String gameType=theGame.getGameType();
+		if(gameType.equals("timed"));
 		//update the remaining time
-		lblTimeLeft.setText(theGame.getRemainingTime());
+		lblLeft.setText(theGame.getRemainingTime());
 		
 		//first update the tiles from the model
 		Integer [][]modelTiles= theGame.getTiles();
@@ -246,9 +229,12 @@ public class GUI extends JFrame implements Observer {
 		//update the score board
 		int modelScore= theGame.getScore();
 		lblScore.setText(Integer.toString(modelScore));
-		//update the moves left
-		int modelMovesLeft= theGame.getRemainingMoves();
-		lblMovesLeft.setText(Integer.toString(modelMovesLeft));
+		if(gameType.equals("untimed")){
+			//update the moves left
+			int modelMovesLeft= theGame.getRemainingMoves();
+			lblLeft.setText(Integer.toString(modelMovesLeft));
+		}
+		
 		if(gameOver){
 			for(int i=0;i<tiles.length;i++){
 				for(int j=0;j<tiles[i].length;j++){

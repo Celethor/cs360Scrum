@@ -54,8 +54,9 @@ import java.util.ArrayList;
 			//initialize queue
 			this.tilesQueue=new Queue<Integer>();
 			populateQueue();
-			//if(gameType.equals("untimed"))
-				this.remainingMoves=50;
+			if(gameType.equals("untimed"))
+				this.remainingMoves=moveLimit;
+			
 			 if(gameType.equals("timed")){
 				timer=new GameTimer();
 				this.remainingTime=timer.getTimeLeft();
@@ -215,9 +216,17 @@ import java.util.ArrayList;
 					notifyObservers();
 				}
 				else{
-					commonProcedure(coord, gameType);
-					setChanged();
-					notifyObservers();
+					if(timer.getTimeLimit()==0){
+						gameOver=true;
+						setChanged();
+						notifyObservers();
+					}
+					else{
+						commonProcedure(coord, gameType);
+						setChanged();
+						notifyObservers();
+					}
+					
 				}
 				
 			}
@@ -377,7 +386,7 @@ import java.util.ArrayList;
 			private String timeLeft;
 			
 			public GameTimer() {
-				this.timeLimit = 180;
+				this.timeLimit = 6;
 				this.timeUp = false;
 				//1000 ms delay, actionlistener for the timer
 				this.timer = new Timer(1000, new TimerListener());
