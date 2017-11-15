@@ -96,6 +96,7 @@ public class Model extends Observable{
 	public void startTimer() {
 		this.timer = new Timer();
 		timer.schedule(new EndGameTask(), 180000);
+		//test
 	}
 
 	public boolean isSuccessfulPlacement(Coordinates coord,int element){
