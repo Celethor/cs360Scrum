@@ -404,6 +404,7 @@ import java.util.ArrayList;
 					stopTimer();
 					timeUp = true;
 				}
+				remainingTime=getTimeLeft();
 				setChanged();
 				notifyObservers();
 				//return timeUp;
@@ -441,10 +442,10 @@ import java.util.ArrayList;
 			private class TimerListener implements ActionListener {
 				
 				public void actionPerformed(ActionEvent e) {
-					remainingTime=getTimeLeft();
+					//remainingTime=getTimeLeft();
 					updateTime();
-					setChanged();
-					notifyObservers();
+					//setChanged();
+					//notifyObservers();
 				}
 				
 			}
