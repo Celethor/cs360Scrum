@@ -403,6 +403,7 @@ import java.util.ArrayList;
 				else if(timeLimit == 0) {
 					stopTimer();
 					timeUp = true;
+					gameOver=true;
 				}
 				remainingTime=getTimeLeft();
 				setChanged();
