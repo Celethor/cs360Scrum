@@ -1,6 +1,4 @@
 package Application;
-import Model.Model;
-import View.GUI;
 import View.SplashGUI;
 
 

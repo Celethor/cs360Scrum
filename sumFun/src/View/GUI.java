@@ -1,15 +1,13 @@
 package View;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import Model.Model;
+import Model.Game;
 import Model.Queue;
 
 import java.awt.GridLayout;
@@ -17,26 +15,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
-import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-import javax.swing.JTable;
-import javax.swing.JTextField;
 
 public class GUI extends JFrame implements Observer {
 
 	private JPanel contentPane;
-	private Model theModel;
+	private Game theGame;
 	private Tile[][] tiles;
 	private JLabel [] queueTiles;
 	//private JLabel lblTimeDesc;
@@ -64,7 +54,7 @@ public class GUI extends JFrame implements Observer {
 	/**
 	 * Create the frame.
 	 */
-	public GUI(Model model) {
+	public GUI(Game game) {
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -75,8 +65,8 @@ public class GUI extends JFrame implements Observer {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		this.theModel=model;
-		this.theModel.addObserver(this);
+		this.theGame = game;
+		this.theGame.addObserver(this);
 		
 		JPanel headerPanel = new JPanel();
 		headerPanel.setBackground(Color.BLACK);
@@ -169,7 +159,7 @@ public class GUI extends JFrame implements Observer {
 		
 		queueTilesPanel.setLayout(new GridLayout(5, 1, 0, 0));
 		
-		Queue<Integer> modelQueueTiles = theModel.getTilesQueue();
+		Queue<Integer> modelQueueTiles = theGame.getTilesQueue();
 		this.queueTiles = new JLabel[5];
 		for(int i=0;i<5;i++) {
 			queueTiles[i]=new JLabel(modelQueueTiles.getElement(i).toString());
@@ -186,7 +176,7 @@ public class GUI extends JFrame implements Observer {
 		boardPanel.setBounds(10, 40, 441, 390);
 		
 		boardPanel.setLayout(new GridLayout(9, 9));
-		Integer [][]modelTiles=theModel.getTiles();
+		Integer [][]modelTiles= theGame.getTiles();
 		tiles = new Tile[9][9];
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<9;j++) {
@@ -217,11 +207,11 @@ public class GUI extends JFrame implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
-		boolean gameOver=theModel.isGameOver();
-		boolean gameWon=theModel.isWon();
+		boolean gameOver= theGame.isGameOver();
+		boolean gameWon= theGame.isWon();
 		
 		//first update the tiles from the model
-		Integer [][]modelTiles=theModel.getTiles();
+		Integer [][]modelTiles= theGame.getTiles();
 		for(int i=0;i<tiles.length;i++){
 			for(int j=0;j<tiles[i].length;j++){
 				String text=modelTiles[i][j].toString();
@@ -236,7 +226,7 @@ public class GUI extends JFrame implements Observer {
 			}
 		}
 		//update queue of tiles from the model
-		Queue<Integer> modelQueueTiles = theModel.getTilesQueue();
+		Queue<Integer> modelQueueTiles = theGame.getTilesQueue();
 		if(gameWon||gameOver){
 			for(int i=0;i<queueTiles.length-1;i++){
 				queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
@@ -244,16 +234,16 @@ public class GUI extends JFrame implements Observer {
 			queueTiles[4].setText("");
 		}
 		else{
-			//Queue<Integer> modelQueueTiles = theModel.getTilesQueue();
+			//Queue<Integer> modelQueueTiles = theGame.getTilesQueue();
 			for(int i=0;i<queueTiles.length;i++){
 			queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
 			}
 		}
 		//update the score board
-		int modelScore=theModel.getScore();
+		int modelScore= theGame.getScore();
 		lblScore.setText(Integer.toString(modelScore));
 		//update the moves left
-		int modelMovesLeft=theModel.getRemainingMoves();
+		int modelMovesLeft= theGame.getRemainingMoves();
 		lblMovesLeft.setText(Integer.toString(modelMovesLeft));
 		if(gameOver){
 			for(int i=0;i<tiles.length;i++){
@@ -283,7 +273,7 @@ public class GUI extends JFrame implements Observer {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			Tile t=(Tile)e.getSource();
-			theModel.updateTilesinBoard(t.getCoord());
+			theGame.updateTilesinBoard(t.getCoord());
 			//System.out.println("Tile clicked");
 		}
 		

@@ -1,42 +1,18 @@
 package View;
 
-import java.awt.Color;
 import java.awt.Container;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
-import com.sun.glass.ui.Window;
+import Model.Game;
 
-import Model.Model;
-import View.GUI;
-
-import java.awt.GridLayout;
 import javax.swing.JButton;
-import java.awt.GridBagLayout;
 import javax.swing.JLabel;
-import javax.imageio.ImageIO;
-import javax.swing.AbstractButton;
-import javax.swing.BoxLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import java.awt.FlowLayout;
-import java.awt.Dimension;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class SplashGUI extends JFrame {
@@ -70,7 +46,7 @@ public class SplashGUI extends JFrame {
 		btnPlayUntimed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				new GUI(new Model("untimed"));
+				new GUI(new Game("untimed"));
 				setVisible(false);	
 			}
 		});
