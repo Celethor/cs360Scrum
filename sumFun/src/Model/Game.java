@@ -23,11 +23,12 @@ import java.util.ArrayList;
 		private final int moveLimit=50;
 		private final int queueSize=5;
 		private int removedElement;
+		private static Game game;	//for the singleton
 		/**
 		 * Default constructor
 		 * Initializes all the data members
 		 */
-		public Game(String gameType){
+		private Game(String gameType){
 			/* random object for assigning random values in the tiles */
 			Random rand=new Random();
 			//this.tiles=new Tile[9][9];
@@ -378,7 +379,11 @@ import java.util.ArrayList;
 			setChanged();
 			notifyObservers();
 		}
-	
+		public static Game getGame(String type){
+			if(game==null)
+				game=new Game(type);
+			return game;
+		}
 		private class GameTimer {
 			private Timer timer;
 			private boolean timeUp;
