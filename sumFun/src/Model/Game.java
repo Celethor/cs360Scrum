@@ -215,7 +215,6 @@ import java.util.ArrayList;
 					notifyObservers();
 				}
 				else{
-					remainingTime=timer.getTimeLeft();
 					commonProcedure(coord, gameType);
 					setChanged();
 					notifyObservers();
@@ -433,6 +432,7 @@ import java.util.ArrayList;
 			private class TimerListener implements ActionListener {
 				
 				public void actionPerformed(ActionEvent e) {
+					remainingTime=getTimeLeft();
 					updateTime();
 					setChanged();
 					notifyObservers();
