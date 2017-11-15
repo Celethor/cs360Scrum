@@ -3,6 +3,7 @@ package Model;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Random;
+import java.util.Timer;
 
 public class Model extends Observable{
 	//private Tile [][]tiles;
@@ -11,6 +12,7 @@ public class Model extends Observable{
 	private int score;
 	private String gameType;
 	private int remainingMoves;
+	private Timer timer;
 	private boolean gameOver;
 	private int empty;
 	private boolean won;
@@ -89,6 +91,11 @@ public class Model extends Observable{
 
 	public int getQueueSize() {
 		return queueSize;
+	}
+	
+	public void startTimer() {
+		this.timer = new Timer();
+		timer.schedule(new EndGameTask(), 180000);
 	}
 
 	public boolean isSuccessfulPlacement(Coordinates coord,int element){
