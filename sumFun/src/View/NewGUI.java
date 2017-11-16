@@ -1,14 +1,19 @@
 package View;
 
-import java.awt.Color;
-
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import java.awt.BorderLayout;
 import javax.swing.JPanel;
+import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 import Model.Game;
 import Model.Queue;
+import View.GUI.MouseActionTiles;
+import View.GUI.TilesClickListener;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -17,14 +22,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
+import java.awt.FlowLayout;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
-import javax.swing.JLabel;
-import javax.swing.BorderFactory;
-import java.awt.Font;
-import javax.swing.SwingConstants;
-
-public class GUI extends JFrame implements Observer {
-
+public class NewGUI extends JFrame implements Observer{
 	private JPanel contentPane;
 	private Game theGame;
 	private Tile[][] tiles;
@@ -34,73 +37,157 @@ public class GUI extends JFrame implements Observer {
 	private JLabel lblScoreDesc;
 	private JLabel lblScore;
 	private JLabel lblGameStatus;
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI frame = new GUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-	/**
-	 * Create the frame.
-	 */
-	public GUI(Game game) {
+	private JLabel lblPoints;
+	private JLabel lblPointsDesc;
+	public NewGUI(Game game) {
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setBounds(100, 100, 640, 480);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu fileMenu = new JMenu("File");
+		fileMenu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		fileMenu.setHorizontalAlignment(SwingConstants.CENTER);
+		menuBar.add(fileMenu);
+		
+		JMenuItem saveGameOpt = new JMenuItem("Save Game");
+		saveGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
+		saveGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		fileMenu.add(saveGameOpt);
+		
+		JMenuItem loadGameOpt = new JMenuItem("Load Game");
+		loadGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
+		loadGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		fileMenu.add(loadGameOpt);
+		
+		JMenu helpMenu = new JMenu("Help");
+		helpMenu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		menuBar.add(helpMenu);
+		
+		JMenuItem refreshOpt = new JMenuItem("Refresh Queue");
+		refreshOpt.setFont(new Font("Tahoma", Font.BOLD, 14));
+		helpMenu.add(refreshOpt);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
+		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		this.theGame = game;
 		this.theGame.addObserver(this);
 		
+		JPanel northPanel = new JPanel();
+		northPanel.setBackground(Color.BLACK);
+		getContentPane().add(northPanel, BorderLayout.NORTH);
+		northPanel.setLayout(new BorderLayout(0, 0));
+		
 		JPanel headerPanel = new JPanel();
 		headerPanel.setBackground(Color.BLACK);
-		headerPanel.setBounds(10, 11, 604, 29);
-		contentPane.add(headerPanel);
-		headerPanel.setLayout(null);
+		northPanel.add(headerPanel, BorderLayout.CENTER);
+		headerPanel.setLayout(new GridLayout(0, 2, -1, 0));
 		
 		lblDesc = new JLabel("Moves Left : ");
-		lblDesc.setBackground(Color.BLACK);
-		lblDesc.setForeground(Color.WHITE);
 		lblDesc.setOpaque(true);
 		lblDesc.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
-		lblDesc.setBounds(212, 0, 96, 29);
+		lblDesc.setForeground(Color.WHITE);
+		lblDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 16));
+		lblDesc.setBackground(Color.BLACK);
 		headerPanel.add(lblDesc);
 		
-		if(theGame.getGameType().equals("untimed"))
-		lblLeft = new JLabel("50");
-		else
-			lblLeft=new JLabel("3:00");
+		lblLeft = new JLabel("");
 		lblLeft.setBackground(Color.BLACK);
 		lblLeft.setForeground(Color.RED);
 		lblLeft.setOpaque(true);
-		lblLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
-		lblLeft.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLeft.setBounds(308, 0, 96, 29);
-		lblLeft.setBorder(new LineBorder(Color.BLACK));
+		lblLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 16));
 		headerPanel.add(lblLeft);
 		
+		JPanel eastPanel = new JPanel();
+		eastPanel.setBackground(Color.BLACK);
+		getContentPane().add(eastPanel, BorderLayout.EAST);
+		eastPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		
-		//System.out.println(modelQueueTiles.getElement(0).toString());
+		JPanel optionPanel = new JPanel();
+		optionPanel.setBackground(Color.BLACK);
+		eastPanel.add(optionPanel);
+		optionPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		
+		JPanel scoresPanel = new JPanel();
+		optionPanel.add(scoresPanel);
+		scoresPanel.setLayout(new GridLayout(2, 1, 0, 0));
+		
+		JPanel pointsPanel = new JPanel();
+		scoresPanel.add(pointsPanel);
+		pointsPanel.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		lblPointsDesc = new JLabel("Points:");
+		lblPointsDesc.setOpaque(true);
+		lblPointsDesc.setBackground(Color.BLACK);
+		lblPointsDesc.setForeground(Color.BLUE);
+		lblPointsDesc.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
+		pointsPanel.add(lblPointsDesc);
+		
+		lblPoints = new JLabel("0");
+		lblPoints.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPoints.setOpaque(true);
+		lblPoints.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
+		lblPoints.setForeground(Color.YELLOW);
+		lblPoints.setBackground(Color.BLACK);
+		pointsPanel.add(lblPoints);
+		
+		JPanel totalScorePanel = new JPanel();
+		scoresPanel.add(totalScorePanel);
+		totalScorePanel.setLayout(new GridLayout(0, 2, 0, 0));
+		
+		lblScoreDesc = new JLabel("Score:");
+		lblScoreDesc.setOpaque(true);
+		lblScoreDesc.setHorizontalAlignment(SwingConstants.CENTER);
+		lblScoreDesc.setForeground(Color.BLUE);
+		lblScoreDesc.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
+		lblScoreDesc.setBackground(Color.BLACK);
+		totalScorePanel.add(lblScoreDesc);
+		
+		lblScore = new JLabel("0");
+		lblScore.setOpaque(true);
+		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
+		lblScore.setForeground(Color.YELLOW);
+		lblScore.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
+		lblScore.setBackground(Color.BLACK);
+		totalScorePanel.add(lblScore);
+		
+		JPanel panel = new JPanel();
+		optionPanel.add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		lblGameStatus = new JLabel("Game in Progress");
+		lblGameStatus.setOpaque(true);
+		lblGameStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGameStatus.setForeground(new Color(255, 140, 0));
+		lblGameStatus.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		lblGameStatus.setBackground(Color.BLACK);
+		panel.add(lblGameStatus);
+		
+		JPanel queueTilesPanel = new JPanel();
+		queueTilesPanel.setForeground(Color.WHITE);
+		queueTilesPanel.setBackground(Color.BLACK);
+		eastPanel.add(queueTilesPanel);
+		queueTilesPanel.setLayout(new GridLayout(5, 1, 0, 0));
+		Queue<Integer> modelQueueTiles = theGame.getTilesQueue();
+		this.queueTiles = new JLabel[5];
+		for(int i=0;i<5;i++) {
+			queueTiles[i]=new JLabel(modelQueueTiles.getElement(i).toString());
+			queueTiles[i].setHorizontalAlignment(SwingConstants.CENTER);
+			queueTiles[i].setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+			queueTiles[i].setForeground(Color.CYAN);
+			queueTiles[i].setBackground(Color.black);
+			queueTilesPanel.add(queueTiles[i]);
+		}
 		
 		JPanel boardPanel = new JPanel();
-		boardPanel.setBounds(10, 40, 441, 390);
-		
+		//boardPanel.setBackground(Color.LIGHT_GRAY);
+		getContentPane().add(boardPanel, BorderLayout.CENTER);
 		boardPanel.setLayout(new GridLayout(9, 9));
 		Integer [][]modelTiles= theGame.getTiles();
 		tiles = new Tile[9][9];
@@ -127,68 +214,9 @@ public class GUI extends JFrame implements Observer {
 			}
 		}
 		
-		JPanel sidePanel = new JPanel();
-		sidePanel.setBackground(Color.BLACK);
-		sidePanel.setBounds(461, 40, 153, 390);
-		contentPane.add(sidePanel);
-		sidePanel.setLayout(null);
-		
-		JPanel optionPanel = new JPanel();
-		optionPanel.setBackground(Color.BLACK);
-		optionPanel.setBounds(0, 6, 153, 126);
-		sidePanel.add(optionPanel);
-		optionPanel.setLayout(null);
-		
-		lblScoreDesc = new JLabel("Score:");
-		lblScoreDesc.setBackground(Color.BLACK);
-		lblScoreDesc.setForeground(Color.BLUE);
-		lblScoreDesc.setOpaque(true);
-		lblScoreDesc.setHorizontalAlignment(SwingConstants.CENTER);
-		lblScoreDesc.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
-		lblScoreDesc.setBounds(6, 6, 65, 29);
-		optionPanel.add(lblScoreDesc);
-		
-		lblScore = new JLabel("0");
-		lblScore.setBackground(Color.BLACK);
-		lblScore.setForeground(Color.YELLOW);
-		lblScore.setOpaque(true);
-		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
-		lblScore.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
-		lblScore.setBounds(82, 6, 65, 29);
-		optionPanel.add(lblScore);
-		
-		lblGameStatus = new JLabel("Game in Progress");
-		lblGameStatus.setBackground(Color.BLACK);
-		lblGameStatus.setForeground(new Color(255, 140, 0));
-		lblGameStatus.setOpaque(true);
-		lblGameStatus.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
-		lblGameStatus.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameStatus.setBounds(10, 68, 133, 29);
-		optionPanel.add(lblGameStatus);
-		
-		JPanel queueTilesPanel = new JPanel();
-		queueTilesPanel.setForeground(Color.WHITE);
-		queueTilesPanel.setBackground(Color.BLACK);
-		queueTilesPanel.setBounds(0, 138, 153, 241);
-		sidePanel.add(queueTilesPanel);
-		Queue<Integer> modelQueueTiles = theGame.getTilesQueue();
-		this.queueTiles = new JLabel[5];
-		for(int i=0;i<5;i++) {
-			queueTiles[i]=new JLabel(modelQueueTiles.getElement(i).toString());
-			queueTiles[i].setHorizontalAlignment(SwingConstants.CENTER);
-			queueTiles[i].setBorder(BorderFactory.createLineBorder(Color.YELLOW));
-			queueTiles[i].setForeground(Color.CYAN);
-			queueTiles[i].setBackground(Color.black);
-			queueTilesPanel.add(queueTiles[i]);
-		}
-		
-		queueTilesPanel.setLayout(new GridLayout(5, 1, 0, 0));
-		contentPane.add(boardPanel);
 		setVisible(true);
 	}
-
-	@Override
-	public void update(Observable arg0, Object arg1) {
+public void update(Observable arg0, Object arg1) {
 		
 		// TODO Auto-generated method stub
 		boolean gameOver= theGame.isGameOver();
@@ -312,5 +340,10 @@ public class GUI extends JFrame implements Observer {
 			
 		}
 		
+	}
+
+
+	public static void main(String[]args){
+		new NewGUI(Game.getGame("untimed"));
 	}
 }
