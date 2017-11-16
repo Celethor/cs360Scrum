@@ -299,7 +299,7 @@ public void update(Observable arg0, Object arg1) {
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
 			String fileName=JOptionPane.showInputDialog("Enter the File name without any extension");
-			theGame.saveGame(fileName);
+			theGame.save(fileName);
 		}
 		
 	}
