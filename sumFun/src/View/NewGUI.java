@@ -26,6 +26,7 @@ import java.awt.FlowLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class NewGUI extends JFrame implements Observer{
 	private JPanel contentPane;
@@ -39,6 +40,12 @@ public class NewGUI extends JFrame implements Observer{
 	private JLabel lblGameStatus;
 	private JLabel lblPoints;
 	private JLabel lblPointsDesc;
+	private JMenu fileMenu;
+	private JMenuItem saveGameOpt;
+	private JMenuItem loadGameOpt;
+	private JMenu helpMenu;
+	private JMenuItem refreshOpt;
+	
 	public NewGUI(Game game) {
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,26 +55,27 @@ public class NewGUI extends JFrame implements Observer{
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu fileMenu = new JMenu("File");
+		fileMenu = new JMenu("File");
 		fileMenu.setFont(new Font("Tahoma", Font.BOLD, 14));
 		fileMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		menuBar.add(fileMenu);
 		
-		JMenuItem saveGameOpt = new JMenuItem("Save Game");
+		saveGameOpt = new JMenuItem("Save Game");
 		saveGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
 		saveGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		saveGameOpt.addActionListener(new SaveClickListener());
 		fileMenu.add(saveGameOpt);
 		
-		JMenuItem loadGameOpt = new JMenuItem("Load Game");
+		loadGameOpt = new JMenuItem("Load Game");
 		loadGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
 		loadGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		fileMenu.add(loadGameOpt);
 		
-		JMenu helpMenu = new JMenu("Help");
+		helpMenu = new JMenu("Help");
 		helpMenu.setFont(new Font("Tahoma", Font.BOLD, 14));
 		menuBar.add(helpMenu);
 		
-		JMenuItem refreshOpt = new JMenuItem("Refresh Queue");
+		refreshOpt = new JMenuItem("Refresh Queue");
 		refreshOpt.setFont(new Font("Tahoma", Font.BOLD, 14));
 		helpMenu.add(refreshOpt);
 		contentPane = new JPanel();
@@ -290,7 +298,8 @@ public void update(Observable arg0, Object arg1) {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			
+			String fileName=JOptionPane.showInputDialog("Enter the File name without any extension");
+			theGame.saveGame(fileName);
 		}
 		
 	}
@@ -310,6 +319,7 @@ public void update(Observable arg0, Object arg1) {
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
 			// TODO Auto-generated method stub
+			
 			
 		}
 
@@ -351,7 +361,7 @@ public void update(Observable arg0, Object arg1) {
 	}
 
 
-	public static void main(String[]args){
+	/*public static void main(String[]args){
 		new NewGUI(Game.getGame("untimed"));
-	}
+	}*/
 }

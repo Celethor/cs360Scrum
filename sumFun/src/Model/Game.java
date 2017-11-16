@@ -4,6 +4,7 @@
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 	import java.util.Observable;
@@ -412,20 +413,32 @@ import java.util.ArrayList;
 			
 			// create/open the SavedBoards directory to save the boards 
 			File dir=new File("SavedBoards");
-			// create saveFile for the Board. Append ".txt" to the fileName
-			File saveFile=new File(dir,fileName+".txt");
+			if(!dir.exists()){
+				dir.mkdirs();
+				System.out.println("Dir created");
+			}
 			
+			// create saveFile for the Board. Append ".txt" to the fileName
+			File saveFile=new File("./SavedBoards/"+fileName+".txt");
+			try {
+				saveFile.createNewFile();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				//e1.printStackTrace();
+				System.out.println("Save file not created problem");
+			}
 			// initialize the printwriter for writing to the file
 			try {
 				PrintWriter writer=new PrintWriter(saveFile);
 				
 				// go through the tiles and write each of them to the file
 				for(int i=0;i<saveTiles.length;i++){
-					for(int j=0;j<saveTiles[i].length;i++){
-						writer.print(saveTiles[i][j]);
+					for(int j=0;j<saveTiles[i].length;j++){
+						writer.print(saveTiles[i][j]+"\t");
 					}
+					writer.print("\r\n");
 				}
-				
+				//System.out.println("Written to file");
 				// close writer 
 				writer.close();
 			} catch (FileNotFoundException e) {
@@ -434,13 +447,13 @@ import java.util.ArrayList;
 				System.out.println("PrintWriter problem in saveBoard()");
 			}
 			
-			
-			
 			//return retFilePath
 			return retFilePath;
 		}
 		public static void saveGame(String fileName){
 			// TODO: initialize file with fileName and then call above methods. Save the paths of the above saved files to this file
+			
+			String saveBoardFile=game.saveBoard(fileName);
 		}
 		private class GameTimer {
 			private Timer timer;
