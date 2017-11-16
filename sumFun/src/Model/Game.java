@@ -3,6 +3,8 @@
 	import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 	import java.util.Observable;
 	import java.util.Random;
@@ -385,14 +387,57 @@ import java.util.ArrayList;
 				game=new Game(type);
 			return game;
 		}
-		public static void saveOthers(String fileName){
+		public static String saveOthers(String fileName){
 			// TODO : save other items required for the game
+			
+			String retFilePath="";
+			
+			return retFilePath;
 		}
-		public static void saveQueue(String fileName){
+		public static String saveQueue(String fileName){
 			// TODO : save the queue of tiles as an int
+
+			String retFilePath="";
+			
+			return retFilePath;
 		}
-		public static void saveBoard(String fileName){
+		public static String saveBoard(String fileName){
 			// TODO : save the current state of board as a 2D array of ints in the file
+			
+			//create return file path
+			String retFilePath="";
+			
+			// get the tiles to be saved 
+			Integer [][]saveTiles=game.getTiles();
+			
+			// create/open the SavedBoards directory to save the boards 
+			File dir=new File("SavedBoards");
+			// create saveFile for the Board. Append ".txt" to the fileName
+			File saveFile=new File(dir,fileName+".txt");
+			
+			// initialize the printwriter for writing to the file
+			try {
+				PrintWriter writer=new PrintWriter(saveFile);
+				
+				// go through the tiles and write each of them to the file
+				for(int i=0;i<saveTiles.length;i++){
+					for(int j=0;j<saveTiles[i].length;i++){
+						writer.print(saveTiles[i][j]);
+					}
+				}
+				
+				// close writer 
+				writer.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				//e.printStackTrace();
+				System.out.println("PrintWriter problem in saveBoard()");
+			}
+			
+			
+			
+			//return retFilePath
+			return retFilePath;
 		}
 		public static void saveGame(String fileName){
 			// TODO: initialize file with fileName and then call above methods. Save the paths of the above saved files to this file
