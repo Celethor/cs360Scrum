@@ -2,6 +2,7 @@
 
 	import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 	import java.util.Observable;
 	import java.util.Random;
@@ -383,6 +384,18 @@ import java.util.ArrayList;
 			if(game==null)
 				game=new Game(type);
 			return game;
+		}
+		public static void saveOthers(String fileName){
+			// TODO : save other items required for the game
+		}
+		public static void saveQueue(String fileName){
+			// TODO : save the queue of tiles as an int
+		}
+		public static void saveBoard(String fileName){
+			// TODO : save the current state of board as a 2D array of ints in the file
+		}
+		public static void saveGame(String fileName){
+			// TODO: initialize file with fileName and then call above methods. Save the paths of the above saved files to this file
 		}
 		private class GameTimer {
 			private Timer timer;
