@@ -446,14 +446,14 @@ public class Game extends Observable{
 		Integer [][]saveTiles=game.getTiles();
 
 		// create/open the SavedBoards directory to save the boards 
-		File dir=new File("SavedBoards");
+		File dir=new File("GameSaves");
 		if(!dir.exists()){
 			dir.mkdirs();
 			System.out.println("Dir created");
 		}
 
 		// create saveFile for the Board. Append ".txt" to the fileName
-		File saveFile=new File("./SavedBoards/"+fileName+".txt");
+		File saveFile=new File("./GameSaves/"+fileName+".txt");
 		try {
 			saveFile.createNewFile();
 		} catch (IOException e1) {
