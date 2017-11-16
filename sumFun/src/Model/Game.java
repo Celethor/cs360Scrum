@@ -476,13 +476,13 @@ public class Game extends Observable{
 			writer.print("\r\n");
 			
 			//Save queue of tiles
-			ArrayList<Integer>saveQueue=game.tilesQueue;
-			System.out.println(game.tilesQueue.get(0));
-			for(int i=0;i<saveQueue.size();i++){
-				writer.print(saveQueue.get(i)+"\t");
-				System.out.println("Printing queue");
+			Queue<Integer>saveQueue=game.getTilesQueue();
+			//System.out.println(game.tilesQueue.getElement(0));
+			for(int i=0;i<5;i++){
+				writer.print(game.tilesQueue.getElement(0)+"\t");
+				
 			}
-			
+			writer.print("\r\n");
 			//update the other things
 			writer.print(game.getScore()+"\t");
 			writer.print(game.getGameType()+"\t");
