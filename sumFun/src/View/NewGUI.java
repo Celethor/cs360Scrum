@@ -29,6 +29,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 public class NewGUI extends JFrame implements Observer{
+	//refresh Counter
+	private int refreshCounter;
+	
 	private JPanel contentPane;
 	private Game theGame;
 	private Tile[][] tiles;
@@ -77,7 +80,9 @@ public class NewGUI extends JFrame implements Observer{
 		
 		refreshOpt = new JMenuItem("Refresh Queue");
 		refreshOpt.setFont(new Font("Tahoma", Font.BOLD, 14));
+		refreshOpt.addActionListener(new refreshQueueClickListener()); //TODO 
 		helpMenu.add(refreshOpt);
+		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.BLACK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -303,6 +308,15 @@ public void update(Observable arg0, Object arg1) {
 		}
 		
 	}
+	public class refreshQueueClickListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+				theGame.refreshQueue();	
+		}
+	}
+	
 	public class TilesClickListener implements ActionListener{
 
 		@Override

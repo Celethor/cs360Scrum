@@ -352,6 +352,16 @@ public class Game extends Observable{
 		setChanged();
 		notifyObservers();
 	}
+	
+	//////////////////////////////////////// TODO
+	public void refreshQueue() {
+		Queue<Integer> newTilesQueue = new Queue<Integer>();
+		Random rand = new Random();
+		for(int i = 0; i < this.queueSize; i++) {
+			newTilesQueue.enqueue(rand.nextInt(10));
+		}
+		setTilesQueue(newTilesQueue);
+	}
 
 	public int getScore() {
 		return score;
