@@ -389,6 +389,19 @@ public class Game extends Observable{
 			game=new Game(type);
 		return game;
 	}
+	// REFRESH QUEUE METHOD
+	// refreshQueue reinitializes the tilesQueue so that it is empty and calls populateQueue to repopulate the queue with new values
+	//TODO check refreshQueue
+	public void refreshQueue() {
+		Queue<Integer> newTilesQueue = new Queue<Integer>();
+		Random rand = new Random();
+		for(int i = 0; i < this.queueSize; i++) {
+			newTilesQueue.enqueue(rand.nextInt(10));
+		}
+		setTilesQueue(newTilesQueue);
+		
+	}
+	
 	public static String saveOthers(String fileName){
 		// TODO : save other items required for the game
 
