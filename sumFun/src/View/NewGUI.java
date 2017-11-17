@@ -313,6 +313,7 @@ public void update(Observable arg0, Object arg1) {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
+				refreshOpt.setEnabled(false);
 				theGame.refreshQueue();	
 		}
 	}
