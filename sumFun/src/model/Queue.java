@@ -2,7 +2,6 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class Queue<E> extends ArrayList<E>{
@@ -10,6 +9,10 @@ public class Queue<E> extends ArrayList<E>{
 	 * 
 	 */
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 968124375431704053L;
 	//Data Members
 	private ArrayList<E> queue;
 	
@@ -54,7 +57,6 @@ public class Queue<E> extends ArrayList<E>{
 			try {
 				myQueue.enqueue(rand.nextInt(9));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				System.out.println("Queue initialization exception");
 			}
 		}
