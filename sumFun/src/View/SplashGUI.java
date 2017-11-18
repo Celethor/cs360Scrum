@@ -43,7 +43,7 @@ public class SplashGUI extends JFrame {
 		contentPanel.add(btnPlayTimed);
 		btnPlayTimed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				dispose();
 				new NewGUI(Game.getGame("timed"));
 				setVisible(false);	
 			}
@@ -52,7 +52,7 @@ public class SplashGUI extends JFrame {
 		JButton btnPlayUntimed = new JButton("Play Untimed");
 		btnPlayUntimed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				dispose();
 				new NewGUI(Game.getGame("untimed"));
 				setVisible(false);	
 			}

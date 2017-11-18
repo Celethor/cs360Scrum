@@ -67,6 +67,26 @@ public class NewGUI extends JFrame implements Observer{
 		saveGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
 		saveGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		saveGameOpt.addActionListener(new SaveClickListener());
+		
+		JMenuItem newGameOpt = new JMenuItem("New Game");
+		newGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		newGameOpt.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent arg0) {
+				if(game.getGameType().equals("timed"))
+					game.pauseTime();
+				int res=JOptionPane.showConfirmDialog(null,"All progress in this game will be lost. Are you sure?","Warning",JOptionPane.YES_NO_OPTION);
+				if(res==JOptionPane.YES_OPTION){
+					dispose();
+					game.clear(); //clear the instance of game object
+					new SplashGUI();
+				}
+				else
+					game.resumeTime();
+			}
+			
+		});
+		fileMenu.add(newGameOpt);
 		fileMenu.add(saveGameOpt);
 		
 		loadGameOpt = new JMenuItem("Load Game");

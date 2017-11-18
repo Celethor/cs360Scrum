@@ -126,7 +126,12 @@ public class Game extends Observable{
 	public int getQueueSize() {
 		return queueSize;
 	}
-
+	public void pauseTime(){
+		this.timer.stopTimer();
+	}
+	public void resumeTime(){
+		this.timer.startTimer();
+	}
 	public boolean isSuccessfulPlacement(Coordinates coord,int element){
 		int row=coord.getRow();
 		int col=coord.getCol();
@@ -411,6 +416,9 @@ public class Game extends Observable{
 		if(game==null)
 			game=new Game(type);
 		return game;
+	}
+	public static void clear(){
+		game=null;
 	}
 	public static String saveOthers(String fileName){
 		// TODO : save other items required for the game
