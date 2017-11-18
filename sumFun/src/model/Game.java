@@ -60,8 +60,9 @@ public class Game extends Observable{
 		//initialize queue
 		this.tilesQueue=new Queue<Integer>();
 		populateQueue();
-		if(gameType.equals("untimed"))
+		if(gameType.equals("untimed")) {
 			this.remainingMoves=moveLimit;
+		}
 
 		if(gameType.equals("timed")){
 			timer=new GameTimer();
@@ -149,9 +150,7 @@ public class Game extends Observable{
 		//compare value according to given rule
 		if(elementPlaced==-1){
 			throw new NullPointerException("tilesQueue getQueueElement in successfulplacement null ptr in FOLLOWING IF. Not Working!\n");
-		}
-
-		else if((sum%10)==elementPlaced){
+		} else if((sum%10)==elementPlaced){
 			success=true;
 		}
 		//method now returns if tiles surrounding the current tile can be removed or not
@@ -210,11 +209,10 @@ public class Game extends Observable{
 		int col=coord.getCol();
 		//check if the given tile is empty. If not, return false
 		//indicating that tile cannot be placed
-		if(tiles[row][col]!=-1){
+		if(tiles[row][col]!=-1)	{
 			//return false;
 			return;
-		}
-		else{
+		} else{
 			//tile at given position is updated
 			try {
 				removedElement=tilesQueue.dequeue();
@@ -229,21 +227,17 @@ public class Game extends Observable{
 				commonProcedure(coord, gameType);
 				setChanged();
 				notifyObservers();
-			}
-			else{
+			} else{
 				if(timer.getTimeLimit()==0){
 					gameOver=true;
 					setChanged();
 					notifyObservers();
-				}
-				else{
+				}else{
 					commonProcedure(coord, gameType);
 					setChanged();
 					notifyObservers();
 				}
-
 			}
-
 		}
 	}
 	public boolean commonProcedure(Coordinates coord, String gameType){
@@ -253,8 +247,7 @@ public class Game extends Observable{
 				gameOver=true;
 				return true;
 			}
-		}
-		else if(gameType.equals("timed")){
+		} else if(gameType.equals("timed")){
 			if(timer.getTimeLimit()==0){
 				gameOver=true;
 				return true;
@@ -270,8 +263,7 @@ public class Game extends Observable{
 		boolean placement=isSuccessfulPlacement(coord,removedElement);
 		if(placement==false){//if it is not a successful placement
 			empty--;//decrease the number of empty tiles in the board
-		}
-		else{//if the placement is successful
+		} else{//if the placement is successful
 			ArrayList<Coordinates> usefulNeighbors=getUsefulNeighbors(coord);//get all the useful neighbors that were removed
 			//change the placed tile to empty since it was a successful placement
 			tiles[row][col]=-1;
@@ -295,8 +287,7 @@ public class Game extends Observable{
 			gameOver=true;
 			//return true since tile was updated and some operation took place
 			return true;
-		}
-		else if(empty==81){//since there are 81 tiles in the board. If all are empty, game won!
+		} else if(empty==81){//since there are 81 tiles in the board. If all are empty, game won!
 			//game is won; update that in the model
 			won=true;
 			//return true for updated tiles
@@ -498,8 +489,7 @@ public class Game extends Observable{
 			
 			if(game.getGameType().equals("untimed")){
 				writer.print(game.remainingMoves+"\t");
-			}
-			else{
+			} else{
 				writer.print(game.timer.getTimeLimit());
 				writer.print(game.getRemainingTime()+"\t");
 			}	
@@ -579,8 +569,7 @@ public class Game extends Observable{
 			if(timeLimit > 0) {
 				timeLimit--;
 				timeLeft = getMinutes() + " : " + getSeconds();
-			}
-			else if(timeLimit == 0) {
+			} else if(timeLimit == 0) {
 				stopTimer();
 				gameOver=true;
 			}
