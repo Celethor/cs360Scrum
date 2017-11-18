@@ -133,11 +133,8 @@ public class Game extends Observable{
 		this.timer.startTimer();
 	}
 	public boolean isSuccessfulPlacement(Coordinates coord,int element){
-		int row=coord.getRow();
-		int col=coord.getCol();
 		boolean success=false;
 		int sum=0;
-		int usefulNeighborCtr=0;
 		//get coordinates of all useful neighbors
 		//useful neighbors are those which are not empty.
 		ArrayList<Coordinates>usefulNeighbors=getUsefulNeighbors(coord);
@@ -146,7 +143,6 @@ public class Game extends Observable{
 			int r=usefulNeighbors.get(i).getRow();
 			int c=usefulNeighbors.get(i).getCol();
 			sum+=tiles[r][c];
-			usefulNeighborCtr++;
 		}
 		//get top element of queue
 		int elementPlaced=element;
@@ -224,7 +220,6 @@ public class Game extends Observable{
 				removedElement=tilesQueue.dequeue();
 				tiles[row][col]=removedElement;
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			//if untimed game
@@ -297,7 +292,6 @@ public class Game extends Observable{
 
 		//check game status again
 		if(empty==0){//if the number of empty tiles in the board is zero, game is over!
-			// TODO: 11/14/2017  SHOULD MODIFY TO CHECK FOR BOTH TIMED AND UNTIMED IN LATER SPRINT CYCLES
 			gameOver=true;
 			//return true since tile was updated and some operation took place
 			return true;
@@ -319,7 +313,6 @@ public class Game extends Observable{
 			try {
 				this.tilesQueue.enqueue(rand.nextInt(10));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				System.out.println("Queue initialization/population exception");
 			}
 		}
@@ -371,7 +364,6 @@ public class Game extends Observable{
 		notifyObservers();
 	}
 	
-	//////////////////////////////////////// TODO
 	public void refreshQueue() {
 		Queue<Integer> newTilesQueue = new Queue<Integer>();
 		Random rand = new Random();
@@ -413,22 +405,16 @@ public class Game extends Observable{
 		notifyObservers();
 	}
 	public static Game getGame(String type){
-		if(game==null)
+		if(game==null) {
 			game=new Game(type);
+		}
 		return game;
 	}
 	public static void clear(){
 		game=null;
 	}
-	public static String saveOthers(String fileName){
-		// TODO : save other items required for the game
-
-		String retFilePath="";
-
-		return retFilePath;
-	}
+	
 	public static String saveQueue(String fileName){
-		// TODO : save the queue of tiles as an int
 
 		String retFilePath="";
 
@@ -446,8 +432,6 @@ public class Game extends Observable{
 		try {
 			saveFile.createNewFile();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			//e1.printStackTrace();
 			System.out.println("Save file not created problem in Queue");
 		}
 		// initialize the printwriter for writing to the file
@@ -466,8 +450,6 @@ public class Game extends Observable{
 			// close writer 
 			writer.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			System.out.println("PrintWriter problem in saveBoard()");
 		}
 
@@ -488,8 +470,6 @@ public class Game extends Observable{
 		try {
 			saveFile.createNewFile();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			//e1.printStackTrace();
 			System.out.println("Save file not created problem");
 		}
 		// initialize the printwriter for writing to the file
@@ -506,8 +486,6 @@ public class Game extends Observable{
 			//System.out.println("Written to file");
 			writer.print("\r\n");
 			
-			//Save queue of tiles
-			Queue<Integer>saveQueue=game.getTilesQueue();
 			//System.out.println(game.tilesQueue.getElement(0));
 			for(int i=0;i<5;i++){
 				writer.print(game.tilesQueue.getElement(0)+"\t");
@@ -532,15 +510,11 @@ public class Game extends Observable{
 			// close writer 
 			writer.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			System.out.println("PrintWriter problem in saveBoard()");
 		}
 
 	}
 	public static String saveBoard(String fileName){
-		// TODO : save the current state of board as a 2D array of ints in the file
-
 		//create return file path
 		String retFilePath="";
 
@@ -559,8 +533,6 @@ public class Game extends Observable{
 		try {
 			saveFile.createNewFile();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			//e1.printStackTrace();
 			System.out.println("Save file not created problem");
 		}
 		// initialize the printwriter for writing to the file
@@ -582,30 +554,20 @@ public class Game extends Observable{
 			// close writer 
 			writer.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 			System.out.println("PrintWriter problem in saveBoard()");
 		}
 
 
 		return retFilePath;
 	}
-	public static void saveGame(String fileName){
-		// TODO: initialize file with fileName and then call above methods. Save the paths of the above saved files to this file
-
-		String saveBoardFile=game.saveBoard(fileName);
-		String saveQueueFile=game.saveQueue(fileName);
-		System.out.println(saveBoardFile+"\t"+saveQueueFile);
-	}
+	
 	private class GameTimer {
 		private Timer timer;
-		private boolean timeUp;
 		private int timeLimit;
 		private String timeLeft;
 
 		public GameTimer() {
 			this.timeLimit = 180;
-			this.timeUp = false;
 			//1000 ms delay, actionlistener for the timer
 			this.timer = new Timer(1000, new TimerListener());
 			startTimer();
@@ -620,7 +582,6 @@ public class Game extends Observable{
 			}
 			else if(timeLimit == 0) {
 				stopTimer();
-				timeUp = true;
 				gameOver=true;
 			}
 			remainingTime=getTimeLeft();
