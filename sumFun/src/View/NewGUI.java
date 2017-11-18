@@ -102,19 +102,25 @@ public class NewGUI extends JFrame implements Observer{
 		northPanel.add(headerPanel, BorderLayout.CENTER);
 		headerPanel.setLayout(new GridLayout(0, 2, -1, 0));
 		
-		lblDesc = new JLabel("Moves Left : ");
+		if(game.getGameType().equals("untimed"))
+			lblDesc = new JLabel("Moves Left : ");
+		else
+			lblDesc = new JLabel("Time Left : ");
 		lblDesc.setOpaque(true);
 		lblDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDesc.setForeground(Color.WHITE);
-		lblDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 16));
+		lblDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
 		lblDesc.setBackground(Color.BLACK);
 		headerPanel.add(lblDesc);
 		
-		lblLeft = new JLabel("");
+		if(game.getGameType().equals("untimed"))
+			lblLeft = new JLabel("50");
+		else
+			lblLeft=new JLabel("3:00");
 		lblLeft.setBackground(Color.BLACK);
 		lblLeft.setForeground(Color.RED);
 		lblLeft.setOpaque(true);
-		lblLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 16));
+		lblLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
 		headerPanel.add(lblLeft);
 		
 		JPanel eastPanel = new JPanel();
@@ -271,6 +277,7 @@ public void update(Observable arg0, Object arg1) {
 		//update the score board
 		int modelScore= theGame.getScore();
 		lblScore.setText(Integer.toString(modelScore));
+		lblPoints.setText(Integer.toString(theGame.getPoints()));
 		if(gameType.equals("untimed")){
 			//update the moves left
 			int modelMovesLeft= theGame.getRemainingMoves();

@@ -21,6 +21,7 @@ public class Game extends Observable{
 	private int remainingMoves;
 	private String remainingTime;
 	//private boolean noTime;
+	private int points; //points per move
 	private boolean gameOver;
 	private int empty;
 	private boolean won;
@@ -88,6 +89,14 @@ public class Game extends Observable{
 
 	public void setRemainingMoves(int remainingMoves) {
 		this.remainingMoves = remainingMoves;
+	}
+	
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
 	}
 
 	public boolean isGameOver() {
@@ -330,6 +339,10 @@ public class Game extends Observable{
 				score+=10*neighbors.size();
 			}
 		}
+		//set Points to score for this move
+		this.points=score;
+		
+		//return score
 		return score;
 	}
 
@@ -583,7 +596,7 @@ public class Game extends Observable{
 		private String timeLeft;
 
 		public GameTimer() {
-			this.timeLimit = 6;
+			this.timeLimit = 180;
 			this.timeUp = false;
 			//1000 ms delay, actionlistener for the timer
 			this.timer = new Timer(1000, new TimerListener());
