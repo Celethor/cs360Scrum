@@ -1,15 +1,7 @@
 package view;
 
 import java.awt.Color;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
-import model.Game;
-import model.Queue;
-
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,14 +9,22 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
-
-import javax.swing.JLabel;
 import javax.swing.BorderFactory;
-import java.awt.Font;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import model.Game;
+import model.Queue;
 
-public class GUI extends JFrame implements Observer {
+public class Gui extends JFrame implements Observer {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 482262672798928690L;
 	private JPanel contentPane;
 	private Game theGame;
 	private Tile[][] tiles;
@@ -52,7 +52,7 @@ public class GUI extends JFrame implements Observer {
 	/**
 	 * Create the frame.
 	 */
-	public GUI(Game game) {
+	public Gui(Game game) {
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -81,10 +81,11 @@ public class GUI extends JFrame implements Observer {
 		lblDesc.setBounds(212, 0, 96, 29);
 		headerPanel.add(lblDesc);
 		
-		if(theGame.getGameType().equals("untimed"))
-		lblLeft = new JLabel("50");
-		else
+		if(theGame.getGameType().equals("untimed")){
+			lblLeft = new JLabel("50");
+		} else{
 			lblLeft=new JLabel("3:00");
+		}
 		lblLeft.setBackground(Color.BLACK);
 		lblLeft.setForeground(Color.RED);
 		lblLeft.setOpaque(true);
@@ -190,11 +191,12 @@ public class GUI extends JFrame implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		
-		// TODO Auto-generated method stub
 		boolean gameOver= theGame.isGameOver();
 		boolean gameWon= theGame.isWon();
 		String gameType=theGame.getGameType();
-		if(gameType.equals("timed"));
+		if(gameType.equals("timed")) {
+			;
+		}
 		//update the remaining time
 		lblLeft.setText(theGame.getRemainingTime());
 		
@@ -262,7 +264,6 @@ public class GUI extends JFrame implements Observer {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			Tile t=(Tile)e.getSource();
 			theGame.updateTilesinBoard(t.getCoord());
 			//System.out.println("Tile clicked");
@@ -271,10 +272,8 @@ public class GUI extends JFrame implements Observer {
 	}
 	public class MouseActionTiles implements MouseListener{
 
-		@Override
 		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-			
+		
 		}
 
 		@Override
@@ -288,9 +287,8 @@ public class GUI extends JFrame implements Observer {
 			}
 		}
 
-		@Override
+
 		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 			Tile t=(Tile)arg0.getSource();
 			
 			//upon leaving a hover turns green background of tile back to the default
@@ -300,15 +298,13 @@ public class GUI extends JFrame implements Observer {
 			
 		}
 
-		@Override
+
 		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+
 			
 		}
 
-		@Override
 		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 			
 		}
 		

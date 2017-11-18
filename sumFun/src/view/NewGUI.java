@@ -1,6 +1,7 @@
 package view;
 
-import javax.swing.BorderFactory;
+import javax.swing.BorderFactory
+;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
@@ -12,8 +13,8 @@ import javax.swing.border.EmptyBorder;
 
 import model.Game;
 import model.Queue;
-import view.GUI.MouseActionTiles;
-import view.GUI.TilesClickListener;
+import view.Gui.MouseActionTiles;
+import view.Gui.TilesClickListener;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
