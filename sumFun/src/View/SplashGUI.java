@@ -5,7 +5,7 @@ import java.awt.Container;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Model.Game;
+import model.Game;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;

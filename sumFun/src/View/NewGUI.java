@@ -10,10 +10,10 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import Model.Game;
-import Model.Queue;
 import View.GUI.MouseActionTiles;
 import View.GUI.TilesClickListener;
+import model.Game;
+import model.Queue;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

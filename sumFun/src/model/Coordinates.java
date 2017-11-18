@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class Coordinates {
 	private int row;

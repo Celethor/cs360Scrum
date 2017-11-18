@@ -2,7 +2,7 @@ package View;
 
 import javax.swing.JButton;
 
-import Model.Coordinates;
+import model.Coordinates;
 
 public class Tile extends JButton {
 	

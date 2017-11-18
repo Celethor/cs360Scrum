@@ -7,8 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import Model.Game;
-import Model.Queue;
+import model.Game;
+import model.Queue;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
