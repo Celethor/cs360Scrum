@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -10,10 +10,10 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import View.GUI.MouseActionTiles;
-import View.GUI.TilesClickListener;
 import model.Game;
 import model.Queue;
+import view.GUI.MouseActionTiles;
+import view.GUI.TilesClickListener;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

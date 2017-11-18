@@ -1,5 +1,5 @@
 package driver;
-import View.SplashGUI;
+import view.SplashGUI;
 
 
 public class Application {
