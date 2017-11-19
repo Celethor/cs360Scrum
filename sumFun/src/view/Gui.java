@@ -337,9 +337,8 @@ public void update(Observable arg0, Object arg1) {
 			
 			//Stuff in Case of new Scores
 			
-			boolean newScore = leaderBoard.addScore(theGame.getScore());
-			if(newScore)
-				leaderBoard.saveScores();
+			leaderBoard.addScore(theGame.getScore());
+			
 			
 			//ask if want to see high scores			
 			showHighScores();
