@@ -71,7 +71,6 @@ public class Game extends Observable{
 		}
 		this.gameOver=false;
 		this.empty=32;//present number in the borders
-
 	}
 
 	public String getRemainingTime() {

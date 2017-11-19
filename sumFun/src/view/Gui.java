@@ -1,10 +1,14 @@
 package view;
 
+import javax.swing.Action;
 import javax.swing.BorderFactory
 ;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.KeyStroke;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -22,23 +26,23 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
-import java.awt.FlowLayout;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-public class GUI extends JFrame implements Observer{
+public class Gui extends JFrame implements Observer{
 	//refresh Counter
 	private int refreshCounter;
-	
 	private JPanel contentPane;
+	private JPanel boardPanel;
+	private JPanel headerPanel;
 	private Game theGame;
 	private Leaderboard leaderBoard;
 	private Tile[][] tiles;
 	private JLabel [] queueTiles;
-	private JLabel lblDesc;
-	private JLabel lblLeft;
+	private JLabel lblMovesLeft;
+	private JLabel lblMovesInt;
 	private JLabel lblScoreDesc;
 	private JLabel lblScore;
 	private JLabel lblGameStatus;
@@ -50,11 +54,11 @@ public class GUI extends JFrame implements Observer{
 	private JMenu helpMenu;
 	private JMenuItem refreshOpt;
 	
-	public GUI(Game game) {
+	public Gui(Game game) {
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		setBounds(100, 100, 640, 480);
+		setBounds(100, 100, 710, 510);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -119,31 +123,31 @@ public class GUI extends JFrame implements Observer{
 		getContentPane().add(northPanel, BorderLayout.NORTH);
 		northPanel.setLayout(new BorderLayout(0, 0));
 		
-		JPanel headerPanel = new JPanel();
+		headerPanel = new JPanel();
 		headerPanel.setBackground(Color.BLACK);
 		northPanel.add(headerPanel, BorderLayout.CENTER);
 		headerPanel.setLayout(new GridLayout(0, 2, -1, 0));
 		
 		if(game.getGameType().equals("untimed"))
-			lblDesc = new JLabel("Moves Left : ");
+			lblMovesLeft = new JLabel("Moves Left : ");
 		else
-			lblDesc = new JLabel("Time Left : ");
-		lblDesc.setOpaque(true);
-		lblDesc.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDesc.setForeground(Color.WHITE);
-		lblDesc.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
-		lblDesc.setBackground(Color.BLACK);
-		headerPanel.add(lblDesc);
+			lblMovesLeft = new JLabel("Time Left : ");
+		lblMovesLeft.setOpaque(true);
+		lblMovesLeft.setHorizontalAlignment(SwingConstants.CENTER);
+		lblMovesLeft.setForeground(Color.WHITE);
+		lblMovesLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
+		lblMovesLeft.setBackground(Color.BLACK);
+		headerPanel.add(lblMovesLeft);
 		
 		if(game.getGameType().equals("untimed"))
-			lblLeft = new JLabel("50");
+			lblMovesInt = new JLabel("50");
 		else
-			lblLeft=new JLabel("3:00");
-		lblLeft.setBackground(Color.BLACK);
-		lblLeft.setForeground(Color.RED);
-		lblLeft.setOpaque(true);
-		lblLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
-		headerPanel.add(lblLeft);
+			lblMovesInt=new JLabel("3:00");
+		lblMovesInt.setBackground(Color.BLACK);
+		lblMovesInt.setForeground(Color.RED);
+		lblMovesInt.setOpaque(true);
+		lblMovesInt.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
+		headerPanel.add(lblMovesInt);
 		
 		JPanel eastPanel = new JPanel();
 		eastPanel.setBackground(Color.BLACK);
@@ -226,7 +230,7 @@ public class GUI extends JFrame implements Observer{
 			queueTilesPanel.add(queueTiles[i]);
 		}
 		
-		JPanel boardPanel = new JPanel();
+		this.boardPanel = new JPanel();
 		//boardPanel.setBackground(Color.LIGHT_GRAY);
 		getContentPane().add(boardPanel, BorderLayout.CENTER);
 		boardPanel.setLayout(new GridLayout(9, 9));
@@ -257,6 +261,7 @@ public class GUI extends JFrame implements Observer{
 		
 		setVisible(true);
 	}
+	
 public void update(Observable arg0, Object arg1) {
 		
 		// TODO Auto-generated method stub
@@ -265,7 +270,7 @@ public void update(Observable arg0, Object arg1) {
 		String gameType=theGame.getGameType();
 		if(gameType.equals("timed"));
 		//update the remaining time
-		lblLeft.setText(theGame.getRemainingTime());
+		lblMovesInt.setText(theGame.getRemainingTime());
 		
 		//first update the tiles from the model
 		Integer [][]modelTiles= theGame.getTiles();
@@ -303,7 +308,7 @@ public void update(Observable arg0, Object arg1) {
 		if(gameType.equals("untimed")){
 			//update the moves left
 			int modelMovesLeft= theGame.getRemainingMoves();
-			lblLeft.setText(Integer.toString(modelMovesLeft));
+			lblMovesInt.setText(Integer.toString(modelMovesLeft));
 		}
 		
 		if(gameOver){
@@ -314,6 +319,11 @@ public void update(Observable arg0, Object arg1) {
 			}
 			lblGameStatus.setText("Game Over! Loser!");
 			lblGameStatus.setForeground(Color.RED);
+			
+			//show high score list
+			showHighScores();
+			//disable refreshqueue
+			refreshOpt.setEnabled(false);
 			return;
 		}
 		else if(gameWon){
@@ -331,13 +341,46 @@ public void update(Observable arg0, Object arg1) {
 			if(newScore)
 				leaderBoard.saveScores();
 			
+			//ask if want to see high scores			
+			showHighScores();
+			
+			//disable refreshqueue
+			refreshOpt.setEnabled(false);
+			
+			
 			//Go back to Splash GUI
 			//call whatever starts the new game thing
-			Game.clear();
-			dispose();
-			new SplashGUI();
+//			Game.clear();
+//			dispose();
+//			new SplashGUI();
 			return;
 		}
+	}
+	public void showHighScores() {
+		JTextArea leaderText = new JTextArea(30,10);
+		leaderText.setText("\nHigh Scores\n\nName\tScore\tDate\n" + leaderBoard.toString());
+		leaderText.setBackground(Color.BLACK);
+		leaderText.setForeground(Color.WHITE);
+		//leaderText.setEnabled(false);
+		
+		//remover tiles and add textarea
+		for(int i=0;i<9;i++) {
+			for(int j=0;j<9;j++) {
+				boardPanel.remove(tiles[i][j]);
+			}
+		}
+		
+		this.boardPanel.setLayout(new GridLayout(1,1));
+		this.boardPanel.add(leaderText);
+		
+		//change text at end to new game stuff
+		lblMovesLeft.setText("Please Select File->New Game to start a new game!");
+		headerPanel.remove(lblMovesInt);
+		headerPanel.setLayout(new GridLayout(1,1));
+		
+		//setVisible(true);
+		setVisible(true);
+		repaint();	
 	}
 	public class SaveClickListener implements ActionListener{
 

@@ -13,16 +13,16 @@ import javax.swing.JOptionPane;
 public class Leaderboard {
 
 	//creates catch case if file isn't there
-	private String[][] topScores = {{null,"0",null},
-						            {null,"0",null},
-				  		            {null,"0",null},
-						            {null,"0",null},
-						            {null,"0",null},
-						            {null,"0",null},
-						            {null,"0",null},
-						            {null,"0",null},
-						            {null,"0",null},
-						            {null,"0",null}};;
+	private String[][] topScores = {{"Empty","0","N/A"},
+						            {"Empty","0","N/A"},
+				  		            {"Empty","0","N/A"},
+						            {"Empty","0","N/A"},
+						            {"Empty","0","N/A"},
+						            {"Empty","0","N/A"},
+						            {"Empty","0","N/A"},
+						            {"Empty","0","N/A"},
+						            {"Empty","0","N/A"},
+						            {"Empty","0","N/A"}};;
 
 	public Leaderboard() {
 		loadScores();
@@ -53,16 +53,22 @@ public class Leaderboard {
 	}
 
 	public void saveScores() {
-		
+		File scoreFile;
 		FileWriter scoreWriter = null;
 		try {
 			scoreWriter = new FileWriter(new File("Leaders/leaders.txt"), false); // true = append, false = overwrite
 			
 			for(int i = 0; i < topScores.length; i++) {
-				scoreWriter.write(topScores[0] + " " +
-								  topScores[1] + " " +
-								  topScores[2] + "\n");
+				scoreWriter.write(topScores[i][0] + " " +
+								  topScores[i][1] + " ");
+				
+				if(i<9)
+					scoreWriter.write(topScores[i][2] + "\n");
+				else
+					scoreWriter.write(topScores[i][2]);
 			}
+			scoreWriter.close();
+			
 		} catch (IOException e) {
 			// add case to create file and call same method again
 			e.printStackTrace();
@@ -87,22 +93,53 @@ public class Leaderboard {
 		//get current Date
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDate localDate = LocalDate.now();
-		newHighScore[3] = dtf.format(localDate); //11/19/2017
+		newHighScore[2] = dtf.format(localDate); //11/19/2017
 		
 		
 		//need temp var to store misplaced scores
 		@SuppressWarnings("unused")
 		String[] tempScore = {null, null, null};
 		
+		
+		int i;
 		//will run through this.topScores and insert newHigh score into list and move rest of list down
-		for(int i = 0; i<topScores.length; i++) {
+		for(i = 0; i<topScores.length; i++) {
 			//find where new score should be inserted
 			if(Integer.parseInt(newHighScore[1]) > Integer.parseInt(topScores[i][1])){
 				tempScore = topScores[i];
 				topScores[i] = newHighScore;
+				newHighScore = tempScore;
+				i++;
+				break;
 			}
+		}
+		
+		//move the rest of the list down
+		for(;i<topScores.length;i++){
+			tempScore = topScores[i];
+			topScores[i] = newHighScore;
+			newHighScore = tempScore;
 		}
 		
 		return true;
 	}
+	
+	public String toString(){
+		String scores = "";
+		
+		//build string
+		for(int i = 0;i<topScores.length; i++) {
+			scores += "\n" + "(" + Integer.toString(i+1) + ") "
+					+ topScores[i][0] + "\t"
+					+ topScores[i][1] + "\t";
+			
+			if(i<9)
+				scores += topScores[i][2] + "\n";
+			else
+				scores += topScores[i][2];			
+		}
+
+		return scores;
+	}
 }
+
