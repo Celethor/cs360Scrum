@@ -1,5 +1,5 @@
-package Application;
-import View.SplashGUI;
+package application;
+import view.SplashGUI;
 
 
 public class Application {

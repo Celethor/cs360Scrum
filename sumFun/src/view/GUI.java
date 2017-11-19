@@ -13,8 +13,6 @@ import javax.swing.border.EmptyBorder;
 
 import model.Game;
 import model.Queue;
-import view.Gui.MouseActionTiles;
-import view.Gui.TilesClickListener;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -29,7 +27,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-public class NewGUI extends JFrame implements Observer{
+public class GUI extends JFrame implements Observer{
 	//refresh Counter
 	private int refreshCounter;
 	
@@ -50,7 +48,7 @@ public class NewGUI extends JFrame implements Observer{
 	private JMenu helpMenu;
 	private JMenuItem refreshOpt;
 	
-	public NewGUI(Game game) {
+	public GUI(Game game) {
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
