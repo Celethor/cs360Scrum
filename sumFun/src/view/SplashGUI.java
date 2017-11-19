@@ -73,8 +73,4 @@ public class SplashGUI extends JFrame {
 		this.add(contentPanel);  //this.getContentPane().add(contentPanel);
 		
 	}
-
-/*public static void main(String[] args) {
-  new SplashGUI();
-}*/
 }

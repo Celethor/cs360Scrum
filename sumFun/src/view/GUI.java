@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import model.Game;
+import model.Leaderboard;
 import model.Queue;
 
 import java.awt.GridLayout;
@@ -33,6 +34,7 @@ public class GUI extends JFrame implements Observer{
 	
 	private JPanel contentPane;
 	private Game theGame;
+	private Leaderboard leaderBoard;
 	private Tile[][] tiles;
 	private JLabel [] queueTiles;
 	private JLabel lblDesc;
@@ -110,6 +112,7 @@ public class GUI extends JFrame implements Observer{
 		
 		this.theGame = game;
 		this.theGame.addObserver(this);
+		this.leaderBoard = new Leaderboard();
 		
 		JPanel northPanel = new JPanel();
 		northPanel.setBackground(Color.BLACK);
@@ -321,6 +324,18 @@ public void update(Observable arg0, Object arg1) {
 			}
 			lblGameStatus.setText("Game Won! Legend!");
 			lblGameStatus.setForeground(Color.GREEN);
+			
+			//Stuff in Case of new Scores
+			
+			boolean newScore = leaderBoard.addScore(theGame.getScore());
+			if(newScore)
+				leaderBoard.saveScores();
+			
+			//Go back to Splash GUI
+			//call whatever starts the new game thing
+			Game.clear();
+			dispose();
+			new SplashGUI();
 			return;
 		}
 	}
