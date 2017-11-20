@@ -1,24 +1,8 @@
 package view;
 
-import javax.swing.Action;
-import javax.swing.BorderFactory
-;
-import javax.swing.JFrame;
 import java.awt.BorderLayout;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
-
 import java.awt.Color;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-
-import model.Game;
-import model.Leaderboard;
-import model.Queue;
-
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,14 +10,28 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JMenuBar;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import model.Game;
+import model.Leaderboard;
+import model.Queue;
 
 public class Gui extends JFrame implements Observer{
-	//refresh Counter
-	private int refreshCounter;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3279980216475310138L;
 	private JPanel contentPane;
 	private JPanel boardPanel;
 	private JPanel headerPanel;
@@ -78,16 +76,17 @@ public class Gui extends JFrame implements Observer{
 		newGameOpt.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
-				if(game.getGameType().equals("timed"))
+				if(game.getGameType().equals("timed")) {
 					game.pauseTime();
+				}
 				int res=JOptionPane.showConfirmDialog(null,"All progress in this game will be lost. Are you sure?","Warning",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION){
 					dispose();
-					game.clear(); //clear the instance of game object
+					Game.clear(); //clear the instance of game object
 					new SplashGUI();
-				}
-				else
+				} else {
 					game.resumeTime();
+				}
 			}
 			
 		});
@@ -105,7 +104,7 @@ public class Gui extends JFrame implements Observer{
 		
 		refreshOpt = new JMenuItem("Refresh Queue");
 		refreshOpt.setFont(new Font("Tahoma", Font.BOLD, 14));
-		refreshOpt.addActionListener(new refreshQueueClickListener()); //TODO 
+		refreshOpt.addActionListener(new RefreshQueueClickListener()); 
 		helpMenu.add(refreshOpt);
 		
 		contentPane = new JPanel();
@@ -128,10 +127,11 @@ public class Gui extends JFrame implements Observer{
 		northPanel.add(headerPanel, BorderLayout.CENTER);
 		headerPanel.setLayout(new GridLayout(0, 2, -1, 0));
 		
-		if(game.getGameType().equals("untimed"))
+		if(game.getGameType().equals("untimed")) {
 			lblMovesLeft = new JLabel("Moves Left : ");
-		else
+		} else {
 			lblMovesLeft = new JLabel("Time Left : ");
+		}
 		lblMovesLeft.setOpaque(true);
 		lblMovesLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMovesLeft.setForeground(Color.WHITE);
@@ -139,10 +139,11 @@ public class Gui extends JFrame implements Observer{
 		lblMovesLeft.setBackground(Color.BLACK);
 		headerPanel.add(lblMovesLeft);
 		
-		if(game.getGameType().equals("untimed"))
+		if(game.getGameType().equals("untimed")) {
 			lblMovesInt = new JLabel("50");
-		else
+		} else {
 			lblMovesInt=new JLabel("3:00");
+		}
 		lblMovesInt.setBackground(Color.BLACK);
 		lblMovesInt.setForeground(Color.RED);
 		lblMovesInt.setOpaque(true);
@@ -264,13 +265,15 @@ public class Gui extends JFrame implements Observer{
 	
 public void update(Observable arg0, Object arg1) {
 		
-		// TODO Auto-generated method stub
+		
 		boolean gameOver= theGame.isGameOver();
 		boolean gameWon= theGame.isWon();
 		String gameType=theGame.getGameType();
-		if(gameType.equals("timed"));
-		//update the remaining time
-		lblMovesInt.setText(theGame.getRemainingTime());
+		if(gameType.equals("timed")) {
+			//update the remaining time
+			lblMovesInt.setText(theGame.getRemainingTime());
+		}
+		
 		
 		//first update the tiles from the model
 		Integer [][]modelTiles= theGame.getTiles();
@@ -280,8 +283,7 @@ public void update(Observable arg0, Object arg1) {
 				if(text.equals("-1")){
 					tiles[i][j].setText("");
 					tiles[i][j].setEnabled(true);
-				}
-				else{
+				} else{
 					tiles[i][j].setText(modelTiles[i][j].toString());
 					tiles[i][j].setEnabled(false);
 				}
@@ -294,8 +296,7 @@ public void update(Observable arg0, Object arg1) {
 				queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
 			}
 			queueTiles[4].setText("");
-		}
-		else{
+		} else{
 			//Queue<Integer> modelQueueTiles = theGame.getTilesQueue();
 			for(int i=0;i<queueTiles.length;i++){
 			queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
@@ -325,8 +326,7 @@ public void update(Observable arg0, Object arg1) {
 			//disable refreshqueue
 			refreshOpt.setEnabled(false);
 			return;
-		}
-		else if(gameWon){
+		} else if(gameWon){
 			for(int i=0;i<tiles.length;i++){
 				for(int j=0;j<tiles[i].length;j++){
 					tiles[i][j].setEnabled(false);
@@ -347,11 +347,8 @@ public void update(Observable arg0, Object arg1) {
 			refreshOpt.setEnabled(false);
 			
 			
-			//Go back to Splash GUI
-			//call whatever starts the new game thing
-//			Game.clear();
-//			dispose();
-//			new SplashGUI();
+	
+
 			return;
 		}
 	}
@@ -383,19 +380,19 @@ public void update(Observable arg0, Object arg1) {
 	}
 	public class SaveClickListener implements ActionListener{
 
-		@Override
+
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
+			
 			String fileName=JOptionPane.showInputDialog("Enter the File name without any extension");
 			theGame.save(fileName);
 		}
 		
 	}
-	public class refreshQueueClickListener implements ActionListener{
+	public class RefreshQueueClickListener implements ActionListener{
 
-		@Override
+		
 		public void actionPerformed(ActionEvent arg0) {
-			// TODO Auto-generated method stub
+			
 				refreshOpt.setEnabled(false);
 				theGame.refreshQueue();	
 		}
@@ -403,25 +400,25 @@ public void update(Observable arg0, Object arg1) {
 	
 	public class TilesClickListener implements ActionListener{
 
-		@Override
+	
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+		
 			Tile t=(Tile)e.getSource();
 			theGame.updateTilesinBoard(t.getCoord());
-			//System.out.println("Tile clicked");
+		
 		}
 		
 	}
 	public class MouseActionTiles implements MouseListener{
 
-		@Override
+	
 		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+		
 			
 			
 		}
 
-		@Override
+	
 		public void mouseEntered(MouseEvent arg0) {
 			
 			Tile t=(Tile)arg0.getSource();
@@ -432,9 +429,9 @@ public void update(Observable arg0, Object arg1) {
 			}
 		}
 
-		@Override
+	
 		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+		
 			Tile t=(Tile)arg0.getSource();
 			
 			//upon leaving a hover turns green background of tile back to the default
@@ -444,15 +441,14 @@ public void update(Observable arg0, Object arg1) {
 			
 		}
 
-		@Override
+	
 		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+		
 			
 		}
 
-		@Override
+	
 		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 			
 		}
 		

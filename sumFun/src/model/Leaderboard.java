@@ -53,7 +53,6 @@ public class Leaderboard {
 	}
 
 	private void saveScores() {
-		File scoreFile;
 		FileWriter scoreWriter = null;
 		try {
 			scoreWriter = new FileWriter(new File("Leaders/leaders.txt"), false); // true = append, false = overwrite
@@ -62,10 +61,11 @@ public class Leaderboard {
 				scoreWriter.write(topScores[i][0] + " " +
 								  topScores[i][1] + " ");
 				
-				if(i<9)
+				if(i<9) {
 					scoreWriter.write(topScores[i][2] + "\n");
-				else
+				} else {
 					scoreWriter.write(topScores[i][2]);
+				}
 			}
 			scoreWriter.close();
 			
@@ -83,8 +83,9 @@ public class Leaderboard {
 	public boolean addScore(int score){
 		
 		//check if passed score shouldn't make it on the list, if not return false
-		if(score < Integer.parseInt(topScores[9][1]))
+		if(score < Integer.parseInt(topScores[9][1])) {
 			return false;
+		}
 		
 		//if it should, then find where it should go and replace others accordingly
 		String[] newHighScore = {JOptionPane.showInputDialog(null, "Please enter your name:", "New High Score!", JOptionPane.PLAIN_MESSAGE),
@@ -97,7 +98,6 @@ public class Leaderboard {
 		
 		
 		//need temp var to store misplaced scores
-		@SuppressWarnings("unused")
 		String[] tempScore = {null, null, null};
 		
 		
@@ -134,10 +134,11 @@ public class Leaderboard {
 					+ topScores[i][0] + "\t"
 					+ topScores[i][1] + "\t";
 			
-			if(i<9)
+			if(i<9) {
 				scores += topScores[i][2] + "\n";
-			else
-				scores += topScores[i][2];			
+			} else {
+				scores += topScores[i][2];
+			}			
 		}
 
 		return scores;

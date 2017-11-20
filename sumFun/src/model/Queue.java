@@ -50,7 +50,7 @@ public class Queue<E> extends ArrayList<E>{
 		
 	}
 	
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		Queue<Integer> myQueue = new Queue<Integer>();
 		Random rand = new Random();
 		for(int i=0;i<5;i++){
