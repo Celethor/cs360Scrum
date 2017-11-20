@@ -69,7 +69,7 @@ public class Gui extends JFrame implements Observer{
 		
 		/*saveGameOpt = new JMenuItem("Save Game");
 		saveGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
-		saveGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		saveGameOpt.setFont(new Font("Times", Font.PLAIN, 14));
 		saveGameOpt.addActionListener(new SaveClickListener());*/
 		
 		JMenuItem newGameOpt = new JMenuItem("New Game");
@@ -96,7 +96,7 @@ public class Gui extends JFrame implements Observer{
 		
 		/*loadGameOpt = new JMenuItem("Load Game");
 		loadGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
-		loadGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		loadGameOpt.setFont(new Font("Times", Font.PLAIN, 14));
 		fileMenu.add(loadGameOpt);*/
 		
 		helpMenu = new JMenu("Help");
