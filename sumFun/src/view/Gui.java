@@ -109,7 +109,7 @@ public class Gui extends JFrame implements Observer{
 		helpMenu.add(refreshOpt);
 		
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.BLACK);
+		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -119,12 +119,12 @@ public class Gui extends JFrame implements Observer{
 		this.leaderBoard = new Leaderboard();
 		
 		JPanel northPanel = new JPanel();
-		northPanel.setBackground(Color.BLACK);
+		northPanel.setBackground(Color.GRAY);
 		getContentPane().add(northPanel, BorderLayout.NORTH);
 		northPanel.setLayout(new BorderLayout(0, 0));
 		
 		headerPanel = new JPanel();
-		headerPanel.setBackground(Color.BLACK);
+		headerPanel.setBackground(Color.GRAY);
 		northPanel.add(headerPanel, BorderLayout.CENTER);
 		headerPanel.setLayout(new GridLayout(0, 2, -1, 0));
 		
@@ -137,7 +137,7 @@ public class Gui extends JFrame implements Observer{
 		lblMovesLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMovesLeft.setForeground(Color.WHITE);
 		lblMovesLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
-		lblMovesLeft.setBackground(Color.BLACK);
+		lblMovesLeft.setBackground(Color.GRAY);
 		headerPanel.add(lblMovesLeft);
 		
 		if(game.getGameType().equals("untimed")) {
@@ -145,7 +145,7 @@ public class Gui extends JFrame implements Observer{
 		} else {
 			lblMovesInt=new JLabel("3:00");
 		}
-		lblMovesInt.setBackground(Color.BLACK);
+		lblMovesInt.setBackground(Color.GRAY);
 		lblMovesInt.setForeground(Color.RED);
 		lblMovesInt.setOpaque(true);
 		lblMovesInt.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
@@ -171,8 +171,8 @@ public class Gui extends JFrame implements Observer{
 		
 		lblPointsDesc = new JLabel("Points:");
 		lblPointsDesc.setOpaque(true);
-		lblPointsDesc.setBackground(Color.BLACK);
-		lblPointsDesc.setForeground(Color.BLUE);
+		lblPointsDesc.setBackground(Color.GRAY);
+		lblPointsDesc.setForeground(Color.WHITE);
 		lblPointsDesc.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
 		pointsPanel.add(lblPointsDesc);
 		
@@ -181,7 +181,7 @@ public class Gui extends JFrame implements Observer{
 		lblPoints.setOpaque(true);
 		lblPoints.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
 		lblPoints.setForeground(Color.YELLOW);
-		lblPoints.setBackground(Color.BLACK);
+		lblPoints.setBackground(Color.GRAY);
 		pointsPanel.add(lblPoints);
 		
 		JPanel totalScorePanel = new JPanel();
@@ -191,9 +191,9 @@ public class Gui extends JFrame implements Observer{
 		lblScoreDesc = new JLabel("Score:");
 		lblScoreDesc.setOpaque(true);
 		lblScoreDesc.setHorizontalAlignment(SwingConstants.CENTER);
-		lblScoreDesc.setForeground(Color.BLUE);
+		lblScoreDesc.setForeground(Color.WHITE);
 		lblScoreDesc.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
-		lblScoreDesc.setBackground(Color.BLACK);
+		lblScoreDesc.setBackground(Color.GRAY);
 		totalScorePanel.add(lblScoreDesc);
 		
 		lblScore = new JLabel("0");
@@ -201,7 +201,7 @@ public class Gui extends JFrame implements Observer{
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScore.setForeground(Color.YELLOW);
 		lblScore.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
-		lblScore.setBackground(Color.BLACK);
+		lblScore.setBackground(Color.GRAY);
 		totalScorePanel.add(lblScore);
 		
 		JPanel panel = new JPanel();
@@ -213,12 +213,12 @@ public class Gui extends JFrame implements Observer{
 		lblGameStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGameStatus.setForeground(new Color(255, 140, 0));
 		lblGameStatus.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		lblGameStatus.setBackground(Color.BLACK);
+		lblGameStatus.setBackground(Color.GRAY);
 		panel.add(lblGameStatus);
 		
 		JPanel queueTilesPanel = new JPanel();
 		queueTilesPanel.setForeground(Color.WHITE);
-		queueTilesPanel.setBackground(Color.BLACK);
+		queueTilesPanel.setBackground(Color.GRAY);
 		eastPanel.add(queueTilesPanel);
 		queueTilesPanel.setLayout(new GridLayout(5, 1, 0, 0));
 		Queue<Integer> modelQueueTiles = theGame.getTilesQueue();
@@ -312,7 +312,7 @@ public void update(Observable arg0, Object arg1) {
 			int modelMovesLeft= theGame.getRemainingMoves();
 			lblMovesInt.setText(Integer.toString(modelMovesLeft));
 		}
-		gameWon=true;
+		
 		if(gameOver){
 			for(int i=0;i<tiles.length;i++){
 				for(int j=0;j<tiles[i].length;j++){
