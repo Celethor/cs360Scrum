@@ -47,8 +47,8 @@ public class Gui extends JFrame implements Observer{
 	private JLabel lblPoints;
 	private JLabel lblPointsDesc;
 	private JMenu fileMenu;
-	private JMenuItem saveGameOpt;
-	private JMenuItem loadGameOpt;
+	//private JMenuItem saveGameOpt;
+	//private JMenuItem loadGameOpt;
 	private JMenu helpMenu;
 	private JMenuItem refreshOpt;
 	
@@ -66,10 +66,10 @@ public class Gui extends JFrame implements Observer{
 		fileMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		menuBar.add(fileMenu);
 		
-		saveGameOpt = new JMenuItem("Save Game");
+		/*saveGameOpt = new JMenuItem("Save Game");
 		saveGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
 		saveGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		saveGameOpt.addActionListener(new SaveClickListener());
+		saveGameOpt.addActionListener(new SaveClickListener());*/
 		
 		JMenuItem newGameOpt = new JMenuItem("New Game");
 		newGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -91,12 +91,12 @@ public class Gui extends JFrame implements Observer{
 			
 		});
 		fileMenu.add(newGameOpt);
-		fileMenu.add(saveGameOpt);
+		//fileMenu.add(saveGameOpt);
 		
-		loadGameOpt = new JMenuItem("Load Game");
+		/*loadGameOpt = new JMenuItem("Load Game");
 		loadGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
 		loadGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		fileMenu.add(loadGameOpt);
+		fileMenu.add(loadGameOpt);*/
 		
 		helpMenu = new JMenu("Help");
 		helpMenu.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -385,7 +385,7 @@ public void update(Observable arg0, Object arg1) {
 		public void actionPerformed(ActionEvent arg0) {
 			
 			String fileName=JOptionPane.showInputDialog("Enter the File name without any extension");
-			theGame.save(fileName);
+			//theGame.save(fileName);
 		}
 		
 	}
