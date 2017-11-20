@@ -92,7 +92,7 @@ public class Gui extends JFrame implements Observer{
 			
 		});
 		fileMenu.add(newGameOpt);
-		//fileMenu.add(saveGameOpt);
+		//fileMenu.add(saveGameOpt);;
 		
 		/*loadGameOpt = new JMenuItem("Load Game");
 		loadGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
