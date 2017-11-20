@@ -313,7 +313,6 @@ public void update(Observable arg0, Object arg1) {
 			int modelMovesLeft= theGame.getRemainingMoves();
 			lblMovesInt.setText(Integer.toString(modelMovesLeft));
 		}
-		//gameWon=true;
 		
 		if(gameOver){
 			for(int i=0;i<tiles.length;i++){
@@ -338,10 +337,10 @@ public void update(Observable arg0, Object arg1) {
 			lblGameStatus.setText("Game Won! Legend!");
 			lblGameStatus.setForeground(Color.GREEN);
 			
-			//Stuff in Case of new Scores
-			
-			leaderBoard.addScore(theGame.getScore());
-			
+			//check if new high score.If so, prompt for name input
+			if(leaderBoard.checkScore(theGame.getScore())) {
+				newHighScorePrompt();
+			}			
 			
 			//ask if want to see high scores			
 			showHighScores();
@@ -355,6 +354,25 @@ public void update(Observable arg0, Object arg1) {
 			return;
 		}
 	}
+	public void newHighScorePrompt() {
+		//prompt for name
+		String name = JOptionPane.showInputDialog(null, "Please enter your name:", "New High Score!", JOptionPane.PLAIN_MESSAGE);
+		
+		//case for cancel on JOtionPane
+		if(name == null) {
+			name="NoName";
+		}
+		
+		//take out non alpha-numeric
+		name.replace(" ", "");
+		name.replace(".", "");
+		
+		
+		//add score to leaderBoard
+		leaderBoard.addScore(name, theGame.getScore());
+		
+	}
+
 	public void showHighScores() {
 		JTextArea leaderText = new JTextArea(30,10);
 		leaderText.setText("\nHigh Scores\n\nName\tScore\tDate\n" + leaderBoard.toString());
