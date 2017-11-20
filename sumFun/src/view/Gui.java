@@ -47,6 +47,7 @@ public class Gui extends JFrame implements Observer{
 	private JLabel lblPoints;
 	private JLabel lblPointsDesc;
 	private JMenu fileMenu;
+	private JPanel eastPanel;
 	//private JMenuItem saveGameOpt;
 	//private JMenuItem loadGameOpt;
 	private JMenu helpMenu;
@@ -150,7 +151,7 @@ public class Gui extends JFrame implements Observer{
 		lblMovesInt.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
 		headerPanel.add(lblMovesInt);
 		
-		JPanel eastPanel = new JPanel();
+		eastPanel = new JPanel();
 		eastPanel.setBackground(Color.BLACK);
 		getContentPane().add(eastPanel, BorderLayout.EAST);
 		eastPanel.setLayout(new GridLayout(2, 1, 0, 0));
@@ -311,7 +312,7 @@ public void update(Observable arg0, Object arg1) {
 			int modelMovesLeft= theGame.getRemainingMoves();
 			lblMovesInt.setText(Integer.toString(modelMovesLeft));
 		}
-		
+		gameWon=true;
 		if(gameOver){
 			for(int i=0;i<tiles.length;i++){
 				for(int j=0;j<tiles[i].length;j++){
@@ -374,7 +375,7 @@ public void update(Observable arg0, Object arg1) {
 		lblMovesLeft.setText("Please Select File->New Game to start a new game!");
 		headerPanel.remove(lblMovesInt);
 		headerPanel.setLayout(new GridLayout(1,1));
-		
+		contentPane.remove(eastPanel);
 		//setVisible(true);
 		setVisible(true);
 		repaint();	
