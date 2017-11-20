@@ -6,6 +6,10 @@ import model.Coordinates;
 
 public class Tile extends JButton {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Coordinates coord;
 	
 	public Tile(int r,int c){

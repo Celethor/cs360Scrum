@@ -1,11 +1,11 @@
 package driver;
-import view.SplashGUI;
+import view.SplashGui;
 
 
 public class Application {
 	
 	public static void main(String []args) {
-		new SplashGUI();
+		new SplashGui();
 	}
 	
 	

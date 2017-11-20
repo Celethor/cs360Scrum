@@ -83,7 +83,7 @@ public class Gui extends JFrame implements Observer{
 				if(res==JOptionPane.YES_OPTION){
 					dispose();
 					Game.clear(); //clear the instance of game object
-					new SplashGUI();
+					new SplashGui();
 				} else {
 					game.resumeTime();
 				}
