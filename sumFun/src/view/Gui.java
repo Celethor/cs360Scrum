@@ -384,7 +384,7 @@ public void update(Observable arg0, Object arg1) {
 
 		public void actionPerformed(ActionEvent arg0) {
 			
-			String fileName=JOptionPane.showInputDialog("Enter the File name without any extension");
+			//String fileName=JOptionPane.showInputDialog("Enter the File name without any extension");
 			//theGame.save(fileName);
 		}
 		
