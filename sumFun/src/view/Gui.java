@@ -63,7 +63,7 @@ public class Gui extends JFrame implements Observer{
 		setJMenuBar(menuBar);
 		
 		fileMenu = new JMenu("File");
-		fileMenu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		fileMenu.setFont(new Font("Times", Font.BOLD, 14));
 		fileMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		menuBar.add(fileMenu);
 		
@@ -73,7 +73,7 @@ public class Gui extends JFrame implements Observer{
 		saveGameOpt.addActionListener(new SaveClickListener());*/
 		
 		JMenuItem newGameOpt = new JMenuItem("New Game");
-		newGameOpt.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		newGameOpt.setFont(new Font("Times", Font.PLAIN, 14));
 		newGameOpt.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -100,11 +100,11 @@ public class Gui extends JFrame implements Observer{
 		fileMenu.add(loadGameOpt);*/
 		
 		helpMenu = new JMenu("Help");
-		helpMenu.setFont(new Font("Tahoma", Font.BOLD, 14));
+		helpMenu.setFont(new Font("Times", Font.BOLD, 14));
 		menuBar.add(helpMenu);
 		
 		refreshOpt = new JMenuItem("Refresh Queue");
-		refreshOpt.setFont(new Font("Tahoma", Font.BOLD, 14));
+		refreshOpt.setFont(new Font("Times", Font.BOLD, 14));
 		refreshOpt.addActionListener(new RefreshQueueClickListener()); 
 		helpMenu.add(refreshOpt);
 		
@@ -136,7 +136,7 @@ public class Gui extends JFrame implements Observer{
 		lblMovesLeft.setOpaque(true);
 		lblMovesLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMovesLeft.setForeground(Color.WHITE);
-		lblMovesLeft.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
+		lblMovesLeft.setFont(new Font("Times", Font.BOLD | Font.ITALIC, 20));
 		lblMovesLeft.setBackground(Color.GRAY);
 		headerPanel.add(lblMovesLeft);
 		
@@ -148,7 +148,7 @@ public class Gui extends JFrame implements Observer{
 		lblMovesInt.setBackground(Color.GRAY);
 		lblMovesInt.setForeground(Color.RED);
 		lblMovesInt.setOpaque(true);
-		lblMovesInt.setFont(new Font("Chiller", Font.BOLD | Font.ITALIC, 20));
+		lblMovesInt.setFont(new Font("Times", Font.BOLD | Font.ITALIC, 20));
 		headerPanel.add(lblMovesInt);
 		
 		eastPanel = new JPanel();
@@ -173,13 +173,13 @@ public class Gui extends JFrame implements Observer{
 		lblPointsDesc.setOpaque(true);
 		lblPointsDesc.setBackground(Color.GRAY);
 		lblPointsDesc.setForeground(Color.WHITE);
-		lblPointsDesc.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
+		lblPointsDesc.setFont(new Font("Times", Font.BOLD | Font.ITALIC, 16));
 		pointsPanel.add(lblPointsDesc);
 		
 		lblPoints = new JLabel("0");
 		lblPoints.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPoints.setOpaque(true);
-		lblPoints.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
+		lblPoints.setFont(new Font("Times", Font.BOLD | Font.ITALIC, 14));
 		lblPoints.setForeground(Color.YELLOW);
 		lblPoints.setBackground(Color.GRAY);
 		pointsPanel.add(lblPoints);
@@ -192,7 +192,7 @@ public class Gui extends JFrame implements Observer{
 		lblScoreDesc.setOpaque(true);
 		lblScoreDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScoreDesc.setForeground(Color.WHITE);
-		lblScoreDesc.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
+		lblScoreDesc.setFont(new Font("Times", Font.BOLD | Font.ITALIC, 17));
 		lblScoreDesc.setBackground(Color.GRAY);
 		totalScorePanel.add(lblScoreDesc);
 		
@@ -200,7 +200,7 @@ public class Gui extends JFrame implements Observer{
 		lblScore.setOpaque(true);
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScore.setForeground(Color.YELLOW);
-		lblScore.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 17));
+		lblScore.setFont(new Font("Times", Font.BOLD | Font.ITALIC, 17));
 		lblScore.setBackground(Color.GRAY);
 		totalScorePanel.add(lblScore);
 		
@@ -212,7 +212,7 @@ public class Gui extends JFrame implements Observer{
 		lblGameStatus.setOpaque(true);
 		lblGameStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGameStatus.setForeground(new Color(255, 140, 0));
-		lblGameStatus.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		lblGameStatus.setFont(new Font("Times", Font.BOLD | Font.ITALIC, 13));
 		lblGameStatus.setBackground(Color.GRAY);
 		panel.add(lblGameStatus);
 		
