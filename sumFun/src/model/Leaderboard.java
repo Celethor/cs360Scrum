@@ -83,7 +83,7 @@ public class Leaderboard {
 	public boolean addScore(int score){
 		
 		//check if passed score shouldn't make it on the list, if not return false
-		if(score < Integer.parseInt(topScores[9][1])) {
+		if(score <= Integer.parseInt(topScores[9][1])) {
 			return false;
 		}
 		
@@ -91,11 +91,15 @@ public class Leaderboard {
 		String[] newHighScore = {JOptionPane.showInputDialog(null, "Please enter your name:", "New High Score!", JOptionPane.PLAIN_MESSAGE),
 														 Integer.toString(score),
 														 "temp"};
+		//case for cancel on JOtionPane
+		if(newHighScore[0] == null) {
+			newHighScore[0]="NoName";
+		}
+		
 		//get current Date
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDate localDate = LocalDate.now();
 		newHighScore[2] = dtf.format(localDate); //11/19/2017
-		
 		
 		//need temp var to store misplaced scores
 		String[] tempScore = {null, null, null};

@@ -303,6 +303,7 @@ public void update(Observable arg0, Object arg1) {
 			queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
 			}
 		}
+		
 		//update the score board
 		int modelScore= theGame.getScore();
 		lblScore.setText(Integer.toString(modelScore));
@@ -312,6 +313,7 @@ public void update(Observable arg0, Object arg1) {
 			int modelMovesLeft= theGame.getRemainingMoves();
 			lblMovesInt.setText(Integer.toString(modelMovesLeft));
 		}
+		//gameWon=true;
 		
 		if(gameOver){
 			for(int i=0;i<tiles.length;i++){
