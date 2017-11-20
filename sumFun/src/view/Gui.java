@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.KeyStroke;
 
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -58,7 +57,7 @@ public class Gui extends JFrame implements Observer{
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		setBounds(100, 100, 710, 510);
+		setBounds(100, 100, 720, 510);
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -360,6 +359,7 @@ public void update(Observable arg0, Object arg1) {
 		leaderText.setText("\nHigh Scores\n\nName\tScore\tDate\n" + leaderBoard.toString());
 		leaderText.setBackground(Color.BLACK);
 		leaderText.setForeground(Color.WHITE);
+		leaderText.setEnabled(false);
 		//leaderText.setEnabled(false);
 		
 		//remover tiles and add textarea
