@@ -1,21 +1,19 @@
 package view;
 
 import java.awt.Container;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Game;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class SplashGUI extends JFrame {
+public class SplashGui extends JFrame {
 	
 	/**
 	 * 
@@ -24,7 +22,7 @@ public class SplashGUI extends JFrame {
 	JPanel contentPane;
 	Container headerLabel;
 	
-	public SplashGUI() {
+	public SplashGui() {
 		setTitle("Sum Fun");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(654, 412);
@@ -68,7 +66,7 @@ public class SplashGUI extends JFrame {
 		backgroundLabel.setBounds(0, 0, 633, 359);
 		backgroundLabel.setVisible(true);
 		contentPanel.add(backgroundLabel);
-		backgroundLabel.setIcon(new ImageIcon(SplashGUI.class.getResource("grade-1-addition-and-subtraction-1-638.jpg")));
+		backgroundLabel.setIcon(new ImageIcon(SplashGui.class.getResource("grade-1-addition-and-subtraction-1-638.jpg")));
 		
 		this.setVisible(true);
 		
