@@ -23,6 +23,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import model.Coordinates;
 import model.Game;
 import model.Leaderboard;
 import model.Queue;
@@ -53,6 +54,7 @@ public class Gui extends JFrame implements Observer{
 	private JMenu helpMenu;
 	private JMenuItem refreshOpt;
 	private JMenuItem witchCraftOpt;
+	private JMenuItem hintOpt;
 	
 	public Gui(Game game) {
 		super();
@@ -112,7 +114,14 @@ public class Gui extends JFrame implements Observer{
 		witchCraftOpt = new JMenuItem("Witch Craft");
 		witchCraftOpt.setHorizontalAlignment(SwingConstants.CENTER);
 		witchCraftOpt.setFont(new Font("SansSerif", Font.BOLD, 14));
+		witchCraftOpt.addActionListener(new WitchCraftClickListener());
 		helpMenu.add(witchCraftOpt);
+		
+		hintOpt = new JMenuItem("Hint");
+		hintOpt.setHorizontalAlignment(SwingConstants.CENTER);
+		hintOpt.setFont(new Font("SansSerif", Font.BOLD, 14));
+		hintOpt.addActionListener(new HintClickListener());
+		helpMenu.add(hintOpt);
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.GRAY);
@@ -413,14 +422,25 @@ public void update(Observable arg0, Object arg1) {
 		}
 		
 	}
-public class WitchCraftClickListener implements ActionListener{
+	public class WitchCraftClickListener implements ActionListener{
 
 		
 		public void actionPerformed(ActionEvent arg0) {
-				
+				Tile t=(Tile)arg0.getSource();
 				//int tileValue=JOptionPane.showInputDialog("Enter the tile value to remove")
 				witchCraftOpt.setEnabled(false);
-				//theGame.witchCraft(t.getCoord());	
+				theGame.witchCraft(t.getCoord());	
+		}
+	}
+public class HintClickListener implements ActionListener{
+
+		
+		public void actionPerformed(ActionEvent arg0) {
+				Coordinates coord=theGame.getBestPlacement();
+				tiles[coord.getRow()][coord.getCol()].setBackground(Color.YELLOW);
+				if(theGame.getHints()<=0) {
+					hintOpt.setEnabled(false);
+				}
 		}
 	}
 	public class RefreshQueueClickListener implements ActionListener{

@@ -29,6 +29,7 @@ public class Game extends Observable{
 	private final int queueSize=5;
 	private int removedElement;
 	private boolean witchCraft;
+	private int hints=3;
 	private static Game game;	//for the singleton
 	/**
 	 * Default constructor
@@ -347,7 +348,9 @@ public class Game extends Observable{
 		//setChanged();
 		//notifyObservers();
 	}
-
+	public int getHints() {
+		return this.hints;
+	}
 	public Queue<Integer> getTilesQueue() {
 		return tilesQueue;
 	}
@@ -398,8 +401,32 @@ public class Game extends Observable{
 		setChanged();
 		notifyObservers();
 	}
-	public void witchCraft(int tileValue) {
-		//int tileValue=tiles[coord.getRow()][coord.getCol()];
+	public Coordinates getBestPlacement() {
+		int placedValue=tilesQueue.getElement(0);
+		Coordinates ret=new Coordinates(0,0);
+		int max=getUsefulNeighbors(new Coordinates(0,0)).size();
+		for(int i=0;i<tiles.length;i++) {
+			for(int j=0;j<tiles[i].length;j++) {
+				if(tiles[i][j]==-1) {
+					if(getUsefulNeighbors(new Coordinates(i,j)).size()>max) {
+						if(isSuccessfulPlacement(new Coordinates(i,j),placedValue)) {
+							max=getUsefulNeighbors(new Coordinates(i,j)).size();
+							ret=new Coordinates(i,j);
+						}
+						
+					}
+				}
+			}
+		}
+		this.hints--;
+		return ret;
+	}
+	/*public Coordinates getHint() {
+		Coordinates chosenBest;
+		
+	}*/
+	public void witchCraft(Coordinates coord) {
+		int tileValue=tiles[coord.getRow()][coord.getCol()];
 		//checking for other tiles in the board with this value
 		for(int i=0;i<tiles.length;i++) {
 			for(int j=0;j<tiles[i].length;j++) {
