@@ -28,6 +28,7 @@ public class Game extends Observable{
 	private final int moveLimit=50;
 	private final int queueSize=5;
 	private int removedElement;
+	private boolean witchCraft;
 	private static Game game;	//for the singleton
 	/**
 	 * Default constructor
@@ -71,8 +72,11 @@ public class Game extends Observable{
 		}
 		this.gameOver=false;
 		this.empty=32;//present number in the borders
+		this.witchCraft=false;
 	}
-
+	public boolean getWitchCraft() {
+		return this.witchCraft;
+	}
 	public String getRemainingTime() {
 		return remainingTime;
 	}
@@ -393,6 +397,20 @@ public class Game extends Observable{
 		this.tiles[coord.getRow()][coord.getCol()]=value;
 		setChanged();
 		notifyObservers();
+	}
+	public void witchCraft(int tileValue) {
+		//int tileValue=tiles[coord.getRow()][coord.getCol()];
+		//checking for other tiles in the board with this value
+		for(int i=0;i<tiles.length;i++) {
+			for(int j=0;j<tiles[i].length;j++) {
+				if(tiles[i][j]==tileValue) {
+					//set tiles value to -1 if same value
+					tiles[i][j]=-1;
+				}
+			}
+		}
+		//setting member to true since helper is used 
+		this.witchCraft=true;
 	}
 	public static Game getGame(String type){
 		if(game==null) {

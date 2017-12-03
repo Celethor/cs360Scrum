@@ -52,6 +52,7 @@ public class Gui extends JFrame implements Observer{
 	//private JMenuItem loadGameOpt;
 	private JMenu helpMenu;
 	private JMenuItem refreshOpt;
+	private JMenuItem witchCraftOpt;
 	
 	public Gui(Game game) {
 		super();
@@ -104,9 +105,14 @@ public class Gui extends JFrame implements Observer{
 		menuBar.add(helpMenu);
 		
 		refreshOpt = new JMenuItem("Refresh Queue");
-		refreshOpt.setFont(new Font("Helvetica", Font.BOLD, 14));
+		refreshOpt.setFont(new Font("SansSerif", Font.BOLD, 14));
 		refreshOpt.addActionListener(new RefreshQueueClickListener()); 
 		helpMenu.add(refreshOpt);
+		
+		witchCraftOpt = new JMenuItem("Witch Craft");
+		witchCraftOpt.setHorizontalAlignment(SwingConstants.CENTER);
+		witchCraftOpt.setFont(new Font("SansSerif", Font.BOLD, 14));
+		helpMenu.add(witchCraftOpt);
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.GRAY);
@@ -348,9 +354,6 @@ public void update(Observable arg0, Object arg1) {
 			//disable refreshqueue
 			refreshOpt.setEnabled(false);
 			
-			
-	
-
 			return;
 		}
 	}
@@ -409,6 +412,16 @@ public void update(Observable arg0, Object arg1) {
 			//theGame.save(fileName);
 		}
 		
+	}
+public class WitchCraftClickListener implements ActionListener{
+
+		
+		public void actionPerformed(ActionEvent arg0) {
+				
+				//int tileValue=JOptionPane.showInputDialog("Enter the tile value to remove")
+				witchCraftOpt.setEnabled(false);
+				//theGame.witchCraft(t.getCoord());	
+		}
 	}
 	public class RefreshQueueClickListener implements ActionListener{
 
