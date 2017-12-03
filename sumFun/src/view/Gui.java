@@ -55,7 +55,6 @@ public class Gui extends JFrame implements Observer{
 	private JMenuItem refreshOpt;
 	private JMenuItem witchCraftOpt;
 	private JMenuItem hintOpt;
-	
 	public Gui(Game game) {
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -426,10 +425,18 @@ public void update(Observable arg0, Object arg1) {
 
 		
 		public void actionPerformed(ActionEvent arg0) {
-				Tile t=(Tile)arg0.getSource();
-				//int tileValue=JOptionPane.showInputDialog("Enter the tile value to remove")
-				witchCraftOpt.setEnabled(false);
-				theGame.witchCraft(t.getCoord());	
+				
+				for(int i=0;i<tiles.length;i++) {
+					for(int j=0;j<tiles[i].length;j++) {
+						if(theGame.getTiles()[i][j]==-1)
+							tiles[i][j].setEnabled(false);
+						else {
+							tiles[i][j].setEnabled(true);
+							tiles[i][j].setForeground(Color.black);
+							tiles[i][j].addActionListener(new TilesClickWitchCraftListener());
+						}	
+					}
+				}
 		}
 	}
 public class HintClickListener implements ActionListener{
@@ -452,12 +459,37 @@ public class HintClickListener implements ActionListener{
 				theGame.refreshQueue();	
 		}
 	}
-	
+	public class TilesClickWitchCraftListener implements ActionListener{
+
+		public void actionPerformed(ActionEvent e) {
+			Tile t=(Tile)e.getSource();
+			//int tileValue=JOptionPane.showInputDialog("Enter the tile value to remove")
+			theGame.witchCraft(t.getCoord());
+			witchCraftOpt.setEnabled(false);
+			for(int i=0;i<tiles.length;i++) {
+				for(int j=0;j<tiles[i].length;j++) {
+					if(theGame.getTiles()[i][j]==-1) {
+						tiles[i][j].setEnabled(true);
+					}
+					else {
+						tiles[i][j].setEnabled(false);
+						tiles[i][j].setForeground(Color.WHITE);
+					}
+					//so that it does not update scores and stuff
+					
+					tiles[i][j].addActionListener(new TilesClickListener());
+					//theGame.setWitchCraft(false);
+				}
+			}
+			
+		}
+		
+	}
 	public class TilesClickListener implements ActionListener{
 
 	
 		public void actionPerformed(ActionEvent e) {
-		
+			
 			Tile t=(Tile)e.getSource();
 			theGame.updateTilesinBoard(t.getCoord());
 		

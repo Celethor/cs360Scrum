@@ -29,6 +29,7 @@ public class Game extends Observable{
 	private final int queueSize=5;
 	private int removedElement;
 	private boolean witchCraft;
+	boolean witchCraftOnce=false;
 	private int hints=3;
 	private static Game game;	//for the singleton
 	/**
@@ -216,7 +217,7 @@ public class Game extends Observable{
 		if(tiles[row][col]!=-1)	{
 			//return false;
 			return;
-		} else{
+		} else if(witchCraft==false){
 			//tile at given position is updated
 			try {
 				removedElement=tilesQueue.dequeue();
@@ -257,48 +258,54 @@ public class Game extends Observable{
 				return true;
 			}
 		}
-		int row=coord.getRow();
-		int col=coord.getCol();
-		//Score calculation
-		this.score+=scorePlacement(coord);
-		//score calculation ends
+		if(witchCraft==false) {
+			int row=coord.getRow();
+			int col=coord.getCol();
+			//Score calculation
+			this.score+=scorePlacement(coord);
+			//score calculation ends
 
-		//now come to the other tiles/neighbors
-		boolean placement=isSuccessfulPlacement(coord,removedElement);
-		if(placement==false){//if it is not a successful placement
-			empty--;//decrease the number of empty tiles in the board
-		} else{//if the placement is successful
-			ArrayList<Coordinates> usefulNeighbors=getUsefulNeighbors(coord);//get all the useful neighbors that were removed
-			//change the placed tile to empty since it was a successful placement
-			tiles[row][col]=-1;
-			//now loop through all useful neighbors and change their values to empty
-			for(int i=0;i<usefulNeighbors.size();i++){
-				tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
+			//now come to the other tiles/neighbors
+			boolean placement=isSuccessfulPlacement(coord,removedElement);
+			if(placement==false){//if it is not a successful placement
+				empty--;//decrease the number of empty tiles in the board
+			} else{//if the placement is successful
+				ArrayList<Coordinates> usefulNeighbors=getUsefulNeighbors(coord);//get all the useful neighbors that were removed
+				//change the placed tile to empty since it was a successful placement
+				tiles[row][col]=-1;
+				//now loop through all useful neighbors and change their values to empty
+				for(int i=0;i<usefulNeighbors.size();i++){
+					tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
+				}
+				//the number of empty tiles now will be equal to the size of usefulNeighbors.
+				//so update the number of empty tiles in the board
+				empty+=usefulNeighbors.size();
 			}
-			//the number of empty tiles now will be equal to the size of usefulNeighbors.
-			//so update the number of empty tiles in the board
-			empty+=usefulNeighbors.size();
-		}
 
-		//tilesQueue update starts
-		if(tilesQueue.getSize() < queueSize) {
-			populateQueue();
-		}
-		//tilesQueue update ends
+			//tilesQueue update starts
+			if(tilesQueue.getSize() < queueSize) {
+				populateQueue();
+			}
+			//tilesQueue update ends
 
-		//check game status again
-		if(empty==0){//if the number of empty tiles in the board is zero, game is over!
-			gameOver=true;
-			//return true since tile was updated and some operation took place
-			return true;
-		} else if(empty==81){//since there are 81 tiles in the board. If all are empty, game won!
-			//game is won; update that in the model
-			won=true;
-			//return true for updated tiles
-			return true;
+			//check game status again
+			if(empty==0){//if the number of empty tiles in the board is zero, game is over!
+				gameOver=true;
+				//return true since tile was updated and some operation took place
+				return true;
+			} else if(empty==81){//since there are 81 tiles in the board. If all are empty, game won!
+				//game is won; update that in the model
+				won=true;
+				//return true for updated tiles
+				return true;
+			}
+			
 		}
 		//if nothing works
 		return false;
+	}
+	public void setWitchCraft(boolean bool) {
+		this.witchCraft=bool;
 	}
 	//
 	public void populateQueue(){
