@@ -12,6 +12,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -55,11 +56,13 @@ public class Gui extends JFrame implements Observer{
 	private JMenuItem refreshOpt;
 	private JMenuItem witchCraftOpt;
 	private JMenuItem hintOpt;
-	TilesClickListener click;
-	boolean witchCraft=false;
-	boolean hints=true;
-	Coordinates hintCoord;
+	private TilesClickListener click;
+	private boolean witchCraft=false;
+	private boolean hints;
+	private Coordinates hintCoord;
 	private static Color defaultColor;
+	ImageIcon icon[];
+	private static String[] colorScheme = {"#000000","#B3B5AB","#FFFFFF","#FFFF00","#FF9700","#FF5733","#FF00B9","#FF0051","#00FFCD","#FF0000"};
 	public Gui(Game game) {
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -258,11 +261,18 @@ public class Gui extends JFrame implements Observer{
 		Integer [][]modelTiles= theGame.getTiles();
 		tiles = new Tile[9][9];
 		click=new TilesClickListener();
+		
+		icon = new ImageIcon[10];
+		for(int i = 0; i<10;i++) {
+			icon[i]= new ImageIcon("FontNumbers/"+i+".png");
+		}
+		
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<9;j++) {
 				tiles[i][j]=new Tile(i,j);
 				tiles[i][j].setOpaque(true);
 				tiles[i][j].setForeground(Color.white);
+				tiles[i][j].setFont(new Font("Helvetica", Font.PLAIN, 20));
 				tiles[i][j].setFocusable(false);
 //				tiles[i][j].addActionListener(new TilesClickListener());
 				tiles[i][j].addMouseListener(click);
@@ -272,17 +282,23 @@ public class Gui extends JFrame implements Observer{
 		}
 		for(int i=1;i<8;i++){
 			for(int j=1;j<8;j++){
-				tiles[i][j].setText(modelTiles[i][j].toString());
+				int fontSchemeKey=modelTiles[i][j];
+				//tiles[i][j].setOpaque(true);
+				//tiles[i][j].setText(modelTiles[i][j].toString());
+				//tiles[i][j].setForeground(Color.decode(colorScheme[colorSchemeKey]));
+				tiles[i][j].setIcon(icon[fontSchemeKey]);
 				tiles[i][j].setEnabled(false);
+				tiles[i][j].setDisabledIcon(icon[fontSchemeKey]);
 			}
 		}
+		//tiles[0][0].setIcon(icon);
 		//add all buttons to the boardPanel
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<9;j++) {
 				boardPanel.add(tiles[i][j]);
 			}
 		}
-		
+		hints=false;
 		setVisible(true);
 	}
 	
@@ -304,11 +320,14 @@ public void update(Observable arg0, Object arg1) {
 			for(int j=0;j<tiles[i].length;j++){
 				String text=modelTiles[i][j].toString();
 				if(text.equals("-1")){
-					tiles[i][j].setText("");
+					tiles[i][j].setIcon(null);
 					tiles[i][j].setEnabled(true);
 				} else{
-					tiles[i][j].setText(modelTiles[i][j].toString());
+					//tiles[i][j].setText(modelTiles[i][j].toString());
+					int fontSchemeKey=modelTiles[i][j];
+					tiles[i][j].setIcon(icon[fontSchemeKey]);
 					tiles[i][j].setEnabled(false);
+					tiles[i][j].setDisabledIcon(icon[fontSchemeKey]);
 				}
 			}
 		}
@@ -506,11 +525,12 @@ public class HintClickListener implements ActionListener{
 				witchCraft=false;
 			}
 			else {
+				Tile t=(Tile)arg0.getSource();
+				theGame.updateTilesinBoard(t.getCoord());
 				if(hints==true) {
 					hints=false;
 				}
-				Tile t=(Tile)arg0.getSource();
-				theGame.updateTilesinBoard(t.getCoord());
+				
 			}
 			//witchCraft=false;
 		}

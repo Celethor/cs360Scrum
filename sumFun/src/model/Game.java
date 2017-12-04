@@ -225,22 +225,28 @@ public class Game extends Observable{
 			//return false;
 			return;
 		} else {
+			removedElement=tilesQueue.dequeue();
 			//tile at given position is updated
-			tiles[row][col]=tilesQueue.dequeue();;
-			
+			//tiles[row][col]=tilesQueue.dequeue();;
+			tiles[row][col]=removedElement;
 			if(gameType.equals("untimed")){
 				//update moves
 				remainingMoves--;
 				commonProcedure(coord, gameType);
+				setChanged();
+				notifyObservers();
 			} else{
 				if(timer.getTimeLimit()==0){
 					gameOver=true;
+					setChanged();
+					notifyObservers();
 				}else{
 					commonProcedure(coord, gameType);
+					setChanged();
+					notifyObservers();
 				}
 			}
-			setChanged();
-			notifyObservers();
+			
 		}
 		
 	}
@@ -265,7 +271,8 @@ public class Game extends Observable{
 		//score calculation ends
 
 		//now come to the other tiles/neighbors
-		boolean placement=isSuccessfulPlacement(coord, tiles[row][col]);
+		//boolean placement=isSuccessfulPlacement(coord, tiles[row][col]);
+		boolean placement=isSuccessfulPlacement(coord, removedElement);
 		if(placement==false){//if it is not a successful placement
 			empty--;//decrease the number of empty tiles in the board
 		} else{//if the placement is successful
