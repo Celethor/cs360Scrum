@@ -138,12 +138,17 @@ public class Game extends Observable{
 	public void resumeTime(){
 		this.timer.startTimer();
 	}
+	
 	public boolean isSuccessfulPlacement(Coordinates coord,int element){
+		return isSuccessfulPlacement(coord.getRow(), coord.getCol(), element);
+	}
+	
+	public boolean isSuccessfulPlacement(int row, int col, int element) {
 		boolean success=false;
 		int sum=0;
 		//get coordinates of all useful neighbors
 		//useful neighbors are those which are not empty.
-		ArrayList<Coordinates>usefulNeighbors=getUsefulNeighbors(coord);
+		ArrayList<Coordinates>usefulNeighbors=getUsefulNeighbors(row, col);
 		//loop through all useful neighbors and calculate the sum of their values
 		for(int i=0;i<usefulNeighbors.size();i++){
 			int r=usefulNeighbors.get(i).getRow();
@@ -162,7 +167,11 @@ public class Game extends Observable{
 		return success;
 	}
 
-	public ArrayList<Coordinates>getUsefulNeighbors(Coordinates coord){
+	public ArrayList<Coordinates>getUsefulNeighbors(Coordinates coord) {
+		return getUsefulNeighbors(coord.getRow(), coord.getCol());
+	}
+
+	public ArrayList<Coordinates>getUsefulNeighbors(int row, int col){
 		/**
 			//all possible combinations for a tile placed in a grid having coordinates {row,col}
 			//Logic as follows
@@ -180,8 +189,6 @@ public class Game extends Observable{
 		 * to check these limits for all the above neighbor coordinates can simplify the procedure
 		 * WE CAN AVOID THE ABOVE COMMENTED CODE, WHICH IS LENGTHY AND REPETITIVE
 		 */
-		int row=coord.getRow();
-		int col=coord.getCol();
 		int [][]allNeighborsCoords={{row-1,col-1},{row-1,col},{row-1,col+1},
 				{row,col-1},{row,col+1},
 				{row+1,col-1},{row+1,col},{row+1,col+1}};
@@ -217,33 +224,25 @@ public class Game extends Observable{
 		if(tiles[row][col]!=-1)	{
 			//return false;
 			return;
-		} else if(witchCraft==false){
+		} else {
 			//tile at given position is updated
-			try {
-				removedElement=tilesQueue.dequeue();
-				tiles[row][col]=removedElement;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			//if untimed game
+			tiles[row][col]=tilesQueue.dequeue();;
+			
 			if(gameType.equals("untimed")){
 				//update moves
 				remainingMoves--;
 				commonProcedure(coord, gameType);
-				setChanged();
-				notifyObservers();
 			} else{
 				if(timer.getTimeLimit()==0){
 					gameOver=true;
-					setChanged();
-					notifyObservers();
 				}else{
 					commonProcedure(coord, gameType);
-					setChanged();
-					notifyObservers();
 				}
 			}
+			setChanged();
+			notifyObservers();
 		}
+		
 	}
 	public boolean commonProcedure(Coordinates coord, String gameType){
 		if(gameType.equals("untimed")){
@@ -258,49 +257,48 @@ public class Game extends Observable{
 				return true;
 			}
 		}
-		if(witchCraft==false) {
-			int row=coord.getRow();
-			int col=coord.getCol();
-			//Score calculation
-			this.score+=scorePlacement(coord);
-			//score calculation ends
+		
+		int row=coord.getRow();
+		int col=coord.getCol();
+		//Score calculation
+		this.score+=scorePlacement(coord);
+		//score calculation ends
 
-			//now come to the other tiles/neighbors
-			boolean placement=isSuccessfulPlacement(coord,removedElement);
-			if(placement==false){//if it is not a successful placement
-				empty--;//decrease the number of empty tiles in the board
-			} else{//if the placement is successful
-				ArrayList<Coordinates> usefulNeighbors=getUsefulNeighbors(coord);//get all the useful neighbors that were removed
-				//change the placed tile to empty since it was a successful placement
-				tiles[row][col]=-1;
-				//now loop through all useful neighbors and change their values to empty
-				for(int i=0;i<usefulNeighbors.size();i++){
-					tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
-				}
-				//the number of empty tiles now will be equal to the size of usefulNeighbors.
-				//so update the number of empty tiles in the board
-				empty+=usefulNeighbors.size();
+		//now come to the other tiles/neighbors
+		boolean placement=isSuccessfulPlacement(coord, tiles[row][col]);
+		if(placement==false){//if it is not a successful placement
+			empty--;//decrease the number of empty tiles in the board
+		} else{//if the placement is successful
+			ArrayList<Coordinates> usefulNeighbors=getUsefulNeighbors(coord);//get all the useful neighbors that were removed
+			//change the placed tile to empty since it was a successful placement
+			tiles[row][col]=-1;
+			//now loop through all useful neighbors and change their values to empty
+			for(int i=0;i<usefulNeighbors.size();i++){
+				tiles[usefulNeighbors.get(i).getRow()][usefulNeighbors.get(i).getCol()]=-1;
 			}
-
-			//tilesQueue update starts
-			if(tilesQueue.getSize() < queueSize) {
-				populateQueue();
-			}
-			//tilesQueue update ends
-
-			//check game status again
-			if(empty==0){//if the number of empty tiles in the board is zero, game is over!
-				gameOver=true;
-				//return true since tile was updated and some operation took place
-				return true;
-			} else if(empty==81){//since there are 81 tiles in the board. If all are empty, game won!
-				//game is won; update that in the model
-				won=true;
-				//return true for updated tiles
-				return true;
-			}
-			
+			//the number of empty tiles now will be equal to the size of usefulNeighbors.
+			//so update the number of empty tiles in the board
+			empty+=usefulNeighbors.size();
 		}
+
+		//tilesQueue update starts
+		if(tilesQueue.getSize() < queueSize) {
+			populateQueue();
+		}
+		//tilesQueue update ends
+
+		//check game status again
+		if(empty==0){//if the number of empty tiles in the board is zero, game is over!
+			gameOver=true;
+			//return true since tile was updated and some operation took place
+			return true;
+		} else if(empty==81){//since there are 81 tiles in the board. If all are empty, game won!
+			//game is won; update that in the model
+			won=true;
+			//return true for updated tiles
+			return true;
+		}
+		
 		//if nothing works
 		return false;
 	}
@@ -312,11 +310,7 @@ public class Game extends Observable{
 
 		Random rand = new Random();
 		while(this.tilesQueue.getSize() < this.getQueueSize()){
-			try {
-				this.tilesQueue.enqueue(rand.nextInt(10));
-			} catch (Exception e) {
-				System.out.println("Queue initialization/population exception");
-			}
+			this.tilesQueue.enqueue(rand.nextInt(10));
 		}
 	}
 
@@ -352,8 +346,8 @@ public class Game extends Observable{
 
 	public void setTiles(Integer[][] tiles) {
 		this.tiles = tiles;
-		//setChanged();
-		//notifyObservers();
+		setChanged();
+		notifyObservers();
 	}
 	public int getHints() {
 		return this.hints;
@@ -410,18 +404,14 @@ public class Game extends Observable{
 	}
 	public Coordinates getBestPlacement() {
 		int placedValue=tilesQueue.getElement(0);
-		Coordinates ret=new Coordinates(0,0);
-		int max=getUsefulNeighbors(new Coordinates(0,0)).size();
-		for(int i=0;i<tiles.length;i++) {
-			for(int j=0;j<tiles[i].length;j++) {
-				if(tiles[i][j]==-1) {
-					if(getUsefulNeighbors(new Coordinates(i,j)).size()>max) {
-						if(isSuccessfulPlacement(new Coordinates(i,j),placedValue)) {
-							max=getUsefulNeighbors(new Coordinates(i,j)).size();
-							ret=new Coordinates(i,j);
-						}
-						
-					}
+		Coordinates ret = new Coordinates(0,0);
+		int max = getUsefulNeighbors(0, 0).size();
+		for(int i=0; i<tiles.length; i++) {
+			for(int j=0; j<tiles[i].length; j++) {
+				int possible_max = getUsefulNeighbors(i, j).size();
+				if(tiles[i][j] == -1 && possible_max > max && isSuccessfulPlacement(i, j, placedValue)) {
+							max = possible_max;
+							ret = new Coordinates(i,j);
 				}
 			}
 		}
@@ -435,26 +425,29 @@ public class Game extends Observable{
 	public void witchCraft(Coordinates coord) {
 		int tileValue=tiles[coord.getRow()][coord.getCol()];
 		//checking for other tiles in the board with this value
-		for(int i=0;i<tiles.length;i++) {
-			for(int j=0;j<tiles[i].length;j++) {
-				if(tiles[i][j]==tileValue) {
+		for(int i=0; i<tiles.length; i++) {
+			for(int j=0; j<tiles[i].length; j++) {
+				if(tiles[i][j] == tileValue) {
 					//set tiles value to -1 if same value
 					tiles[i][j]=-1;
 				}
 			}
 		}
-		//setting member to true since helper is used 
-		this.witchCraft=true;
+		setChanged();
+		notifyObservers();
 	}
+	
 	public static Game getGame(String type){
 		if(game==null) {
 			game=new Game(type);
 		}
 		return game;
 	}
+	
 	public static void clear(){
 		game=null;
 	}
+	
 	/*
 	public static String saveQueue(String fileName){
 

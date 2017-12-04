@@ -55,6 +55,11 @@ public class Gui extends JFrame implements Observer{
 	private JMenuItem refreshOpt;
 	private JMenuItem witchCraftOpt;
 	private JMenuItem hintOpt;
+	TilesClickListener click;
+	boolean witchCraft=false;
+	boolean hints=true;
+	Coordinates hintCoord;
+	private static Color defaultColor;
 	public Gui(Game game) {
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -252,14 +257,17 @@ public class Gui extends JFrame implements Observer{
 		boardPanel.setLayout(new GridLayout(9, 9));
 		Integer [][]modelTiles= theGame.getTiles();
 		tiles = new Tile[9][9];
+		click=new TilesClickListener();
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<9;j++) {
 				tiles[i][j]=new Tile(i,j);
 				tiles[i][j].setOpaque(true);
 				tiles[i][j].setForeground(Color.white);
 				tiles[i][j].setFocusable(false);
-				tiles[i][j].addActionListener(new TilesClickListener());
+//				tiles[i][j].addActionListener(new TilesClickListener());
+				tiles[i][j].addMouseListener(click);
 				tiles[i][j].addMouseListener(new MouseActionTiles());
+				defaultColor=tiles[i][j].getBackground();
 			}
 		}
 		for(int i=1;i<8;i++){
@@ -425,18 +433,8 @@ public void update(Observable arg0, Object arg1) {
 
 		
 		public void actionPerformed(ActionEvent arg0) {
-				
-				for(int i=0;i<tiles.length;i++) {
-					for(int j=0;j<tiles[i].length;j++) {
-						if(theGame.getTiles()[i][j]==-1)
-							tiles[i][j].setEnabled(false);
-						else {
-							tiles[i][j].setEnabled(true);
-							tiles[i][j].setForeground(Color.black);
-							tiles[i][j].addActionListener(new TilesClickWitchCraftListener());
-						}	
-					}
-				}
+				witchCraft=true;
+				witchCraftOpt.setEnabled(false);
 		}
 	}
 public class HintClickListener implements ActionListener{
@@ -444,7 +442,9 @@ public class HintClickListener implements ActionListener{
 		
 		public void actionPerformed(ActionEvent arg0) {
 				Coordinates coord=theGame.getBestPlacement();
+				hints=true;
 				tiles[coord.getRow()][coord.getCol()].setBackground(Color.YELLOW);
+				hintCoord=coord;
 				if(theGame.getHints()<=0) {
 					hintOpt.setEnabled(false);
 				}
@@ -459,40 +459,66 @@ public class HintClickListener implements ActionListener{
 				theGame.refreshQueue();	
 		}
 	}
-	public class TilesClickWitchCraftListener implements ActionListener{
 
-		public void actionPerformed(ActionEvent e) {
-			Tile t=(Tile)e.getSource();
-			//int tileValue=JOptionPane.showInputDialog("Enter the tile value to remove")
-			theGame.witchCraft(t.getCoord());
-			witchCraftOpt.setEnabled(false);
-			for(int i=0;i<tiles.length;i++) {
-				for(int j=0;j<tiles[i].length;j++) {
-					if(theGame.getTiles()[i][j]==-1) {
-						tiles[i][j].setEnabled(true);
-					}
-					else {
-						tiles[i][j].setEnabled(false);
-						tiles[i][j].setForeground(Color.WHITE);
-					}
-					//so that it does not update scores and stuff
-					
-					tiles[i][j].addActionListener(new TilesClickListener());
-					//theGame.setWitchCraft(false);
-				}
-			}
+	public class TilesClickListener implements MouseListener{
+
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
 			
 		}
-		
-	}
-	public class TilesClickListener implements ActionListener{
 
-	
-		public void actionPerformed(ActionEvent e) {
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			if(witchCraft==true) {
+				for(int i=0;i<tiles.length;i++) {
+					for(int j=0;j<tiles[i].length;j++) {
+						if(theGame.getTiles()[i][j]==-1)
+							tiles[i][j].setEnabled(false);
+						else {
+							tiles[i][j].setEnabled(true);
+							tiles[i][j].setForeground(Color.black);
+						}
+						if(Integer.toString(theGame.getTiles()[i][j]).equals(((Tile)arg0.getSource()).getText())) {
+							tiles[i][j].setBackground(Color.BLUE);
+						}
+					}
+				}
+			}
+		}
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			for(int i=0;i<tiles.length;i++) {
+				for(int j=0;j<tiles[i].length;j++) {
+					tiles[i][j].setBackground(null);
+				}
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			if(witchCraft==true) {
+				theGame.witchCraft(((Tile)arg0.getSource()).getCoord());
+				witchCraft=false;
+			}
+			else {
+				if(hints==true) {
+					hints=false;
+				}
+				Tile t=(Tile)arg0.getSource();
+				theGame.updateTilesinBoard(t.getCoord());
+			}
+			//witchCraft=false;
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
 			
-			Tile t=(Tile)e.getSource();
-			theGame.updateTilesinBoard(t.getCoord());
-		
 		}
 		
 	}
@@ -512,8 +538,13 @@ public class HintClickListener implements ActionListener{
 			
 			//if tile is an empty tile, turn background of tile green on hover
 			if(t.isEnabled()) {
-				t.setBackground(Color.GREEN);
+					t.setBackground(Color.GREEN);
+				if(hints==true) {
+						tiles[hintCoord.getRow()][hintCoord.getCol()].setBackground(Color.YELLOW);
+				}
+				
 			}
+		
 		}
 
 	
@@ -524,6 +555,10 @@ public class HintClickListener implements ActionListener{
 			//upon leaving a hover turns green background of tile back to the default
 			if(t.getBackground().equals(Color.GREEN)) {
 				t.setBackground(null);
+				if(hints==true) {
+//					if(t.getCoord().equals(hintCoord))
+						tiles[hintCoord.getRow()][hintCoord.getCol()].setBackground(Color.YELLOW);
+				}
 			}
 			
 		}
