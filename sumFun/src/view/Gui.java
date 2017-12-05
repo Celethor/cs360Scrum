@@ -3,12 +3,16 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -31,6 +35,7 @@ import model.Coordinates;
 import model.Game;
 import model.Leaderboard;
 import model.Queue;
+import sun.font.TrueTypeFont;
 
 public class Gui extends JFrame implements Observer{
 	/**
@@ -79,6 +84,35 @@ public class Gui extends JFrame implements Observer{
 		for(int i = 0; i<10;i++) {
 			icon[i]= new ImageIcon("FontNumbers/"+i+".png");
 		}
+		
+		String filename="/digital_7/digital-7.ttf";//this is for testing normally we would store the font file in our app (knows as an embedded resource), see this for help on that http://stackoverflow.com/questions/13796331/jar-embedded-resources-nullpointerexception/13797070#13797070
+
+		Font font=new Font("Helvetica",Font.BOLD,34);
+//		try {
+//			font = Font.createFont(Font.TRUETYPE_FONT, new File(filename));
+//		} catch (FontFormatException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		font = font.deriveFont(Font.BOLD,28);
+//
+//		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//		ge.registerFont(font);
+		GraphicsEnvironment ge = 
+		         GraphicsEnvironment.getLocalGraphicsEnvironment();
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("digital-7.ttf"));
+			
+		     ge.registerFont(font);
+		     font=Font.createFont(Font.TRUETYPE_FONT, new File("RADIOLAND.TTF"));
+		     ge.registerFont(font);
+		} catch (IOException|FontFormatException e) {
+		     System.out.println("Font error");
+		}
+		
 		fileMenu = new JMenu("File");
 		fileMenu.setFont(new Font("Helvetica", Font.BOLD, 14));
 		fileMenu.setHorizontalAlignment(SwingConstants.CENTER);
@@ -154,9 +188,9 @@ public class Gui extends JFrame implements Observer{
 		northPanel.setLayout(new BorderLayout(0, 0));
 		
 		headerPanel = new JPanel();
-		headerPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		headerPanel.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
 		//headerPanel.setBackground(Color.GRAY);
-		northPanel.add(headerPanel, BorderLayout.CENTER);
+		
 		headerPanel.setLayout(new GridLayout(0, 2, -1, 0));
 		
 		if(game.getGameType().equals("untimed")) {
@@ -167,7 +201,7 @@ public class Gui extends JFrame implements Observer{
 		lblMovesLeft.setOpaque(true);
 		lblMovesLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMovesLeft.setForeground(Color.WHITE);
-		lblMovesLeft.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 20));
+		lblMovesLeft.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 26));
 		//lblMovesLeft.setBackground(Color.GRAY);
 		headerPanel.add(lblMovesLeft);
 		
@@ -176,11 +210,17 @@ public class Gui extends JFrame implements Observer{
 		} else {
 			lblMovesInt=new JLabel("3:00");
 		}
-		//lblMovesInt.setBackground(Color.GRAY);
+
+
+		
+		//lblMovesInt.setBackground(Color.white);
 		lblMovesInt.setForeground(Color.RED);
 		lblMovesInt.setOpaque(true);
-		lblMovesInt.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 34));
+		//lblMovesInt.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 34));
+		lblMovesInt.setFont(font.deriveFont(Font.BOLD,24));
+		lblMovesInt.setVerticalAlignment(SwingConstants.BOTTOM);
 		headerPanel.add(lblMovesInt);
+		northPanel.add(headerPanel, BorderLayout.CENTER);
 		
 		eastPanel = new JPanel();
 		eastPanel.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
@@ -214,7 +254,9 @@ public class Gui extends JFrame implements Observer{
 		lblPoints = new JLabel("0");
 		lblPoints.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPoints.setOpaque(true);
-		lblPoints.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 24));
+//		lblPoints.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 24));
+		lblPoints.setFont(font.deriveFont(Font.BOLD, 20));
+		lblPoints.setVerticalAlignment(SwingConstants.CENTER);
 		lblPoints.setForeground(Color.decode("#FF00FF"));
 		//lblPoints.setBackground(Color.GRAY);
 		pointsPanel.add(lblPoints);
@@ -236,8 +278,10 @@ public class Gui extends JFrame implements Observer{
 		lblScore.setOpaque(true);
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScore.setForeground(Color.decode("#00B2FF"));
-		lblScore.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 28));
+//		lblScore.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 28));
 		//lblScore.setBackground(Color.GRAY);
+		lblScore.setFont(font.deriveFont(Font.BOLD, 26));
+		//lblScore.setVerticalAlignment(SwingConstants.BOTTOM);
 		totalScorePanel.add(lblScore);
 		
 		JPanel panel = new JPanel();
