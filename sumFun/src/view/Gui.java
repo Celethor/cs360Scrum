@@ -497,9 +497,12 @@ public class HintClickListener implements ActionListener{
 							tiles[i][j].setEnabled(false);
 						else {
 							tiles[i][j].setEnabled(true);
-							tiles[i][j].setForeground(Color.black);
+//							tiles[i][j].setForeground(Color.black);
 						}
-						if(Integer.toString(theGame.getTiles()[i][j]).equals(((Tile)arg0.getSource()).getText())) {
+						Coordinates x=((Tile)arg0.getSource()).getCoord();
+						int tileVal=theGame.getTiles()[x.getRow()][x.getCol()];
+						//if(Integer.toString(theGame.getTiles()[i][j]).equals((Tile)arg0.getSource()).getCoord()) {
+						if(theGame.getTiles()[i][j]==tileVal) {
 							tiles[i][j].setBackground(Color.BLUE);
 						}
 					}
