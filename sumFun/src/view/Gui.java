@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,6 +14,7 @@ import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -23,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 import model.Coordinates;
 import model.Game;
@@ -41,6 +44,7 @@ public class Gui extends JFrame implements Observer{
 	private Leaderboard leaderBoard;
 	private Tile[][] tiles;
 	private JLabel [] queueTiles;
+	//private JButton[] queueTiles;
 	private JLabel lblMovesLeft;
 	private JLabel lblMovesInt;
 	private JLabel lblScoreDesc;
@@ -71,7 +75,10 @@ public class Gui extends JFrame implements Observer{
 		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+		icon = new ImageIcon[10];
+		for(int i = 0; i<10;i++) {
+			icon[i]= new ImageIcon("FontNumbers/"+i+".png");
+		}
 		fileMenu = new JMenu("File");
 		fileMenu.setFont(new Font("Helvetica", Font.BOLD, 14));
 		fileMenu.setHorizontalAlignment(SwingConstants.CENTER);
@@ -131,8 +138,8 @@ public class Gui extends JFrame implements Observer{
 		helpMenu.add(hintOpt);
 		
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.GRAY);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		//contentPane.setBackground(Color.GRAY);
+		contentPane.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
@@ -141,12 +148,14 @@ public class Gui extends JFrame implements Observer{
 		this.leaderBoard = new Leaderboard();
 		
 		JPanel northPanel = new JPanel();
-		northPanel.setBackground(Color.GRAY);
+		northPanel.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
+		//northPanel.setBackground(Color.GRAY);
 		getContentPane().add(northPanel, BorderLayout.NORTH);
 		northPanel.setLayout(new BorderLayout(0, 0));
 		
 		headerPanel = new JPanel();
-		headerPanel.setBackground(Color.GRAY);
+		headerPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		//headerPanel.setBackground(Color.GRAY);
 		northPanel.add(headerPanel, BorderLayout.CENTER);
 		headerPanel.setLayout(new GridLayout(0, 2, -1, 0));
 		
@@ -159,7 +168,7 @@ public class Gui extends JFrame implements Observer{
 		lblMovesLeft.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMovesLeft.setForeground(Color.WHITE);
 		lblMovesLeft.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 20));
-		lblMovesLeft.setBackground(Color.GRAY);
+		//lblMovesLeft.setBackground(Color.GRAY);
 		headerPanel.add(lblMovesLeft);
 		
 		if(game.getGameType().equals("untimed")) {
@@ -167,46 +176,51 @@ public class Gui extends JFrame implements Observer{
 		} else {
 			lblMovesInt=new JLabel("3:00");
 		}
-		lblMovesInt.setBackground(Color.GRAY);
+		//lblMovesInt.setBackground(Color.GRAY);
 		lblMovesInt.setForeground(Color.RED);
 		lblMovesInt.setOpaque(true);
-		lblMovesInt.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 20));
+		lblMovesInt.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 34));
 		headerPanel.add(lblMovesInt);
 		
 		eastPanel = new JPanel();
+		eastPanel.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		eastPanel.setBackground(Color.BLACK);
 		getContentPane().add(eastPanel, BorderLayout.EAST);
 		eastPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		
 		JPanel optionPanel = new JPanel();
+		optionPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		optionPanel.setBackground(Color.BLACK);
 		eastPanel.add(optionPanel);
 		optionPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		
 		JPanel scoresPanel = new JPanel();
+		scoresPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		optionPanel.add(scoresPanel);
 		scoresPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		
 		JPanel pointsPanel = new JPanel();
+		pointsPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		scoresPanel.add(pointsPanel);
 		pointsPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		lblPointsDesc = new JLabel("Points:");
 		lblPointsDesc.setOpaque(true);
-		lblPointsDesc.setBackground(Color.GRAY);
+		//lblPointsDesc.setBackground(Color.GRAY);
 		lblPointsDesc.setForeground(Color.WHITE);
-		lblPointsDesc.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 16));
+		lblPointsDesc.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 17));
 		pointsPanel.add(lblPointsDesc);
 		
 		lblPoints = new JLabel("0");
 		lblPoints.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPoints.setOpaque(true);
-		lblPoints.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 14));
-		lblPoints.setForeground(Color.YELLOW);
-		lblPoints.setBackground(Color.GRAY);
+		lblPoints.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 24));
+		lblPoints.setForeground(Color.decode("#FF00FF"));
+		//lblPoints.setBackground(Color.GRAY);
 		pointsPanel.add(lblPoints);
 		
 		JPanel totalScorePanel = new JPanel();
+		totalScorePanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		scoresPanel.add(totalScorePanel);
 		totalScorePanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
@@ -215,30 +229,32 @@ public class Gui extends JFrame implements Observer{
 		lblScoreDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScoreDesc.setForeground(Color.WHITE);
 		lblScoreDesc.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 17));
-		lblScoreDesc.setBackground(Color.GRAY);
+		//lblScoreDesc.setBackground(Color.GRAY);
 		totalScorePanel.add(lblScoreDesc);
 		
 		lblScore = new JLabel("0");
 		lblScore.setOpaque(true);
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
-		lblScore.setForeground(Color.YELLOW);
-		lblScore.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 17));
-		lblScore.setBackground(Color.GRAY);
+		lblScore.setForeground(Color.decode("#00B2FF"));
+		lblScore.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 28));
+		//lblScore.setBackground(Color.GRAY);
 		totalScorePanel.add(lblScore);
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		optionPanel.add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		lblGameStatus = new JLabel("Game in Progress");
 		lblGameStatus.setOpaque(true);
 		lblGameStatus.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameStatus.setForeground(new Color(255, 140, 0));
-		lblGameStatus.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 13));
-		lblGameStatus.setBackground(Color.GRAY);
+		lblGameStatus.setForeground(new Color(255, 255, 0));
+		lblGameStatus.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 13));
+		//lblGameStatus.setBackground(Color.GRAY);
 		panel.add(lblGameStatus);
 		
 		JPanel queueTilesPanel = new JPanel();
+		queueTilesPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		queueTilesPanel.setForeground(Color.WHITE);
 		queueTilesPanel.setBackground(Color.GRAY);
 		eastPanel.add(queueTilesPanel);
@@ -251,10 +267,30 @@ public class Gui extends JFrame implements Observer{
 			queueTiles[i].setBorder(BorderFactory.createLineBorder(Color.YELLOW));
 			queueTiles[i].setForeground(Color.CYAN);
 			queueTiles[i].setBackground(Color.black);
+			queueTiles[i].setOpaque(true);
 			queueTilesPanel.add(queueTiles[i]);
 		}
-		
+		this.queueTiles[0].setFont(new Font("Helvetica",Font.BOLD|Font.ITALIC,38));
+		this.queueTiles[0].setForeground(Color.green);
+//		this.queueTiles=new JButton[5];
+//		for(int i=0;i<5;i++) {
+//			//queueTiles[i]=new JLabel(modelQueueTiles.getElement(i).toString());
+//			int fontSchemeKey=modelQueueTiles.getElement(i);
+//			System.out.println(modelQueueTiles.getElement(i).toString());
+//			queueTiles[i]=new JButton();
+//			queueTiles[i].setIcon(icon[fontSchemeKey]);
+//			queueTiles[i].setEnabled(false);
+//			queueTiles[i].setDisabledIcon(icon[fontSchemeKey]);
+//			queueTiles[i].setHorizontalAlignment(SwingConstants.CENTER);
+//			//queueTiles[i].setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+//			if(i==0) {
+//				queueTiles[i].setEnabled(true);
+//				queueTiles[i].setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
+//			}
+//			queueTilesPanel.add(queueTiles[i]);
+//		}
 		this.boardPanel = new JPanel();
+		boardPanel.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		//boardPanel.setBackground(Color.LIGHT_GRAY);
 		getContentPane().add(boardPanel, BorderLayout.CENTER);
 		boardPanel.setLayout(new GridLayout(9, 9));
@@ -262,10 +298,7 @@ public class Gui extends JFrame implements Observer{
 		tiles = new Tile[9][9];
 		click=new TilesClickListener();
 		
-		icon = new ImageIcon[10];
-		for(int i = 0; i<10;i++) {
-			icon[i]= new ImageIcon("FontNumbers/"+i+".png");
-		}
+		
 		
 		for(int i=0;i<9;i++) {
 			for(int j=0;j<9;j++) {
@@ -287,7 +320,7 @@ public class Gui extends JFrame implements Observer{
 				//tiles[i][j].setText(modelTiles[i][j].toString());
 				//tiles[i][j].setForeground(Color.decode(colorScheme[colorSchemeKey]));
 				tiles[i][j].setIcon(icon[fontSchemeKey]);
-				tiles[i][j].setEnabled(false);
+				tiles[i][j].setEnabled(true);
 				tiles[i][j].setDisabledIcon(icon[fontSchemeKey]);
 			}
 		}
@@ -324,9 +357,10 @@ public void update(Observable arg0, Object arg1) {
 					tiles[i][j].setEnabled(true);
 				} else{
 					//tiles[i][j].setText(modelTiles[i][j].toString());
+					//System.out.println(modelTiles[i][j].toString());
 					int fontSchemeKey=modelTiles[i][j];
 					tiles[i][j].setIcon(icon[fontSchemeKey]);
-					tiles[i][j].setEnabled(false);
+					//tiles[i][j].setEnabled(false);
 					tiles[i][j].setDisabledIcon(icon[fontSchemeKey]);
 				}
 			}
@@ -336,12 +370,18 @@ public void update(Observable arg0, Object arg1) {
 		if(gameWon||gameOver){
 			for(int i=0;i<queueTiles.length-1;i++){
 				queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
+//				int fontSchemeKey=modelQueueTiles.getElement(i);
+//				queueTiles[i].setIcon(icon[fontSchemeKey]);
 			}
 			queueTiles[4].setText("");
 		} else{
-			//Queue<Integer> modelQueueTiles = theGame.getTilesQueue();
+//			Queue<Integer> modelQueueTiles = theGame.getTilesQueue();
+//			System.out.println("Tiles queue: ");
 			for(int i=0;i<queueTiles.length;i++){
 			queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
+//				System.out.println(modelQueueTiles.getElement(i).toString());
+//				int fontSchemeKey=modelQueueTiles.getElement(i);
+//				queueTiles[i].setIcon(icon[fontSchemeKey]);
 			}
 		}
 		
