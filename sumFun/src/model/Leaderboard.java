@@ -52,7 +52,7 @@ public class Leaderboard {
 		scoreReader.close();
 	}
 
-	private void saveScores() {
+	public void saveScores() {
 		FileWriter scoreWriter = null;
 		try {
 			scoreWriter = new FileWriter(new File("Leaders/leaders.txt"), false); // true = append, false = overwrite
@@ -121,7 +121,7 @@ public class Leaderboard {
 			newHighScore = tempScore;
 		}
 		
-		saveScores();
+		
 		return true;
 	}
 	

@@ -12,10 +12,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -35,6 +48,8 @@ import model.Coordinates;
 import model.Game;
 import model.Leaderboard;
 import model.Queue;
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 import sun.font.TrueTypeFont;
 
 public class Gui extends JFrame implements Observer{
@@ -71,6 +86,7 @@ public class Gui extends JFrame implements Observer{
 	private Coordinates hintCoord;
 	private static Color defaultColor;
 	ImageIcon icon[];
+	
 	private static String[] colorScheme = {"#000000","#B3B5AB","#FFFFFF","#FFFF00","#FF9700","#FF5733","#FF00B9","#FF0051","#00FFCD","#FF0000"};
 	public Gui(Game game) {
 		super();
@@ -130,9 +146,22 @@ public class Gui extends JFrame implements Observer{
 			public void actionPerformed(ActionEvent arg0) {
 				if(game.getGameType().equals("timed")) {
 					game.pauseTime();
+					
 				}
 				int res=JOptionPane.showConfirmDialog(null,"All progress in this game will be lost. Are you sure?","Warning",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION){
+					try {
+
+					    String soundName = "Resources/hasta.aiff";    
+					    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+					    //AudioPlayer.player.start(audioInputStream);
+					    Clip clip = AudioSystem.getClip();
+					    clip.open(audioInputStream);
+					    clip.start();
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+
 					dispose();
 					Game.clear(); //clear the instance of game object
 					new SplashGui();
@@ -492,6 +521,7 @@ public void update(Observable arg0, Object arg1) {
 		
 		//add score to leaderBoard
 		leaderBoard.addScore(name, theGame.getScore());
+		leaderBoard.saveScores();
 		
 	}
 
@@ -537,6 +567,20 @@ public void update(Observable arg0, Object arg1) {
 		
 		public void actionPerformed(ActionEvent arg0) {
 				witchCraft=true;
+				
+				AudioStream as;
+				try {
+
+				    String soundName = "Resources/offer.aiff";    
+				    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				    //AudioPlayer.player.start(audioInputStream);
+				    Clip clip = AudioSystem.getClip();
+				    clip.open(audioInputStream);
+				    clip.start();
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+
 				witchCraftOpt.setEnabled(false);
 		}
 	}
