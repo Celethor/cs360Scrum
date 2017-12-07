@@ -31,6 +31,7 @@ public class Game extends Observable{
 	private boolean witchCraft;
 	boolean witchCraftOnce=false;
 	private int hints=3;
+	private boolean bonusMove;
 	private static Game game;	//for the singleton
 	/**
 	 * Default constructor
@@ -324,6 +325,7 @@ public class Game extends Observable{
 	//if that returns true the method scores that placement accordingly
 	public int scorePlacement(Coordinates coord) {
 		int score=0;
+		bonusMove=false;
 		if(isSuccessfulPlacement(coord,removedElement)){
 			ArrayList<Coordinates> neighbors = this.getUsefulNeighbors(coord);
 
@@ -338,6 +340,7 @@ public class Game extends Observable{
 			//add bonus points if applicable
 			if(neighbors.size() >= 3) {
 				score+=10*neighbors.size();
+				bonusMove=true;
 			}
 		}
 		//set Points to score for this move
@@ -346,7 +349,13 @@ public class Game extends Observable{
 		//return score
 		return score;
 	}
-
+	
+	public boolean isBonusMove() {
+		return bonusMove;
+	}
+	public void setBonusMove(boolean bonusMove) {
+		this.bonusMove = bonusMove;
+	}
 	public Integer[][] getTiles() {
 		return tiles;
 	}

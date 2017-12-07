@@ -1,6 +1,13 @@
 package driver;
+import java.awt.Toolkit;
+import java.util.Properties;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import com.jtattoo.plaf.aero.AeroLookAndFeel;
+import com.jtattoo.plaf.hifi.HiFiLookAndFeel;
+
 import view.SplashGui;
 
 

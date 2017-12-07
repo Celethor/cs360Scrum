@@ -7,6 +7,7 @@ import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -44,6 +45,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import model.Coordinates;
 import model.Game;
 import model.Leaderboard;
@@ -345,23 +348,6 @@ public class Gui extends JFrame implements Observer{
 		}
 		this.queueTiles[0].setFont(new Font("Helvetica",Font.BOLD|Font.ITALIC,38));
 		this.queueTiles[0].setForeground(Color.green);
-//		this.queueTiles=new JButton[5];
-//		for(int i=0;i<5;i++) {
-//			//queueTiles[i]=new JLabel(modelQueueTiles.getElement(i).toString());
-//			int fontSchemeKey=modelQueueTiles.getElement(i);
-//			System.out.println(modelQueueTiles.getElement(i).toString());
-//			queueTiles[i]=new JButton();
-//			queueTiles[i].setIcon(icon[fontSchemeKey]);
-//			queueTiles[i].setEnabled(false);
-//			queueTiles[i].setDisabledIcon(icon[fontSchemeKey]);
-//			queueTiles[i].setHorizontalAlignment(SwingConstants.CENTER);
-//			//queueTiles[i].setBorder(BorderFactory.createLineBorder(Color.YELLOW));
-//			if(i==0) {
-//				queueTiles[i].setEnabled(true);
-//				queueTiles[i].setBorder(BorderFactory.createLineBorder(Color.YELLOW, 3));
-//			}
-//			queueTilesPanel.add(queueTiles[i]);
-//		}
 		this.boardPanel = new JPanel();
 		boardPanel.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
 		//boardPanel.setBackground(Color.LIGHT_GRAY);
@@ -404,6 +390,8 @@ public class Gui extends JFrame implements Observer{
 				boardPanel.add(tiles[i][j]);
 			}
 		}
+		setTitle("Sum Fun "+game.getGameType().toUpperCase()+" Game");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("grade-1-addition-and-subtraction-1-638.jpg")));
 		hints=false;
 		setVisible(true);
 	}
@@ -429,8 +417,6 @@ public void update(Observable arg0, Object arg1) {
 					tiles[i][j].setIcon(null);
 					tiles[i][j].setEnabled(true);
 				} else{
-					//tiles[i][j].setText(modelTiles[i][j].toString());
-					//System.out.println(modelTiles[i][j].toString());
 					int fontSchemeKey=modelTiles[i][j];
 					tiles[i][j].setIcon(icon[fontSchemeKey]);
 					//tiles[i][j].setEnabled(false);
@@ -443,18 +429,11 @@ public void update(Observable arg0, Object arg1) {
 		if(gameWon||gameOver){
 			for(int i=0;i<queueTiles.length-1;i++){
 				queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
-//				int fontSchemeKey=modelQueueTiles.getElement(i);
-//				queueTiles[i].setIcon(icon[fontSchemeKey]);
 			}
 			queueTiles[4].setText("");
 		} else{
-//			Queue<Integer> modelQueueTiles = theGame.getTilesQueue();
-//			System.out.println("Tiles queue: ");
 			for(int i=0;i<queueTiles.length;i++){
 			queueTiles[i].setText(modelQueueTiles.getElement(i).toString());
-//				System.out.println(modelQueueTiles.getElement(i).toString());
-//				int fontSchemeKey=modelQueueTiles.getElement(i);
-//				queueTiles[i].setIcon(icon[fontSchemeKey]);
 			}
 		}
 		
@@ -462,6 +441,10 @@ public void update(Observable arg0, Object arg1) {
 		int modelScore= theGame.getScore();
 		lblScore.setText(Integer.toString(modelScore));
 		lblPoints.setText(Integer.toString(theGame.getPoints()));
+		if(theGame.isBonusMove()) {
+			//play a sound or animation
+			
+		}
 		if(gameType.equals("untimed")){
 			//update the moves left
 			int modelMovesLeft= theGame.getRemainingMoves();
@@ -714,7 +697,10 @@ public class HintClickListener implements ActionListener{
 			
 			//if tile is an empty tile, turn background of tile green on hover
 			if(t.isEnabled()) {
-					t.setBackground(Color.GREEN);
+					if(theGame.getTiles()[t.getCoord().getRow()][t.getCoord().getCol()]==-1) {
+						t.setBackground(Color.GREEN);
+					}
+						
 				if(hints==true) {
 						tiles[hintCoord.getRow()][hintCoord.getCol()].setBackground(Color.YELLOW);
 				}
