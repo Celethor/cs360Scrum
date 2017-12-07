@@ -4,7 +4,11 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Game;
+import sun.audio.AudioStream;
 
 public class SplashGui extends JFrame {
 	
@@ -24,6 +29,18 @@ public class SplashGui extends JFrame {
 	
 	public SplashGui() {
 		setTitle("Sum Fun");
+		AudioStream as;
+		try {
+
+		    String soundName = "Resources/goodEvening.aiff";    
+		    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+		    //AudioPlayer.player.start(audioInputStream);
+		    Clip clip = AudioSystem.getClip();
+		    clip.open(audioInputStream);
+		    clip.start();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(654, 412);
 		//getContentPane().setLayout(null);
