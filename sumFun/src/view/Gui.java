@@ -47,6 +47,8 @@ import javax.swing.border.LineBorder;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import model.Coordinates;
 import model.Game;
 import model.Leaderboard;
@@ -393,6 +395,18 @@ public class Gui extends JFrame implements Observer{
 		setTitle("Sum Fun "+game.getGameType().toUpperCase()+" Game");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("grade-1-addition-and-subtraction-1-638.jpg")));
 		hints=false;
+		AudioStream as;
+//		try {
+//
+//		    String soundName = "Resources/bond.au";    
+//		    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+//		    //AudioPlayer.player.start(audioInputStream);
+//		    Clip clip = AudioSystem.getClip();
+//		    clip.open(audioInputStream);
+//		    clip.start();
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//		}
 		setVisible(true);
 	}
 	
@@ -443,7 +457,17 @@ public void update(Observable arg0, Object arg1) {
 		lblPoints.setText(Integer.toString(theGame.getPoints()));
 		if(theGame.isBonusMove()) {
 			//play a sound or animation
-			
+			try {
+				
+						    String soundName = "Resources/tada.wav";    
+						    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+						    //AudioPlayer.player.start(audioInputStream);
+						    Clip clip = AudioSystem.getClip();
+						    clip.open(audioInputStream);
+						    clip.start();
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
 		}
 		if(gameType.equals("untimed")){
 			//update the moves left
