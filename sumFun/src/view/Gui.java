@@ -593,6 +593,20 @@ public class HintClickListener implements ActionListener{
 				tiles[coord.getRow()][coord.getCol()].setBackground(Color.YELLOW);
 				hintCoord=coord;
 				if(theGame.getHints()<=0) {
+					if(theGame.getHints()==0) {
+						AudioStream as;
+						try {
+
+						    String soundName = "Resources/force.aiff";    
+						    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+						    //AudioPlayer.player.start(audioInputStream);
+						    Clip clip = AudioSystem.getClip();
+						    clip.open(audioInputStream);
+						    clip.start();
+						} catch(Exception e) {
+							e.printStackTrace();
+						}
+					}
 					hintOpt.setEnabled(false);
 				}
 		}
@@ -601,7 +615,18 @@ public class HintClickListener implements ActionListener{
 
 		
 		public void actionPerformed(ActionEvent arg0) {
-			
+			AudioStream as;
+			try {
+
+			    String soundName = "Resources/actLikeMan.aiff";    
+			    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+			    //AudioPlayer.player.start(audioInputStream);
+			    Clip clip = AudioSystem.getClip();
+			    clip.open(audioInputStream);
+			    clip.start();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 				refreshOpt.setEnabled(false);
 				theGame.refreshQueue();	
 		}
