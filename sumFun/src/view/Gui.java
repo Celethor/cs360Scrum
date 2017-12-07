@@ -459,6 +459,7 @@ public void update(Observable arg0, Object arg1) {
 			//play a sound or animation
 			try {
 				
+				
 						    String soundName = "Resources/tada.wav";    
 						    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
 						    //AudioPlayer.player.start(audioInputStream);
