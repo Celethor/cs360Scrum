@@ -6,6 +6,6 @@
 	<classpathentry kind="lib" path="lib/JTattoo-1.6.11.jar"/>
 	<classpathentry kind="lib" path="lib/seaglasslookandfeel-0.2.jar.zip"/>
 	<classpathentry kind="lib" path="lib/seaglasslookandfeel-0.2-sources.jar.zip"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

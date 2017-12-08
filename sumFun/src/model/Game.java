@@ -470,36 +470,42 @@ public class Game extends Observable{
 	}
 	
 	public class GameTimer {
-		private Timer timer;
+		private Timer gametimer;
 		private int timeLimit;
 		private String timeLeft;
 
 		public GameTimer() {
 			this.timeLimit = 180;
 			//1000 ms delay, actionlistener for the timer
-			this.timer = new Timer(1000, new TimerListener());
+			this.gametimer = new Timer(1000, new TimerListener());
 			startTimer();
 		}
 
 		//should be called by the timer every second
 		//checks if the time is up, if not decrements
 		public void updateTime() {
-			if(timeLimit > 0) {
-				timeLimit--;
-				timeLeft = getMinutes() + " : " + getSeconds();
-			} else if(timeLimit == 0) {
-				stopTimer();
-				gameOver=true;
+			if(timeLimit<=180) {
+				if(timeLimit > 0) {
+					timeLimit--;
+					timeLeft = getMinutes() + " : " + getSeconds();
+				} else if(timeLimit == 0) {
+					stopTimer();
+					gameOver=true;
+				}
+				remainingTime=getTimeLeft();
+				setChanged();
+				notifyObservers();
+				//return timeUp;
 			}
-			remainingTime=getTimeLeft();
-			setChanged();
-			notifyObservers();
-			//return timeUp;
+			
 		}
 
 		//returns minutes lefts
 		public String getMinutes() {
-			return Integer.toString(timeLimit/60);	
+			if(timeLimit<=180 && timeLimit>=0)
+				return Integer.toString(timeLimit/60);	
+			else
+				return "Invalid Time";
 		}
 
 		//returns seconds left
@@ -516,17 +522,22 @@ public class Game extends Observable{
 
 		//getter for time left
 		public String getTimeLeft() {
+			if(timeLimit==0) {
+				return "0 : 00";
+			}
 			return timeLeft;
 		}
-
+		public Timer getGameTimer() {
+			return gametimer;
+		}
 		void stopTimer() {
-			timer.stop();
+			gametimer.stop();
 		}
 
 		void startTimer() {
-			timer.start();
+			gametimer.start();
 		}
-		int getTimeLimit(){
+		public int getTimeLimit(){
 			return timeLimit;
 		}
 		public void setTimeLimit(int limit) {

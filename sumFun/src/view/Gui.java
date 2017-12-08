@@ -495,6 +495,7 @@ public void update(Observable arg0, Object arg1) {
 						} catch(Exception e) {
 							e.printStackTrace();
 						}
+			theGame.setBonusMove(false);
 		}
 		else {
 			lblGameStatus.setText("");

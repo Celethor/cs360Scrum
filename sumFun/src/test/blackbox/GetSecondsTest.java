@@ -16,10 +16,6 @@ public class GetSecondsTest {
 		testGame=Game.getGame("timed");
 	}
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
 	@Test
 	public void testGetSecondsForA() {
 		testGame.getTimer().setTimeLimit(129);
