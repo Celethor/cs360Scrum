@@ -213,7 +213,7 @@ public class Gui extends JFrame implements Observer{
 		
 		this.theGame = game;
 		this.theGame.addObserver(this);
-		this.leaderBoard = new Leaderboard();
+		this.leaderBoard = new Leaderboard(theGame.getGameType());
 		
 		JPanel northPanel = new JPanel();
 		northPanel.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
@@ -528,7 +528,11 @@ public void update(Observable arg0, Object arg1) {
 		
 		
 		//add score to leaderBoard
-		leaderBoard.addScore(name, theGame.getScore());
+		if(theGame.getGameType().equals("untimed"))
+			leaderBoard.addScore(name, theGame.getScore());
+		else {
+			leaderBoard.addScore(name, theGame.getScore(), theGame.getRemainingTime());
+		}
 		leaderBoard.saveScores();
 		
 	}
