@@ -415,6 +415,7 @@ public class Gui extends JFrame implements Observer{
 			}
 		}
 		setTitle("Sum Fun "+game.getGameType().toUpperCase()+" Game");
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("grade-1-addition-and-subtraction-1-638.jpg")));
 		hints=false;
 		AudioStream as;
