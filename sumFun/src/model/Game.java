@@ -89,7 +89,13 @@ public class Game extends Observable{
 		setChanged();
 		notifyObservers();
 	}
-
+	
+	public GameTimer getTimer() {
+		return timer;
+	}
+	public void setTimer(GameTimer timer) {
+		this.timer = timer;
+	}
 	public int getRemainingMoves() {
 		return remainingMoves;
 	}
@@ -463,7 +469,7 @@ public class Game extends Observable{
 		game=null;
 	}
 	
-	private class GameTimer {
+	public class GameTimer {
 		private Timer timer;
 		private int timeLimit;
 		private String timeLeft;
@@ -498,6 +504,9 @@ public class Game extends Observable{
 
 		//returns seconds left
 		public String getSeconds() {
+			if(timeLimit<=0||timeLimit>180) {
+				return "Invalid Time";
+			}
 			int seconds = timeLimit%60;
 			if(seconds<10) {
 				return "0" + Integer.toString(seconds);
@@ -519,6 +528,9 @@ public class Game extends Observable{
 		}
 		int getTimeLimit(){
 			return timeLimit;
+		}
+		public void setTimeLimit(int limit) {
+			timeLimit=limit;
 		}
 		private class TimerListener implements ActionListener {
 
