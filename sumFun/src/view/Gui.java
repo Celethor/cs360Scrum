@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -19,6 +20,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
@@ -42,6 +45,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
@@ -56,6 +60,8 @@ import model.Queue;
 import sun.audio.AudioPlayer;
 import sun.audio.AudioStream;
 import sun.font.TrueTypeFont;
+import java.awt.GridBagLayout;
+import javax.swing.BoxLayout;
 
 public class Gui extends JFrame implements Observer{
 	/**
@@ -223,9 +229,6 @@ public class Gui extends JFrame implements Observer{
 		
 		headerPanel = new JPanel();
 		headerPanel.setBorder(new LineBorder(new Color(0, 0, 0), 0, true));
-		//headerPanel.setBackground(Color.GRAY);
-		
-		headerPanel.setLayout(new GridLayout(0, 2, -1, 0));
 		
 		if(game.getGameType().equals("untimed")) {
 			lblMovesLeft = new JLabel("Moves Left : ");
@@ -255,6 +258,29 @@ public class Gui extends JFrame implements Observer{
 		lblMovesInt.setVerticalAlignment(SwingConstants.BOTTOM);
 		headerPanel.add(lblMovesInt);
 		northPanel.add(headerPanel, BorderLayout.CENTER);
+		headerPanel.setLayout(new GridLayout(0, 3, 0, 0));
+		
+		lblGameStatus = new JLabel("Welcome");
+		lblGameStatus.setOpaque(true);
+		lblGameStatus.setForeground(new Color(255, 255, 0));
+		lblGameStatus.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 16));
+		JPanel gameStatusPanel=new JPanel();
+		gameStatusPanel.setLayout(new BorderLayout(0, 0));
+		//gameStatusPanel.setBackground(Color.DARK_GRAY);
+		gameStatusPanel.add(lblGameStatus);
+		headerPanel.add(gameStatusPanel);
+		
+		//timer for Game Status
+		gameStatusPanel.setSize(new Dimension(250,30));
+		final int labelWidth = gameStatusPanel.getWidth();
+		final AtomicInteger labelPadding = new AtomicInteger();
+		Timer timer = new Timer(30, new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        lblGameStatus.setBorder(new EmptyBorder(0, labelPadding.getAndIncrement() % labelWidth, 0, 30));
+		    }
+		});
+		timer.start();
 		
 		eastPanel = new JPanel();
 		eastPanel.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
@@ -266,7 +292,7 @@ public class Gui extends JFrame implements Observer{
 		optionPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		optionPanel.setBackground(Color.BLACK);
 		eastPanel.add(optionPanel);
-		optionPanel.setLayout(new GridLayout(2, 1, 0, 0));
+		optionPanel.setLayout(new GridLayout(1, 1, 0, 0));
 		
 		JPanel scoresPanel = new JPanel();
 		scoresPanel.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
@@ -276,20 +302,20 @@ public class Gui extends JFrame implements Observer{
 		JPanel pointsPanel = new JPanel();
 		pointsPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		scoresPanel.add(pointsPanel);
-		pointsPanel.setLayout(new GridLayout(0, 2, 0, 0));
+		pointsPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		
 		lblPointsDesc = new JLabel("Points:");
 		lblPointsDesc.setOpaque(true);
 		//lblPointsDesc.setBackground(Color.GRAY);
 		lblPointsDesc.setForeground(Color.WHITE);
-		lblPointsDesc.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 17));
+		lblPointsDesc.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 20));
 		pointsPanel.add(lblPointsDesc);
 		
 		lblPoints = new JLabel("0");
 		lblPoints.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPoints.setOpaque(true);
 //		lblPoints.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 24));
-		lblPoints.setFont(font.deriveFont(Font.BOLD, 20));
+		lblPoints.setFont(font.deriveFont(Font.BOLD, 30));
 		lblPoints.setVerticalAlignment(SwingConstants.CENTER);
 		lblPoints.setForeground(Color.decode("#FF00FF"));
 		//lblPoints.setBackground(Color.GRAY);
@@ -298,13 +324,13 @@ public class Gui extends JFrame implements Observer{
 		JPanel totalScorePanel = new JPanel();
 		totalScorePanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		scoresPanel.add(totalScorePanel);
-		totalScorePanel.setLayout(new GridLayout(0, 2, 0, 0));
+		totalScorePanel.setLayout(new GridLayout(2, 1, 0, 0));
 		
 		lblScoreDesc = new JLabel("Score:");
 		lblScoreDesc.setOpaque(true);
 		lblScoreDesc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScoreDesc.setForeground(Color.WHITE);
-		lblScoreDesc.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 17));
+		lblScoreDesc.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 20));
 		//lblScoreDesc.setBackground(Color.GRAY);
 		totalScorePanel.add(lblScoreDesc);
 		
@@ -314,22 +340,18 @@ public class Gui extends JFrame implements Observer{
 		lblScore.setForeground(Color.decode("#00B2FF"));
 //		lblScore.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 28));
 		//lblScore.setBackground(Color.GRAY);
-		lblScore.setFont(font.deriveFont(Font.BOLD, 26));
+		lblScore.setFont(font.deriveFont(Font.BOLD, 30));
 		//lblScore.setVerticalAlignment(SwingConstants.BOTTOM);
 		totalScorePanel.add(lblScore);
 		
-		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		optionPanel.add(panel);
-		panel.setLayout(new BorderLayout(0, 0));
+//		JPanel panel = new JPanel();
+//		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+//		optionPanel.add(panel);
+//		panel.setLayout(new BorderLayout(0, 0));
 		
-		lblGameStatus = new JLabel("Game in Progress");
-		lblGameStatus.setOpaque(true);
-		lblGameStatus.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGameStatus.setForeground(new Color(255, 255, 0));
-		lblGameStatus.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 13));
+		
 		//lblGameStatus.setBackground(Color.GRAY);
-		panel.add(lblGameStatus);
+		//panel.add(lblGameStatus);
 		
 		JPanel queueTilesPanel = new JPanel();
 		queueTilesPanel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
@@ -407,6 +429,7 @@ public class Gui extends JFrame implements Observer{
 //		} catch(Exception e) {
 //			e.printStackTrace();
 //		}
+		
 		setVisible(true);
 	}
 	
@@ -420,7 +443,6 @@ public void update(Observable arg0, Object arg1) {
 			//update the remaining time
 			lblMovesInt.setText(theGame.getRemainingTime());
 		}
-		
 		
 		//first update the tiles from the model
 		Integer [][]modelTiles= theGame.getTiles();
@@ -457,6 +479,9 @@ public void update(Observable arg0, Object arg1) {
 		lblPoints.setText(Integer.toString(theGame.getPoints()));
 		if(theGame.isBonusMove()) {
 			//play a sound or animation
+			
+			lblGameStatus.setText("Great Move! Bonus Points Earned");
+			
 			try {
 				
 				
@@ -469,6 +494,9 @@ public void update(Observable arg0, Object arg1) {
 						} catch(Exception e) {
 							e.printStackTrace();
 						}
+		}
+		else {
+			lblGameStatus.setText("");
 		}
 		if(gameType.equals("untimed")){
 			//update the moves left
@@ -723,7 +751,7 @@ public class HintClickListener implements ActionListener{
 		public void mouseEntered(MouseEvent arg0) {
 			
 			Tile t=(Tile)arg0.getSource();
-			
+			t.setPreferredSize(new Dimension(20,20));
 			//if tile is an empty tile, turn background of tile green on hover
 			if(t.isEnabled()) {
 					if(theGame.getTiles()[t.getCoord().getRow()][t.getCoord().getCol()]==-1) {

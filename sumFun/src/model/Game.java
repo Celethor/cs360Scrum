@@ -330,7 +330,10 @@ public class Game extends Observable{
 			ArrayList<Coordinates> neighbors = this.getUsefulNeighbors(coord);
 
 			//add placed tile value to score
-			score+=tiles[coord.getRow()][coord.getCol()].intValue();
+			/**
+			 * Should not do this as Dr. Sedlmeyer docked points in Sprint 2
+			 */
+			//score+=tiles[coord.getRow()][coord.getCol()].intValue();
 			int sum=0;
 			//add all neighbors values to score
 			for(int i= 0; i < neighbors.size(); i++) {
@@ -434,10 +437,6 @@ public class Game extends Observable{
 		this.hints--;
 		return ret;
 	}
-	/*public Coordinates getHint() {
-		Coordinates chosenBest;
-		
-	}*/
 	public void witchCraft(Coordinates coord) {
 		int tileValue=tiles[coord.getRow()][coord.getCol()];
 		//checking for other tiles in the board with this value
@@ -464,153 +463,6 @@ public class Game extends Observable{
 		game=null;
 	}
 	
-	/*
-	public static String saveQueue(String fileName){
-
-		String retFilePath="";
-
-		//get the queue of tiles to be saved
-		ArrayList<Integer>saveQueue=game.getTilesQueue();
-
-		// create/open the SavedBoards directory to save the boards 
-		File dir=new File("SavedQueue");
-		if(!dir.exists()){
-			dir.mkdirs();
-			//System.out.println("Dir created");
-		}
-		// create saveFile for the Board. Append ".txt" to the fileName
-		File saveFile=new File("./SavedQueue/"+fileName+".txt");
-		try {
-			saveFile.createNewFile();
-		} catch (IOException e1) {
-			System.out.println("Save file not created problem in Queue");
-		}
-		// initialize the printwriter for writing to the file
-		try {
-			PrintWriter writer=new PrintWriter(saveFile);
-
-			// go through the tiles and write each of them to the file
-			for(int i=0;i<saveQueue.size();i++){
-				writer.print(saveQueue.get(i)+"\t");
-			}
-			//System.out.println("Written to file");
-
-			//update Return Path
-			retFilePath="./SavedQueue/"+fileName+".txt";
-
-			// close writer 
-			writer.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("PrintWriter problem in saveBoard()");
-		}
-
-		return retFilePath;
-	}
-	public  void save(String fileName){
-		Integer [][]saveTiles=game.getTiles();
-
-		// create/open the SavedBoards directory to save the boards 
-		File dir=new File("GameSaves");
-		if(!dir.exists()){
-			dir.mkdirs();
-			System.out.println("Dir created");
-		}
-
-		// create saveFile for the Board. Append ".txt" to the fileName
-		File saveFile=new File("./GameSaves/"+fileName+".txt");
-		try {
-			saveFile.createNewFile();
-		} catch (IOException e1) {
-			System.out.println("Save file not created problem");
-		}
-		// initialize the printwriter for writing to the file
-		try {
-			PrintWriter writer=new PrintWriter(saveFile);
-
-			// go through the tiles and write each of them to the file
-			for(int i=0;i<saveTiles.length;i++){
-				for(int j=0;j<saveTiles[i].length;j++){
-					writer.print(saveTiles[i][j]+"\t");
-				}
-				
-			}
-			//System.out.println("Written to file");
-			writer.print("\r\n");
-			
-			//System.out.println(game.tilesQueue.getElement(0));
-			for(int i=0;i<5;i++){
-				writer.print(game.tilesQueue.getElement(0)+"\t");
-				
-			}
-			writer.print("\r\n");
-			//update the other things
-			writer.print(game.getScore()+"\t");
-			writer.print(game.getGameType()+"\t");
-			
-			if(game.getGameType().equals("untimed")){
-				writer.print(game.remainingMoves+"\t");
-			} else{
-				writer.print(game.timer.getTimeLimit());
-				writer.print(game.getRemainingTime()+"\t");
-			}	
-			writer.print(game.gameOver+"\t");
-			writer.print(game.empty+"\t");
-			writer.print(game.won+"\t");
-			writer.print(game.removedElement+"\t");
-			// close writer 
-			writer.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("PrintWriter problem in saveBoard()");
-		}
-
-	}
-	public static String saveBoard(String fileName){
-		//create return file path
-		String retFilePath="";
-
-		// get the tiles to be saved 
-		Integer [][]saveTiles=game.getTiles();
-
-		// create/open the SavedBoards directory to save the boards 
-		File dir=new File("SavedBoards");
-		if(!dir.exists()){
-			dir.mkdirs();
-			System.out.println("Dir created");
-		}
-
-		// create saveFile for the Board. Append ".txt" to the fileName
-		File saveFile=new File("./SavedBoards/"+fileName+".txt");
-		try {
-			saveFile.createNewFile();
-		} catch (IOException e1) {
-			System.out.println("Save file not created problem");
-		}
-		// initialize the printwriter for writing to the file
-		try {
-			PrintWriter writer=new PrintWriter(saveFile);
-
-			// go through the tiles and write each of them to the file
-			for(int i=0;i<saveTiles.length;i++){
-				for(int j=0;j<saveTiles[i].length;j++){
-					writer.print(saveTiles[i][j]+"\t");
-				}
-				writer.print("\r\n");
-			}
-			//System.out.println("Written to file");
-
-			//update Return Path
-			retFilePath="./SavedBoards/"+fileName+".txt";
-
-			// close writer 
-			writer.close();
-		} catch (FileNotFoundException e) {
-			System.out.println("PrintWriter problem in saveBoard()");
-		}
-
-
-		return retFilePath;
-	}
-	*/
 	private class GameTimer {
 		private Timer timer;
 		private int timeLimit;
