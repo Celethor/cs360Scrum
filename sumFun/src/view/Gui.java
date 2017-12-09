@@ -66,7 +66,7 @@ public class Gui extends JFrame implements Observer{
 	private JPanel boardPanel;
 	private JPanel headerPanel;
 	private Game theGame;
-	private Leaderboard leaderBoard;
+	private Leaderboard[] leaderBoard = new Leaderboard[2];
 	private Tile[][] tiles;
 	private JLabel [] queueTiles;
 	//private JButton[] queueTiles;
@@ -213,7 +213,10 @@ public class Gui extends JFrame implements Observer{
 		
 		this.theGame = game;
 		this.theGame.addObserver(this);
-		this.leaderBoard = new Leaderboard(theGame.getGameType());
+		this.leaderBoard[0] = new Leaderboard("untimed");
+		if(this.theGame.getGameType().equals("timed")) {
+			this.leaderBoard[1] = new Leaderboard("timed");
+		}
 		
 		JPanel northPanel = new JPanel();
 		northPanel.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
@@ -496,13 +499,25 @@ public void update(Observable arg0, Object arg1) {
 					tiles[i][j].setEnabled(false);
 				}
 			}
+			//Stop Timer when game is finished if applicable.... is a bug fix 
+			if(theGame.getGameType().equals("timed")) {
+				theGame.stopTimer();
+			}
 			lblGameStatus.setText("Game Won! Legend!");
 			lblGameStatus.setForeground(Color.GREEN);
 			
-			//check if new high score.If so, prompt for name input
-			if(leaderBoard.checkScore(theGame.getScore())) {
-				newHighScorePrompt();
-			}			
+//			//check if new TIME .If so, prompt for name input //TIMED only
+//			if(leaderBoard[0].checkScore(theGame.getScore())) {
+//				newHighScorePrompt();
+//			}
+//			
+//			//check if new high score.If so, prompt for name input //UNTIMED & timed
+//			if(leaderBoard[0].checkScore(theGame.getScore())) {
+//				newHighScorePrompt();
+//			}	
+			
+			newHighScorePrompt();
+			
 			
 			//ask if want to see high scores			
 			showHighScores();
@@ -514,6 +529,16 @@ public void update(Observable arg0, Object arg1) {
 		}
 	}
 	public void newHighScorePrompt() {
+		boolean newTime;
+		boolean newScore;
+		
+		
+		
+		String time = "";
+		if(theGame.getGameType().equals("timed")) {
+			time = (180 - Integer.parseInt(theGame.getRemainingTime())) + "";
+		}
+		
 		//prompt for name
 		String name = JOptionPane.showInputDialog(null, "Please enter your name:", "New High Score!", JOptionPane.PLAIN_MESSAGE);
 		
@@ -528,18 +553,18 @@ public void update(Observable arg0, Object arg1) {
 		
 		
 		//add score to leaderBoard
-		if(theGame.getGameType().equals("untimed"))
-			leaderBoard.addScore(name, theGame.getScore());
-		else {
-			leaderBoard.addScore(name, theGame.getScore(), theGame.getRemainingTime());
+		leaderBoard[0].addScore(name, theGame.getScore());
+		if(theGame.getGameType().equals("timed")) {
+			leaderBoard[1].addScore(name, theGame.getScore(), time);
 		}
-		leaderBoard.saveScores();
+		leaderBoard[0].saveScores();
+		leaderBoard[1].saveScores();
 		
 	}
 
 	public void showHighScores() {
 		JTextArea leaderText = new JTextArea(30,10);
-		leaderText.setText("\nHigh Scores\n\nName\tScore\tDate\n" + leaderBoard.toString());
+		leaderText.setText("\nHigh Scores\n\nName\tScore\tDate\n" + leaderBoardd.toString());
 		leaderText.setBackground(Color.BLACK);
 		leaderText.setForeground(Color.WHITE);
 		leaderText.setEnabled(false);
@@ -554,6 +579,7 @@ public void update(Observable arg0, Object arg1) {
 		
 		this.boardPanel.setLayout(new GridLayout(1,1));
 		this.boardPanel.add(leaderText);
+		
 		
 		//change text at end to new game stuff
 		lblMovesLeft.setText("Please Select File->New Game to start a new game!");

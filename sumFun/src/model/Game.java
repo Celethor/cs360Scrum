@@ -98,6 +98,10 @@ public class Game extends Observable{
 		this.remainingMoves = remainingMoves;
 	}
 	
+	public void stopTimer() {
+		this.timer.stopTimer();;
+	}
+	
 	public int getPoints() {
 		return points;
 	}
