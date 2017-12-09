@@ -590,6 +590,7 @@ public void update(Observable arg0, Object arg1) {
 		leaderBoard[0].saveScores();
 		leaderBoard[1].saveScores();
 		
+		
 	}
 
 	public void showHighScores() {
