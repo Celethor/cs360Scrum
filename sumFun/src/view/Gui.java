@@ -595,7 +595,7 @@ public void update(Observable arg0, Object arg1) {
 
 	public void showHighScores() {
 		JTextArea leaderText = new JTextArea(30,10);
-		leaderText.setText("\nHigh Scores\n\nName\tScore\tDate\n" + leaderBoardd.toString());
+		leaderText.setText("\nHigh Scores\n\nName\tScore\tDate\n" + leaderBoard.toString());
 		leaderText.setBackground(Color.BLACK);
 		leaderText.setForeground(Color.WHITE);
 		leaderText.setEnabled(false);
