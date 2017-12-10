@@ -550,7 +550,7 @@ public void update(Observable arg0, Object arg1) {
 		String time = "";
 		if(theGame.getGameType().equals("timed")) {
 			System.out.println("theGame.getTimeLeft: "+theGame.getTimeLeft());
-			time = (180 - theGame.getTimeLeft()) + "";
+			time = leaderBoard[1].convertToDigital(180 - theGame.getTimeLeft());
 		}
 		
 		//prompt for name
@@ -592,7 +592,7 @@ public void update(Observable arg0, Object arg1) {
 
 	public void showHighScores() {
 		JTextArea leaderText = new JTextArea(30,10);
-		leaderText.setText("\nHigh Scores\n\nName\tScore\tDate\n" + leaderBoard[0].toString());
+		leaderText.setText("\nTop Ten High Scores\n\nName\tScore\tDate\n" + leaderBoard[0].toString());
 		leaderText.setBackground(Color.BLACK);
 		leaderText.setForeground(Color.WHITE);
 		leaderText.setEnabled(false);
@@ -611,7 +611,7 @@ public void update(Observable arg0, Object arg1) {
 		//case if gameType is timed
 		if(theGame.getGameType().equals("timed")) {
 			JTextArea leaderText2 = new JTextArea(30,10);
-			leaderText2.setText("\nHigh Scores\n\nName\tTime\tScore\tDate\n" + leaderBoard[1].toString());
+			leaderText2.setText("\nTop Ten Least Times\n\nName\tTime\tDate\n" + leaderBoard[1].toString());
 			leaderText2.setBackground(Color.BLACK);
 			this.boardPanel.add(leaderText2);
 		}

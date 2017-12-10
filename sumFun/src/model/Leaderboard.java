@@ -121,9 +121,19 @@ public class Leaderboard {
 	}
 	
 	//convert time in seconds to X:XX format
-	public String convertToDigital() {
-		String digitalTime = "";;
+	public String convertToDigital(int time) {
 		
+		//case if 0
+		if(time==0) {
+			return "0 : 00";
+		}
+		
+		String digitalTime = "";
+		
+		//add the minutes
+		digitalTime += time/60 + ":";
+		//add the seconds
+		digitalTime += time%60;
 		
 		return digitalTime;
 	}
@@ -245,9 +255,6 @@ public class Leaderboard {
 						+ topScores[i][0] + "\t"
 						+ topScores[i][3] + "\t";
 				
-				
-				
-				scores += topScores[i][1] + "\t";
 
 				if(i<9) {
 					scores += topScores[i][2] + "\n";
