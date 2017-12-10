@@ -107,15 +107,25 @@ public class Leaderboard {
 		
 		Scanner in = new Scanner(timeLeft);
 		in.useDelimiter(":");
-		timeLeftS += 60* Integer.parseInt(in.next());
+		timeLeftS += 60 * Integer.parseInt(in.next());
 		timeLeft += Integer.parseInt(in.next());
 		
 		return timeLeftS;
 	}
 
+	//validate whether new high score was set
 	public boolean checkScore(int score) {
 		//check if passed score shouldn't make it on the list, if not return false
 		if(score <= Integer.parseInt(topScores[9][1])) {
+			return false;
+		}
+		return true;
+	}
+	
+	//validate whether new low time was set
+	public boolean checkTime(int seconds) {
+		//check if passed score shouldn't make it on the list, if not return false
+		if(seconds >= convertToSeconds(topScores[9][3])) {
 			return false;
 		}
 		return true;

@@ -559,19 +559,27 @@ public void update(Observable arg0, Object arg1) {
 		}
 	}
 	public void newHighScorePrompt() {
-		boolean newTime;
-		boolean newScore;
+		boolean newTime = false;
+		boolean newScore = false;
+		String name = "";
 		
+		if(leaderBoard[0].checkScore(theGame.getScore())) {
+			newScore = true;
+		}
 		
+		if(theGame.getGameType().equals("timed") && leaderBoard[1].checkTime(180 - theGame.getTimeLeft())) {
+			newTime = true;
+		}
 		
 		String time = "";
 		if(theGame.getGameType().equals("timed")) {
-			time = (180 - Integer.parseInt(theGame.getRemainingTime())) + "";
+			time = (180 - theGame.getTimeLeft()) + "";
 		}
 		
 		//prompt for name
-		String name = JOptionPane.showInputDialog(null, "Please enter your name:", "New High Score!", JOptionPane.PLAIN_MESSAGE);
-		
+		if(newTime || newScore) {
+			name = JOptionPane.showInputDialog(null, "Please enter your name:", "New High Score!", JOptionPane.PLAIN_MESSAGE);
+		}
 		//case for cancel on JOtionPane
 		if(name == null) {
 			name="NoName";
@@ -583,19 +591,26 @@ public void update(Observable arg0, Object arg1) {
 		
 		
 		//add score to leaderBoard
-		leaderBoard[0].addScore(name, theGame.getScore());
-		if(theGame.getGameType().equals("timed")) {
+		if(newScore) {
+			leaderBoard[0].addScore(name, theGame.getScore());
+		}
+		
+		if(theGame.getGameType().equals("timed") && newTime) {
 			leaderBoard[1].addScore(name, theGame.getScore(), time);
 		}
-		leaderBoard[0].saveScores();
-		leaderBoard[1].saveScores();
 		
-		
+		//if new scores were set then save! :)
+		if(newScore) {
+			leaderBoard[0].saveScores();
+		}
+		if(theGame.getGameType().equals("timed") && newTime) {
+			leaderBoard[1].saveScores();	
+		}
 	}
 
 	public void showHighScores() {
 		JTextArea leaderText = new JTextArea(30,10);
-		leaderText.setText("\nHigh Scores\n\nName\tScore\tDate\n" + leaderBoardd.toString());
+		leaderText.setText("\nHigh Scores\n\nName\tScore\tDate\n" + leaderBoard[0].toString());
 		leaderText.setBackground(Color.BLACK);
 		leaderText.setForeground(Color.WHITE);
 		leaderText.setEnabled(false);
@@ -608,8 +623,16 @@ public void update(Observable arg0, Object arg1) {
 			}
 		}
 		
-		this.boardPanel.setLayout(new GridLayout(1,1));
+		this.boardPanel.setLayout(new GridLayout(1,2));
 		this.boardPanel.add(leaderText);
+		
+		//case if gameType is timed
+		if(theGame.getGameType().equals("timed")) {
+			JTextArea leaderText2 = new JTextArea(30,10);
+			leaderText2.setText("\nHigh Scores\n\nName\tTime\tDate\tScore\n" + leaderBoard[1].toString());
+			leaderText2.setBackground(Color.BLACK);
+			this.boardPanel.add(leaderText2);
+		}
 		
 		
 		//change text at end to new game stuff

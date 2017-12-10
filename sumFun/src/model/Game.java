@@ -83,6 +83,10 @@ public class Game extends Observable{
 	public String getRemainingTime() {
 		return remainingTime;
 	}
+	
+	public int getTimeLeft() {
+		return timer.getTimeLimit();
+	}
 
 	public void setRemainingTime(String remainingTime) {
 		this.remainingTime = remainingTime;
