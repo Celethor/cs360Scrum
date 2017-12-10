@@ -7,35 +7,23 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.Sequencer;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -49,25 +37,14 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import model.Coordinates;
 import model.Game;
 import model.Leaderboard;
 import model.Queue;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-import sun.font.TrueTypeFont;
-import java.awt.GridBagLayout;
-import javax.swing.BoxLayout;
 
-public class Gui extends JFrame implements Observer{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3279980216475310138L;
+public class Gui extends JFrame implements Observer {
+
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel boardPanel;
 	private JPanel headerPanel;
@@ -95,10 +72,8 @@ public class Gui extends JFrame implements Observer{
 	private boolean witchCraft=false;
 	private boolean hints;
 	private Coordinates hintCoord;
-	private static Color defaultColor;
-	ImageIcon icon[];
+	ImageIcon[] icon;
 	
-	private static String[] colorScheme = {"#000000","#B3B5AB","#FFFFFF","#FFFF00","#FF9700","#FF5733","#FF00B9","#FF0051","#00FFCD","#FF0000"};
 	public Gui(Game game) {
 		super();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,22 +87,7 @@ public class Gui extends JFrame implements Observer{
 			icon[i]= new ImageIcon("FontNumbers/"+i+".png");
 		}
 		
-		String filename="/digital_7/digital-7.ttf";//this is for testing normally we would store the font file in our app (knows as an embedded resource), see this for help on that http://stackoverflow.com/questions/13796331/jar-embedded-resources-nullpointerexception/13797070#13797070
-
 		Font font=new Font("Helvetica",Font.BOLD,34);
-//		try {
-//			font = Font.createFont(Font.TRUETYPE_FONT, new File(filename));
-//		} catch (FontFormatException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		font = font.deriveFont(Font.BOLD,28);
-//
-//		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-//		ge.registerFont(font);
 		GraphicsEnvironment ge = 
 		         GraphicsEnvironment.getLocalGraphicsEnvironment();
 		try {
@@ -396,7 +356,7 @@ public class Gui extends JFrame implements Observer{
 //				tiles[i][j].addActionListener(new TilesClickListener());
 				tiles[i][j].addMouseListener(click);
 				tiles[i][j].addMouseListener(new MouseActionTiles());
-				defaultColor=tiles[i][j].getBackground();
+				tiles[i][j].getBackground();
 			}
 		}
 		for(int i=1;i<8;i++){
@@ -421,18 +381,6 @@ public class Gui extends JFrame implements Observer{
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("grade-1-addition-and-subtraction-1-638.jpg")));
 		hints=false;
-		AudioStream as;
-//		try {
-//
-//		    String soundName = "Resources/bond.au";    
-//		    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-//		    //AudioPlayer.player.start(audioInputStream);
-//		    Clip clip = AudioSystem.getClip();
-//		    clip.open(audioInputStream);
-//		    clip.start();
-//		} catch(Exception e) {
-//			e.printStackTrace();
-//		}
 		
 		setVisible(true);
 	}
@@ -660,7 +608,6 @@ public void update(Observable arg0, Object arg1) {
 		public void actionPerformed(ActionEvent arg0) {
 				witchCraft=true;
 				
-				AudioStream as;
 				try {
 
 				    String soundName = "Resources/offer.aiff";    
@@ -686,7 +633,6 @@ public class HintClickListener implements ActionListener{
 				hintCoord=coord;
 				if(theGame.getHints()<=0) {
 					if(theGame.getHints()==0) {
-						AudioStream as;
 						try {
 
 						    String soundName = "Resources/force.aiff";    
@@ -707,7 +653,6 @@ public class HintClickListener implements ActionListener{
 
 		
 		public void actionPerformed(ActionEvent arg0) {
-			AudioStream as;
 			try {
 
 			    String soundName = "Resources/actLikeMan.aiff";    
@@ -734,15 +679,14 @@ public class HintClickListener implements ActionListener{
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 			if(witchCraft==true) {
 				for(int i=0;i<tiles.length;i++) {
 					for(int j=0;j<tiles[i].length;j++) {
-						if(theGame.getTiles()[i][j]==-1)
+						if(theGame.getTiles()[i][j]==-1) {
 							tiles[i][j].setEnabled(false);
-						else {
+						} else {
 							tiles[i][j].setEnabled(true);
-//							tiles[i][j].setForeground(Color.black);
+							//tiles[i][j].setForeground(Color.black);
 						}
 						Coordinates x=((Tile)arg0.getSource()).getCoord();
 						int tileVal=theGame.getTiles()[x.getRow()][x.getCol()];
@@ -757,7 +701,6 @@ public class HintClickListener implements ActionListener{
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 			for(int i=0;i<tiles.length;i++) {
 				for(int j=0;j<tiles[i].length;j++) {
 					tiles[i][j].setBackground(null);
@@ -767,12 +710,10 @@ public class HintClickListener implements ActionListener{
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 			if(witchCraft==true) {
 				theGame.witchCraft(((Tile)arg0.getSource()).getCoord());
 				witchCraft=false;
-			}
-			else {
+			} else {
 				Tile t=(Tile)arg0.getSource();
 				theGame.updateTilesinBoard(t.getCoord());
 				if(hints==true) {
@@ -785,7 +726,6 @@ public class HintClickListener implements ActionListener{
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
-			// TODO Auto-generated method stub
 			
 		}
 		
@@ -794,8 +734,6 @@ public class HintClickListener implements ActionListener{
 
 	
 		public void mouseClicked(MouseEvent arg0) {
-		
-			
 			
 		}
 
@@ -827,8 +765,7 @@ public class HintClickListener implements ActionListener{
 			if(t.getBackground().equals(Color.GREEN)) {
 				t.setBackground(null);
 				if(hints==true) {
-//					if(t.getCoord().equals(hintCoord))
-						tiles[hintCoord.getRow()][hintCoord.getCol()].setBackground(Color.YELLOW);
+					tiles[hintCoord.getRow()][hintCoord.getCol()].setBackground(Color.YELLOW);
 				}
 			}
 			

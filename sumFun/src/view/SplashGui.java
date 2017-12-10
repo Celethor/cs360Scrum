@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Game;
-import sun.audio.AudioStream;
 
 public class SplashGui extends JFrame {
 	
@@ -29,7 +28,6 @@ public class SplashGui extends JFrame {
 	
 	public SplashGui() {
 		setTitle("Sum Fun");
-		AudioStream as;
 		try {
 
 		    String soundName = "Resources/goodEvening.aiff";    

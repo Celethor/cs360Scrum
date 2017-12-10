@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
+
 
 public class Leaderboard {
 
@@ -23,7 +23,8 @@ public class Leaderboard {
 						            {"Empty","0","N/A"},
 						            {"Empty","0","N/A"},
 						            {"Empty","0","N/A"},
-						            {"Empty","0","N/A"}};;
+						            {"Empty","0","N/A"}};
+	private Scanner in;;
 
 	public Leaderboard(String gameType) {
 		this.gameType = gameType;
@@ -105,7 +106,7 @@ public class Leaderboard {
 	private int convertToSeconds(String timeLeft) {
 		int timeLeftS = 0;
 		
-		Scanner in = new Scanner(timeLeft);
+		in = new Scanner(timeLeft);
 		in.useDelimiter(":");
 		timeLeftS += 60 * Integer.parseInt(in.next());
 		timeLeft += Integer.parseInt(in.next());

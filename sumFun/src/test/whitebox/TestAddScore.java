@@ -1,12 +1,12 @@
 package whitebox;
+import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.*;
+import model.Leaderboard;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import model.Game;
-import model.Leaderboard;
+
 
 //Organzation and structure of leaders.txt before testing begins
 //Assumptions will be made that it is already in this state
