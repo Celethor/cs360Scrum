@@ -1,11 +1,11 @@
 package blackbox;
-
-import static org.junit.Assert.*;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import model.Game;
+
+import org.junit.BeforeClass;
+
+import org.junit.Test;
 
 public class GetMinutesTest {
 	static Game test;
