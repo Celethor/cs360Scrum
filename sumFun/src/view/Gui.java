@@ -431,7 +431,6 @@ public void update(Observable arg0, Object arg1) {
 		lblPoints.setText(Integer.toString(theGame.getPoints()));
 		if(theGame.isBonusMove()) {
 			//play a sound or animation
-			
 			lblGameStatus.setText("Bonus Points Earned");
 			
 			try {
