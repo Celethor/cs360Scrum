@@ -30,7 +30,7 @@ public class Game extends Observable{
 	private int removedElement;
 	private boolean witchCraft;
 	boolean witchCraftOnce=false;
-	private int hints=3;
+	private int hints=30;
 	private boolean bonusMove;
 	private static Game game;	//for the singleton
 	/**
@@ -459,8 +459,14 @@ public class Game extends Observable{
 				if(tiles[i][j] == tileValue) {
 					//set tiles value to -1 if same value
 					tiles[i][j]=-1;
+					empty+=1;
 				}
 			}
+		}
+		if(empty==0) {
+			gameOver=true;
+		} else if(empty==81) {
+			won=true;
 		}
 		setChanged();
 		notifyObservers();
@@ -546,6 +552,7 @@ public class Game extends Observable{
 			gametimer.start();
 		}
 		public int getTimeLimit(){
+			System.out.println(timeLimit);
 			return timeLimit;
 		}
 		public void setTimeLimit(int limit) {

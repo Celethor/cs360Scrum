@@ -188,7 +188,8 @@ public class Leaderboard {
 		//will run through this.topScores and insert newHigh score into list and move rest of list down
 		for(i = 0; i<topScores.length; i++) {
 			//find where new score should be inserted
-			if(convertToSeconds(newHighScore[3]) > convertToSeconds(topScores[i][3])){
+			//if(convertToSeconds(newHighScore[3]) > convertToSeconds(topScores[i][3])){
+			if(Integer.parseInt(newHighScore[3]) > convertToSeconds(topScores[i][3])){
 				tempScore = topScores[i];
 				topScores[i] = newHighScore;
 				newHighScore = tempScore;

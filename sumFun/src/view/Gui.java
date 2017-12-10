@@ -432,7 +432,7 @@ public void update(Observable arg0, Object arg1) {
 		if(theGame.isBonusMove()) {
 			//play a sound or animation
 			
-			lblGameStatus.setText("Great Move! Bonus Points Earned");
+			lblGameStatus.setText("Bonus Points Earned");
 			
 			try {
 				
@@ -521,6 +521,7 @@ public void update(Observable arg0, Object arg1) {
 		
 		String time = "";
 		if(theGame.getGameType().equals("timed")) {
+			System.out.println("theGame.getTimeLeft: "+theGame.getTimeLeft());
 			time = (180 - theGame.getTimeLeft()) + "";
 		}
 		
@@ -544,6 +545,7 @@ public void update(Observable arg0, Object arg1) {
 		}
 		
 		if(theGame.getGameType().equals("timed") && newTime) {
+			System.out.println(time);
 			leaderBoard[1].addScore(name, theGame.getScore(), time);
 		}
 		
