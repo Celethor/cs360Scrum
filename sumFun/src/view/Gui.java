@@ -73,6 +73,7 @@ public class Gui extends JFrame implements Observer {
 	private boolean hints;
 	private Coordinates hintCoord;
 	ImageIcon[] icon;
+	Timer times;
 	private JMenuItem newTimedGameOpt;
 	
 	public Gui(Game game) {
@@ -266,13 +267,13 @@ public class Gui extends JFrame implements Observer {
 		gameStatusPanel.setSize(new Dimension(250,30));
 		final int labelWidth = gameStatusPanel.getWidth();
 		final AtomicInteger labelPadding = new AtomicInteger();
-		Timer timer = new Timer(30, new ActionListener() {
+		times = new Timer(30, new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
 		        lblGameStatus.setBorder(new EmptyBorder(0, labelPadding.getAndIncrement() % labelWidth, 0, 30));
 		    }
 		});
-		timer.start();
+		times.start();
 		
 		eastPanel = new JPanel();
 		eastPanel.setBorder(new LineBorder(new Color(0, 0, 0), 3, true));
@@ -416,7 +417,7 @@ public class Gui extends JFrame implements Observer {
 	
 public void update(Observable arg0, Object arg1) {
 		
-		
+		times.stop();
 		boolean gameOver= theGame.isGameOver();
 		boolean gameWon= theGame.isWon();
 		String gameType=theGame.getGameType();
@@ -461,7 +462,16 @@ public void update(Observable arg0, Object arg1) {
 		if(theGame.isBonusMove()) {
 			//play a sound or animation
 			lblGameStatus.setText("Bonus Points Earned");
-			
+			final int labelWidth = 250;
+			final AtomicInteger labelPadding = new AtomicInteger();
+			times = new Timer(30, new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        lblGameStatus.setBorder(new EmptyBorder(0, labelPadding.getAndIncrement() % labelWidth, 0, 10));
+			    }
+			});
+			times.start();
+			times.start();
 			theGame.setBonusMove(false);
 		}
 		else {
