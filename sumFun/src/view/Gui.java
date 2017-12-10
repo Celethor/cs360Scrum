@@ -60,7 +60,7 @@ public class Gui extends JFrame implements Observer {
 	private JLabel lblGameStatus;
 	private JLabel lblPoints;
 	private JLabel lblPointsDesc;
-	private JMenu fileMenu;
+	private JMenu gameMenu;
 	private JPanel eastPanel;
 	//private JMenuItem saveGameOpt;
 	//private JMenuItem loadGameOpt;
@@ -73,6 +73,7 @@ public class Gui extends JFrame implements Observer {
 	private boolean hints;
 	private Coordinates hintCoord;
 	ImageIcon[] icon;
+	private JMenuItem newTimedGameOpt;
 	
 	public Gui(Game game) {
 		super();
@@ -100,19 +101,19 @@ public class Gui extends JFrame implements Observer {
 		     System.out.println("Font error");
 		}
 		
-		fileMenu = new JMenu("File");
-		fileMenu.setFont(new Font("Helvetica", Font.BOLD, 14));
-		fileMenu.setHorizontalAlignment(SwingConstants.CENTER);
-		menuBar.add(fileMenu);
+		gameMenu = new JMenu("Game");
+		gameMenu.setFont(new Font("Helvetica", Font.BOLD, 14));
+		gameMenu.setHorizontalAlignment(SwingConstants.CENTER);
+		menuBar.add(gameMenu);
 		
 		/*saveGameOpt = new JMenuItem("Save Game");
 		saveGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
 		saveGameOpt.setFont(new Font("Helvetica", Font.PLAIN, 14));
 		saveGameOpt.addActionListener(new SaveClickListener());*/
 		
-		JMenuItem newGameOpt = new JMenuItem("New Game");
-		newGameOpt.setFont(new Font("Helvetica", Font.PLAIN, 14));
-		newGameOpt.addActionListener(new ActionListener(){
+		JMenuItem newUntimedGameOpt = new JMenuItem("New Untimed Game");
+		newUntimedGameOpt.setFont(new Font("Helvetica", Font.PLAIN, 14));
+		newUntimedGameOpt.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
 				if(game.getGameType().equals("timed")) {
@@ -135,20 +136,48 @@ public class Gui extends JFrame implements Observer {
 
 					dispose();
 					Game.clear(); //clear the instance of game object
-					new SplashGui();
+					new Gui(Game.getGame("untimed"));
 				} else {
 					game.resumeTime();
 				}
 			}
 			
 		});
-		fileMenu.add(newGameOpt);
-		//fileMenu.add(saveGameOpt);;
+		gameMenu.add(newUntimedGameOpt);
 		
-		/*loadGameOpt = new JMenuItem("Load Game");
-		loadGameOpt.setHorizontalAlignment(SwingConstants.CENTER);
-		loadGameOpt.setFont(new Font("Helvetica", Font.PLAIN, 14));
-		fileMenu.add(loadGameOpt);*/
+		newTimedGameOpt = new JMenuItem("New Timed Game");
+		newTimedGameOpt.setFont(new Font("Helvetica", Font.PLAIN, 14));
+		newTimedGameOpt.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent arg0) {
+				if(game.getGameType().equals("timed")) {
+					game.pauseTime();
+					
+				}
+				int res=JOptionPane.showConfirmDialog(null,"All progress in this game will be lost. Are you sure?","Warning",JOptionPane.YES_NO_OPTION);
+				if(res==JOptionPane.YES_OPTION){
+					try {
+
+					    String soundName = "Resources/hasta.aiff";    
+					    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+					    //AudioPlayer.player.start(audioInputStream);
+					    Clip clip = AudioSystem.getClip();
+					    clip.open(audioInputStream);
+					    clip.start();
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+
+					dispose();
+					Game.clear(); //clear the instance of game object
+					new Gui(Game.getGame("timed"));
+				} else {
+					game.resumeTime();
+				}
+			}
+			
+		});
+		gameMenu.add(newTimedGameOpt);
 		
 		helpMenu = new JMenu("Help");
 		helpMenu.setFont(new Font("Helvetica", Font.BOLD, 14));
@@ -508,7 +537,7 @@ public void update(Observable arg0, Object arg1) {
 	public void newHighScorePrompt() {
 		boolean newTime = false;
 		boolean newScore = false;
-		String name = "";
+		String name=null;
 		
 		if(leaderBoard[0].checkScore(theGame.getScore())) {
 			newScore = true;
@@ -526,11 +555,19 @@ public void update(Observable arg0, Object arg1) {
 		
 		//prompt for name
 		if(newTime || newScore) {
+			do {
+				name = JOptionPane.showInputDialog(null, "Please enter your name:", "New High Score!", JOptionPane.PLAIN_MESSAGE);
+				if(name.equals("")) {
+					continue;
+				}
+			} while(!name.equals(""));
 			name = JOptionPane.showInputDialog(null, "Please enter your name:", "New High Score!", JOptionPane.PLAIN_MESSAGE);
 		}
 		//case for cancel on JOtionPane
 		if(name == null) {
 			name="NoName";
+			newScore=false;
+			newTime=false;
 		}
 		
 		//take out non alpha-numeric
