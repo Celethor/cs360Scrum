@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="model.Game.GameTimer" project="sumFun" file="/sumFun/src/model/Game.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="297" width="132" x="10" y="1014"/>    
+    <position height="-1" width="-1" x="620" y="1037"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="model.Game.GameTimer.TimerListener" project="sumFun" 
     file="/sumFun/src/model/Game.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="99" width="194" x="10" y="1351"/>    
+    <position height="-1" width="-1" x="971" y="1081"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -256,6 +256,7 @@
     <bendpoint x="665" y="11"/>    
     <bendpoint x="521" y="9"/>    
     <bendpoint x="401" y="10"/>    
+    <bendpoint x="370" y="20"/>    
     <end type="SOURCE" refId="10" navigable="false">      
       <attribute id="50" name="theGame"/>      
       <multiplicity id="51" minimum="0" maximum="1"/>    
