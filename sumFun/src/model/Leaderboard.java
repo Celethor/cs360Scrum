@@ -24,7 +24,7 @@ public class Leaderboard {
 						            {"Empty","0","N/A"},
 						            {"Empty","0","N/A"},
 						            {"Empty","0","N/A"}};
-	private Scanner in;;
+	private Scanner in;
 
 	public Leaderboard(String gameType) {
 		this.gameType = gameType;

@@ -557,11 +557,7 @@ public void update(Observable arg0, Object arg1) {
 		if(newTime || newScore) {
 			do {
 				name = JOptionPane.showInputDialog(null, "Please enter your name:", "New High Score!", JOptionPane.PLAIN_MESSAGE);
-				if(name.equals("")) {
-					continue;
-				}
-			} while(!name.equals(""));
-			name = JOptionPane.showInputDialog(null, "Please enter your name:", "New High Score!", JOptionPane.PLAIN_MESSAGE);
+			} while(name.equals(""));
 		}
 		//case for cancel on JOtionPane
 		if(name == null) {
@@ -615,7 +611,7 @@ public void update(Observable arg0, Object arg1) {
 		//case if gameType is timed
 		if(theGame.getGameType().equals("timed")) {
 			JTextArea leaderText2 = new JTextArea(30,10);
-			leaderText2.setText("\nHigh Scores\n\nName\tTime\tDate\tScore\n" + leaderBoard[1].toString());
+			leaderText2.setText("\nHigh Scores\n\nName\tTime\tScore\tDate\n" + leaderBoard[1].toString());
 			leaderText2.setBackground(Color.BLACK);
 			this.boardPanel.add(leaderText2);
 		}
