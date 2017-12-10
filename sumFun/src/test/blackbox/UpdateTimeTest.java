@@ -1,6 +1,7 @@
 package blackbox;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import model.Game;
 
@@ -38,5 +39,14 @@ public class UpdateTimeTest {
 		assertEquals("0 : 00",testGame.getRemainingTime());
 	}
 	
+	/**
+	 * timeLimit>180
+	 */
+	@Test
+	public void testForC() {
+		testGame.getTimer().setTimeLimit(181);
+		testGame.getTimer().updateTime();
+		assertNull(testGame.getRemainingTime(),null);
+	}
 	
 }

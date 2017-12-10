@@ -502,7 +502,7 @@ public class Game extends Observable{
 				if(timeLimit > 0) {
 					timeLimit--;
 					timeLeft = getMinutes() + " : " + getSeconds();
-				} else if(timeLimit == 0) {
+				} else {
 					stopTimer();
 					gameOver=true;
 				}
