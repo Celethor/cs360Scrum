@@ -24,7 +24,7 @@ public class Leaderboard {
 						            {"Empty","0","N/A"},
 						            {"Empty","0","N/A"},
 						            {"Empty","0","N/A"}};
-	private Scanner in;
+	private Scanner in;;
 
 	public Leaderboard(String gameType) {
 		this.gameType = gameType;
@@ -67,7 +67,13 @@ public class Leaderboard {
 	public void saveScores() {
 		FileWriter scoreWriter = null;
 		try {
-			scoreWriter = new FileWriter(new File("Leaders/leaders.txt"), false); // true = append, false = overwrite
+			File scoreFile = new File("Leaders/leaders.txt");
+			
+			if(gameType.equals("timed")) {
+				scoreFile = new File("Leaders/timeLeaders.txt");
+			}
+			
+			scoreWriter = new FileWriter(scoreFile, false); // true = append, false = overwrite
 			
 			for(int i = 0; i < topScores.length; i++) {
 				scoreWriter.write(topScores[i][0] + " " +
@@ -81,7 +87,7 @@ public class Leaderboard {
 					}
 				//case for timed games
 				} else {
-					scoreWriter.write(topScores[i][2]);
+					scoreWriter.write(topScores[i][2] + " ");
 
 					if(i<9) {
 						scoreWriter.write(topScores[i][3] + "\n");
@@ -106,12 +112,20 @@ public class Leaderboard {
 	private int convertToSeconds(String timeLeft) {
 		int timeLeftS = 0;
 		
-		in = new Scanner(timeLeft);
-		in.useDelimiter(":");
-		timeLeftS += 60 * Integer.parseInt(in.next());
-		timeLeft += Integer.parseInt(in.next());
+		String[] parts = timeLeft.split(":");
+		
+		timeLeftS += 60 * Integer.parseInt(parts[0]);
+		timeLeft += Integer.parseInt(parts[1]);
 		
 		return timeLeftS;
+	}
+	
+	//convert time in seconds to X:XX format
+	public String convertToDigital() {
+		String digitalTime = "";
+		
+		
+		return digitalTime;
 	}
 
 	//validate whether new high score was set
@@ -188,8 +202,7 @@ public class Leaderboard {
 		//will run through this.topScores and insert newHigh score into list and move rest of list down
 		for(i = 0; i<topScores.length; i++) {
 			//find where new score should be inserted
-			//if(convertToSeconds(newHighScore[3]) > convertToSeconds(topScores[i][3])){
-			if(Integer.parseInt(newHighScore[3]) > convertToSeconds(topScores[i][3])){
+			if(convertToSeconds(newHighScore[3]) < convertToSeconds(topScores[i][3])){
 				tempScore = topScores[i];
 				topScores[i] = newHighScore;
 				newHighScore = tempScore;
@@ -250,4 +263,3 @@ public class Leaderboard {
 		return scores;
 	}
 }
-
