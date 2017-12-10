@@ -1,5 +1,7 @@
 package whitebox;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import model.Leaderboard;
 
@@ -38,12 +40,13 @@ public class TestAddScore {
 	static Leaderboard topScoresA;
 	static Leaderboard topScoresB;
 	static Leaderboard topScoresC;
-	
+	static Leaderboard topScoresD;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		topScoresA = new Leaderboard("untimed");
 		topScoresB = new Leaderboard("untimed");
 		topScoresC = new Leaderboard("untimed");
+		topScoresD = new Leaderboard("untimed");
 	}
 	
 	/**
@@ -115,5 +118,27 @@ public class TestAddScore {
 		assertEquals(Integer.parseInt(topScoresC.getScores()[7][1]), 630);
 		assertEquals(Integer.parseInt(topScoresC.getScores()[8][1]), 620);
 		assertEquals(Integer.parseInt(topScoresC.getScores()[9][1]), 610);
+	}
+	
+	/**
+	 * ADD SCORES TEST D
+	 * 
+	 * Score is not high enough to be on the leaderboard;
+	 * addScore("TestA, 1");
+	 */
+	@Test
+	public void testAddScoreStringInt_D() {
+		//topScoresD.addScore("TestD", 100);
+		assertNotNull("true",topScoresD.getScores());
+//		assertEquals(Integer.parseInt(topScoresC.getScores()[0][1]), 1002);
+//		assertEquals(Integer.parseInt(topScoresC.getScores()[1][1]), 1000);
+//		assertEquals(Integer.parseInt(topScoresC.getScores()[2][1]), 838);
+//		assertEquals(Integer.parseInt(topScoresC.getScores()[3][1]), 836);
+//		assertEquals(Integer.parseInt(topScoresC.getScores()[4][1]), 798);
+//		assertEquals(Integer.parseInt(topScoresC.getScores()[5][1]), 654);
+//		assertEquals(Integer.parseInt(topScoresC.getScores()[6][1]), 640);
+//		assertEquals(Integer.parseInt(topScoresC.getScores()[7][1]), 630);
+//		assertEquals(Integer.parseInt(topScoresC.getScores()[8][1]), 620);
+//		assertEquals(Integer.parseInt(topScoresC.getScores()[9][1]), 610);
 	}
 }
