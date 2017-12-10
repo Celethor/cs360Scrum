@@ -462,18 +462,6 @@ public void update(Observable arg0, Object arg1) {
 			//play a sound or animation
 			lblGameStatus.setText("Bonus Points Earned");
 			
-			try {
-				
-				
-						    String soundName = "Resources/tada.wav";    
-						    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-						    //AudioPlayer.player.start(audioInputStream);
-						    Clip clip = AudioSystem.getClip();
-						    clip.open(audioInputStream);
-						    clip.start();
-						} catch(Exception e) {
-							e.printStackTrace();
-						}
 			theGame.setBonusMove(false);
 		}
 		else {
@@ -491,7 +479,7 @@ public void update(Observable arg0, Object arg1) {
 					tiles[i][j].setEnabled(false);
 				}
 			}
-			lblGameStatus.setText("Game Over! Loser!");
+			lblGameStatus.setText("Game Over!");
 			lblGameStatus.setForeground(Color.RED);
 			
 			//show high score list
@@ -505,6 +493,20 @@ public void update(Observable arg0, Object arg1) {
 					tiles[i][j].setEnabled(false);
 				}
 			}
+			
+			try {
+				
+				
+			    String soundName = "Resources/tada.wav";    
+			    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+			    //AudioPlayer.player.start(audioInputStream);
+			    Clip clip = AudioSystem.getClip();
+			    clip.open(audioInputStream);
+			    clip.start();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
 			//Stop Timer when game is finished if applicable.... is a bug fix 
 			if(theGame.getGameType().equals("timed")) {
 				theGame.stopTimer();
