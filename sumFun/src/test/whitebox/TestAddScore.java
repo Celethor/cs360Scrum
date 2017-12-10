@@ -1,7 +1,9 @@
 package whitebox;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
-import model.Leaderboard;
+
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -38,12 +40,13 @@ public class TestAddScore {
 	static Leaderboard topScoresA;
 	static Leaderboard topScoresB;
 	static Leaderboard topScoresC;
-	
+	static Leaderboard topScoresD;
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		topScoresA = new Leaderboard("untimed");
 		topScoresB = new Leaderboard("untimed");
 		topScoresC = new Leaderboard("untimed");
+		topScoresD = new Leaderboard("untimed");
 	}
 	
 	/**
@@ -115,5 +118,17 @@ public class TestAddScore {
 		assertEquals(Integer.parseInt(topScoresC.getScores()[7][1]), 630);
 		assertEquals(Integer.parseInt(topScoresC.getScores()[8][1]), 620);
 		assertEquals(Integer.parseInt(topScoresC.getScores()[9][1]), 610);
+	}
+	
+	/**
+	 * ADD SCORES TEST D
+	 * 
+	 * topScores object is null. The final path where the initial for loop will 
+	 * not execute is the array is null in the beginning. ;
+	 *
+	 */
+	@Test
+	public void testAddScoreStringInt_D() {
+		assertNotNull("true",topScoresD.getScores());
 	}
 }
