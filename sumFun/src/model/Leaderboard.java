@@ -122,7 +122,7 @@ public class Leaderboard {
 	
 	//convert time in seconds to X:XX format
 	public String convertToDigital() {
-		String digitalTime = "";
+		String digitalTime = "";;
 		
 		
 		return digitalTime;
