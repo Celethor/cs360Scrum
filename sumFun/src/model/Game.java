@@ -30,7 +30,7 @@ public class Game extends Observable{
 	private int removedElement;
 	private boolean witchCraft;
 	boolean witchCraftOnce=false;
-	private int hints=30;
+	private int hints=3;
 	private boolean bonusMove;
 	private static Game game;	//for the singleton
 	/**

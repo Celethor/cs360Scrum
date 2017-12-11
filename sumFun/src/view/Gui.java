@@ -123,17 +123,6 @@ public class Gui extends JFrame implements Observer {
 				}
 				int res=JOptionPane.showConfirmDialog(null,"All progress in this game will be lost. Are you sure?","Warning",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION){
-					try {
-
-					    String soundName = "Resources/hasta.aiff";    
-					    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-					    //AudioPlayer.player.start(audioInputStream);
-					    Clip clip = AudioSystem.getClip();
-					    clip.open(audioInputStream);
-					    clip.start();
-					} catch(Exception e) {
-						e.printStackTrace();
-					}
 
 					dispose();
 					Game.clear(); //clear the instance of game object
@@ -157,17 +146,6 @@ public class Gui extends JFrame implements Observer {
 				}
 				int res=JOptionPane.showConfirmDialog(null,"All progress in this game will be lost. Are you sure?","Warning",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION){
-					try {
-
-					    String soundName = "Resources/hasta.aiff";    
-					    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-					    //AudioPlayer.player.start(audioInputStream);
-					    Clip clip = AudioSystem.getClip();
-					    clip.open(audioInputStream);
-					    clip.start();
-					} catch(Exception e) {
-						e.printStackTrace();
-					}
 
 					dispose();
 					Game.clear(); //clear the instance of game object
@@ -477,7 +455,7 @@ public void update(Observable arg0, Object arg1) {
 		if(theGame.isBonusMove()) {
 			//play a sound or animation
 			try {
-			    String soundName = "Resources/poof.wav";    
+			    String soundName = "Resources/ding.wav";    
 			    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
 			    //AudioPlayer.player.start(audioInputStream);
 			    Clip clip = AudioSystem.getClip();
@@ -676,17 +654,6 @@ public void update(Observable arg0, Object arg1) {
 		public void actionPerformed(ActionEvent arg0) {
 				witchCraft=true;
 				
-				try {
-
-				    String soundName = "Resources/offer.aiff";    
-				    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-				    //AudioPlayer.player.start(audioInputStream);
-				    Clip clip = AudioSystem.getClip();
-				    clip.open(audioInputStream);
-				    clip.start();
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
 
 				witchCraftOpt.setEnabled(false);
 		}
@@ -697,21 +664,13 @@ public class HintClickListener implements ActionListener{
 		public void actionPerformed(ActionEvent arg0) {
 				Coordinates coord=theGame.getBestPlacement();
 				hints=true;
-				tiles[coord.getRow()][coord.getCol()].setBackground(Color.YELLOW);
+				if(!coord.equals(new Coordinates(0,0)) || theGame.isSuccessfulPlacement(new Coordinates(0, 0), theGame.getTilesQueue().getElement(0))) {
+					tiles[coord.getRow()][coord.getCol()].setBackground(Color.YELLOW);
+				}
 				hintCoord=coord;
 				if(theGame.getHints()<=0) {
 					if(theGame.getHints()==0) {
-						try {
-
-						    String soundName = "Resources/force.aiff";    
-						    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-						    //AudioPlayer.player.start(audioInputStream);
-						    Clip clip = AudioSystem.getClip();
-						    clip.open(audioInputStream);
-						    clip.start();
-						} catch(Exception e) {
-							e.printStackTrace();
-						}
+						
 					}
 					hintOpt.setEnabled(false);
 				}
@@ -721,17 +680,6 @@ public class HintClickListener implements ActionListener{
 
 		
 		public void actionPerformed(ActionEvent arg0) {
-			try {
-
-			    String soundName = "Resources/actLikeMan.aiff";    
-			    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-			    //AudioPlayer.player.start(audioInputStream);
-			    Clip clip = AudioSystem.getClip();
-			    clip.open(audioInputStream);
-			    clip.start();
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
 				refreshOpt.setEnabled(false);
 				theGame.refreshQueue();	
 		}
