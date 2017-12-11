@@ -511,20 +511,20 @@ public class Game extends Observable{
 				notifyObservers();
 				//return timeUp;
 			}
-			
 		}
 
 		//returns minutes lefts
 		public String getMinutes() {
-			if(timeLimit<=180 && timeLimit>=0)
-				return Integer.toString(timeLimit/60);	
-			else
+			if(timeLimit<=180 && timeLimit>=0) {
+				return Integer.toString(timeLimit/60);
+			} else {
 				return "Invalid Time";
+			}
 		}
 
 		//returns seconds left
 		public String getSeconds() {
-			if(timeLimit<=0||timeLimit>180) {
+			if(timeLimit<0||timeLimit>180) {
 				return "Invalid Time";
 			}
 			int seconds = timeLimit%60;
