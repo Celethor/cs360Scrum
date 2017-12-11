@@ -576,7 +576,6 @@ public void update(Observable arg0, Object arg1) {
 		if(theGame.getGameType().equals("timed")) {
 			//System.out.println("theGame.getTimeLeft: "+theGame.getTimeLeft());
 			time = leaderBoard[1].convertToDigital(180 - theGame.getTimeLeft());
-			theGame.pauseTime();
 		}
 		
 		//prompt for name
