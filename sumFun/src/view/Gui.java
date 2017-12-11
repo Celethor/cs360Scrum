@@ -489,8 +489,10 @@ public void update(Observable arg0, Object arg1) {
 		
 		if(gameOver){
 			
-			//bugfix
-			theGame.pauseTime();
+			if(theGame.getGameType().equals("timed")) {
+				//bugfix
+				theGame.pauseTime();
+			}
 			
 			for(int i=0;i<tiles.length;i++){
 				for(int j=0;j<tiles[i].length;j++){
