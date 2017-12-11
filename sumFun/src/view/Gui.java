@@ -488,6 +488,10 @@ public void update(Observable arg0, Object arg1) {
 		}
 		
 		if(gameOver){
+			
+			//bugfix
+			theGame.pauseTime();
+			
 			for(int i=0;i<tiles.length;i++){
 				for(int j=0;j<tiles[i].length;j++){
 					tiles[i][j].setEnabled(false);
@@ -570,8 +574,9 @@ public void update(Observable arg0, Object arg1) {
 		
 		String time = "";
 		if(theGame.getGameType().equals("timed")) {
-			System.out.println("theGame.getTimeLeft: "+theGame.getTimeLeft());
+			//System.out.println("theGame.getTimeLeft: "+theGame.getTimeLeft());
 			time = leaderBoard[1].convertToDigital(180 - theGame.getTimeLeft());
+			theGame.pauseTime();
 		}
 		
 		//prompt for name
