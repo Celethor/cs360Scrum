@@ -441,9 +441,9 @@ public class Game extends Observable{
 		int max = getUsefulNeighbors(0, 0).size();
 		for(int i=0; i<tiles.length; i++) {
 			for(int j=0; j<tiles[i].length; j++) {
-				int possible_max = getUsefulNeighbors(i, j).size();
-				if(tiles[i][j] == -1 && possible_max > max && isSuccessfulPlacement(i, j, placedValue)) {
-							max = possible_max;
+				int possibleMax = getUsefulNeighbors(i, j).size();
+				if(tiles[i][j] == -1 && possibleMax > max && isSuccessfulPlacement(i, j, placedValue)) {
+							max = possibleMax;
 							ret = new Coordinates(i,j);
 				}
 			}
