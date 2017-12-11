@@ -140,10 +140,10 @@ public class Gui extends JFrame implements Observer {
 		newTimedGameOpt.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
-				if(game.getGameType().equals("timed")) {
+				/*if(game.getGameType().equals("timed")) {
 					game.pauseTime();
 					
-				}
+				}*/
 				int res=JOptionPane.showConfirmDialog(null,"All progress in this game will be lost. Are you sure?","Warning",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION){
 
