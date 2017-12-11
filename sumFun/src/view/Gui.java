@@ -666,6 +666,8 @@ public class HintClickListener implements ActionListener{
 				hints=true;
 				if(!coord.equals(new Coordinates(0,0)) || theGame.isSuccessfulPlacement(new Coordinates(0, 0), theGame.getTilesQueue().getElement(0))) {
 					tiles[coord.getRow()][coord.getCol()].setBackground(Color.YELLOW);
+				} else {
+					lblGameStatus.setText("No Good Placement Found!");
 				}
 				hintCoord=coord;
 				if(theGame.getHints()<=0) {
