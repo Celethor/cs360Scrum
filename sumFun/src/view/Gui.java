@@ -307,7 +307,7 @@ public class Gui extends JFrame implements Observer {
 		lblPoints = new JLabel("0");
 		lblPoints.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPoints.setOpaque(true);
-//		lblPoints.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 24));
+		//lblPoints.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 24));
 		lblPoints.setFont(font.deriveFont(Font.BOLD, 30));
 		lblPoints.setVerticalAlignment(SwingConstants.CENTER);
 		lblPoints.setForeground(Color.decode("#FF00FF"));
@@ -331,16 +331,16 @@ public class Gui extends JFrame implements Observer {
 		lblScore.setOpaque(true);
 		lblScore.setHorizontalAlignment(SwingConstants.CENTER);
 		lblScore.setForeground(Color.decode("#00B2FF"));
-//		lblScore.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 28));
+		//lblScore.setFont(new Font("Helvetica", Font.BOLD | Font.ITALIC, 28));
 		//lblScore.setBackground(Color.GRAY);
 		lblScore.setFont(font.deriveFont(Font.BOLD, 30));
 		//lblScore.setVerticalAlignment(SwingConstants.BOTTOM);
 		totalScorePanel.add(lblScore);
 		
-//		JPanel panel = new JPanel();
-//		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-//		optionPanel.add(panel);
-//		panel.setLayout(new BorderLayout(0, 0));
+		/*JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		optionPanel.add(panel);
+		panel.setLayout(new BorderLayout(0, 0));*/
 		
 		
 		//lblGameStatus.setBackground(Color.GRAY);
@@ -383,7 +383,7 @@ public class Gui extends JFrame implements Observer {
 				tiles[i][j].setForeground(Color.white);
 				tiles[i][j].setFont(new Font("Helvetica", Font.PLAIN, 20));
 				tiles[i][j].setFocusable(false);
-//				tiles[i][j].addActionListener(new TilesClickListener());
+				//tiles[i][j].addActionListener(new TilesClickListener());
 				tiles[i][j].addMouseListener(click);
 				tiles[i][j].addMouseListener(new MouseActionTiles());
 				tiles[i][j].getBackground();
@@ -473,8 +473,7 @@ public void update(Observable arg0, Object arg1) {
 			times.start();
 			times.start();
 			theGame.setBonusMove(false);
-		}
-		else {
+		} else {
 			lblGameStatus.setText("");
 		}
 		if(gameType.equals("untimed")){
@@ -524,15 +523,15 @@ public void update(Observable arg0, Object arg1) {
 			lblGameStatus.setText("Game Won! Legend!");
 			lblGameStatus.setForeground(Color.GREEN);
 			
-//			//check if new TIME .If so, prompt for name input //TIMED only
-//			if(leaderBoard[0].checkScore(theGame.getScore())) {
-//				newHighScorePrompt();
-//			}
-//			
-//			//check if new high score.If so, prompt for name input //UNTIMED & timed
-//			if(leaderBoard[0].checkScore(theGame.getScore())) {
-//				newHighScorePrompt();
-//			}	
+			/*//check if new TIME .If so, prompt for name input //TIMED only
+			if(leaderBoard[0].checkScore(theGame.getScore())) {
+				newHighScorePrompt();
+			}
+			
+			//check if new high score.If so, prompt for name input //UNTIMED & timed
+			if(leaderBoard[0].checkScore(theGame.getScore())) {
+				newHighScorePrompt();
+			}*/	
 			
 			newHighScorePrompt();
 			

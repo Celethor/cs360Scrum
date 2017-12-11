@@ -45,10 +45,11 @@ public class Leaderboard {
 			//dd code here to create template for scores if not exists @done
 			e.printStackTrace();
 		}
-		if (gameType.equals("untimed"))
+		if (gameType.equals("untimed")) {
 			this.topScores = new String[10][3];
-		else
+		} else {
 			this.topScores= new String[10][4];
+		}
 
 		// line by line read name, score, and date into the array
 		for (int i = 0; scoreReader.hasNextLine(); i++) {
