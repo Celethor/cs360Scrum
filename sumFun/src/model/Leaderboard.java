@@ -155,21 +155,23 @@ public class Leaderboard {
 		}
 		return true;
 	}
-	
+	/**
+	 * This method adds a score to the topScores array. 
+	 * Checks if the present score is greater than every element in the array and 
+	 * inserts in the first place where this score is greater than the existing value
+	 * It then loops through the rest of the array to write back other scores. 
+	 * @param name : name to be inserted
+	 * @param score : score to be inserted
+	 */
 	// add a score to the list	
 	public void addScore(String name, int score){
-		
 		//get current Date
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDate localDate = LocalDate.now(); //11/19/2017
-		
 		//create score slot to insert
 		String[] newHighScore = {name, Integer.toString(score), dtf.format(localDate)};
-		
 		//need temp var to store misplaced scores
 		String[] tempScore = {null, null, null};
-		
-		
 		int i;
 		//will run through this.topScores and insert newHigh score into list and move rest of list down
 		for(i = 0; i<topScores.length; i++) {
@@ -182,20 +184,17 @@ public class Leaderboard {
 				break;
 			}
 		}
-		
 		//move the rest of the list down
 		for(;i<topScores.length;i++){
 			tempScore = topScores[i];
 			topScores[i] = newHighScore;
 			newHighScore = tempScore;
 		}
-		
-		
 		return;
 	}
 	
 	//ad a new score from a timed game.
-	public void addScore(String name, int score, String timeLeft) {
+	public void addTimedScore(String name, int score, String timeLeft) {
 		
 		//get current Date
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");

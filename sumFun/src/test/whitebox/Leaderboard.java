@@ -24,7 +24,6 @@ public class Leaderboard {
 						            {"Empty","0","N/A"},
 						            {"Empty","0","N/A"},
 						            {"Empty","0","N/A"}};
-	private Scanner in;
 
 	public Leaderboard(String gameType) {
 		this.gameType = gameType;
@@ -34,9 +33,9 @@ public class Leaderboard {
 	private void loadScores() {
 		File leaderTxt;
 		if(gameType.equals("untimed")) {
-			leaderTxt = new File("src/test/whitebox/leaders.txt");
+			leaderTxt = new File("Leaders/leaders.txt");
 		} else {
-			leaderTxt = new File("timeLeaders.txt");
+			leaderTxt = new File("Leaders/timeLeaders.txt");
 		}
 		Scanner scoreReader = null;
 
@@ -68,7 +67,13 @@ public class Leaderboard {
 	public void saveScores() {
 		FileWriter scoreWriter = null;
 		try {
-			scoreWriter = new FileWriter(new File("Leaders/leaders.txt"), false); // true = append, false = overwrite
+			File scoreFile = new File("Leaders/leaders.txt");
+			
+			if(gameType.equals("timed")) {
+				scoreFile = new File("Leaders/timeLeaders.txt");
+			}
+			
+			scoreWriter = new FileWriter(scoreFile, false); // true = append, false = overwrite
 			
 			for(int i = 0; i < topScores.length; i++) {
 				scoreWriter.write(topScores[i][0] + " " +
@@ -82,7 +87,7 @@ public class Leaderboard {
 					}
 				//case for timed games
 				} else {
-					scoreWriter.write(topScores[i][2]);
+					scoreWriter.write(topScores[i][2] + " ");
 
 					if(i<9) {
 						scoreWriter.write(topScores[i][3] + "\n");
@@ -107,12 +112,30 @@ public class Leaderboard {
 	private int convertToSeconds(String timeLeft) {
 		int timeLeftS = 0;
 		
-		in = new Scanner(timeLeft);
-		in.useDelimiter(":");
-		timeLeftS += 60 * Integer.parseInt(in.next());
-		timeLeft += Integer.parseInt(in.next());
+		String[] parts = timeLeft.split(":");
+		
+		timeLeftS += 60 * Integer.parseInt(parts[0]);
+		timeLeft += Integer.parseInt(parts[1]);
 		
 		return timeLeftS;
+	}
+	
+	//convert time in seconds to X:XX format
+	public String convertToDigital(int time) {
+		
+		//case if 0
+		if(time==0) {
+			return "0 : 00";
+		}
+		
+		String digitalTime = "";
+		
+		//add the minutes
+		digitalTime += time/60 + ":";
+		//add the seconds
+		digitalTime += time%60;
+		
+		return digitalTime;
 	}
 
 	//validate whether new high score was set
@@ -132,21 +155,23 @@ public class Leaderboard {
 		}
 		return true;
 	}
-	
+	/**
+	 * This method adds a score to the topScores array. 
+	 * Checks if the present score is greater than every element in the array and 
+	 * inserts in the first place where this score is greater than the existing value
+	 * It then loops through the rest of the array to write back other scores. 
+	 * @param name : name to be inserted
+	 * @param score : score to be inserted
+	 */
 	// add a score to the list	
 	public void addScore(String name, int score){
-		
 		//get current Date
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDate localDate = LocalDate.now(); //11/19/2017
-		
 		//create score slot to insert
 		String[] newHighScore = {name, Integer.toString(score), dtf.format(localDate)};
-		
 		//need temp var to store misplaced scores
 		String[] tempScore = {null, null, null};
-		
-		
 		int i;
 		//will run through this.topScores and insert newHigh score into list and move rest of list down
 		for(i = 0; i<topScores.length; i++) {
@@ -159,20 +184,17 @@ public class Leaderboard {
 				break;
 			}
 		}
-		
 		//move the rest of the list down
 		for(;i<topScores.length;i++){
 			tempScore = topScores[i];
 			topScores[i] = newHighScore;
 			newHighScore = tempScore;
 		}
-		
-		
 		return;
 	}
 	
 	//ad a new score from a timed game.
-	public void addScore(String name, int score, String timeLeft) {
+	public void addTimedScore(String name, int score, String timeLeft) {
 		
 		//get current Date
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -189,8 +211,7 @@ public class Leaderboard {
 		//will run through this.topScores and insert newHigh score into list and move rest of list down
 		for(i = 0; i<topScores.length; i++) {
 			//find where new score should be inserted
-			//if(convertToSeconds(newHighScore[3]) > convertToSeconds(topScores[i][3])){
-			if(Integer.parseInt(newHighScore[3]) > convertToSeconds(topScores[i][3])){
+			if(convertToSeconds(newHighScore[3]) < convertToSeconds(topScores[i][3])){
 				tempScore = topScores[i];
 				topScores[i] = newHighScore;
 				newHighScore = tempScore;
@@ -233,9 +254,6 @@ public class Leaderboard {
 						+ topScores[i][0] + "\t"
 						+ topScores[i][3] + "\t";
 				
-				
-				
-				scores += topScores[i][1] + "\t";
 
 				if(i<9) {
 					scores += topScores[i][2] + "\n";
@@ -251,4 +269,3 @@ public class Leaderboard {
 		return scores;
 	}
 }
-

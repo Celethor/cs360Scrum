@@ -494,7 +494,12 @@ public class Game extends Observable{
 			this.gametimer = new Timer(1000, new TimerListener());
 			startTimer();
 		}
-
+		/**
+		 * This method is for updating the time every second. It checks if the timeLimit is valid.
+		 * Then, checks if the timeLimit is >0 or =0 and decrements timeLimit if >0. If timeLimit=0
+		 * the timer is stopped and the gameOver is set to true. setChanged and notifyObservers are 
+		 * called to update timer in the GUI every second.
+		 */
 		//should be called by the timer every second
 		//checks if the time is up, if not decrements
 		public void updateTime() {

@@ -599,7 +599,7 @@ public void update(Observable arg0, Object arg1) {
 		
 		if(theGame.getGameType().equals("timed") && newTime) {
 			System.out.println(time);
-			leaderBoard[1].addScore(name, theGame.getScore(), time);
+			leaderBoard[1].addTimedScore(name, theGame.getScore(), time);
 		}
 		
 		//if new scores were set then save! :)
@@ -671,9 +671,6 @@ public class HintClickListener implements ActionListener{
 				}
 				hintCoord=coord;
 				if(theGame.getHints()<=0) {
-					if(theGame.getHints()==0) {
-						
-					}
 					hintOpt.setEnabled(false);
 				}
 		}
