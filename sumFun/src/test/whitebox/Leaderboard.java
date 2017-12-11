@@ -33,9 +33,9 @@ public class Leaderboard {
 	private void loadScores() {
 		File leaderTxt;
 		if(gameType.equals("untimed")) {
-			leaderTxt = new File("Leaders/leaders.txt");
+			leaderTxt = new File("src/test/whitebox/leaders.txt");
 		} else {
-			leaderTxt = new File("Leaders/timeLeaders.txt");
+			leaderTxt = new File("src/test/whitebox/timeLeaders.txt");
 		}
 		Scanner scoreReader = null;
 
@@ -67,10 +67,10 @@ public class Leaderboard {
 	public void saveScores() {
 		FileWriter scoreWriter = null;
 		try {
-			File scoreFile = new File("Leaders/leaders.txt");
+			File scoreFile = new File("src/test/whitebox/leaders.txt");
 			
 			if(gameType.equals("timed")) {
-				scoreFile = new File("Leaders/timeLeaders.txt");
+				scoreFile = new File("src/test/whitebox/timeLeaders.txt");
 			}
 			
 			scoreWriter = new FileWriter(scoreFile, false); // true = append, false = overwrite
