@@ -552,7 +552,7 @@ public class Game extends Observable{
 			gametimer.start();
 		}
 		public int getTimeLimit(){
-			System.out.println(timeLimit);
+			//System.out.println(timeLimit);
 			return timeLimit;
 		}
 		public void setTimeLimit(int limit) {

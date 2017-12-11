@@ -28,17 +28,7 @@ public class SplashGui extends JFrame {
 	
 	public SplashGui() {
 		setTitle("Sum Fun");
-		try {
-
-		    String soundName = "Resources/goodEvening.aiff";    
-		    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
-		    //AudioPlayer.player.start(audioInputStream);
-		    Clip clip = AudioSystem.getClip();
-		    clip.open(audioInputStream);
-		    clip.start();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize(654, 412);
 		//getContentPane().setLayout(null);

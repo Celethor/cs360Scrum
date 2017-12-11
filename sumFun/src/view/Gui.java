@@ -424,6 +424,21 @@ public void update(Observable arg0, Object arg1) {
 		if(gameType.equals("timed")) {
 			//update the remaining time
 			lblMovesInt.setText(theGame.getRemainingTime());
+			
+			//play sound if 1 seconds or left!
+			if(theGame.getTimeLeft()<=10 && theGame.getTimeLeft() >= 0) {
+				try {
+
+				    String soundName = "Resources/honk.wav";    
+				    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+				    //AudioPlayer.player.start(audioInputStream);
+				    Clip clip = AudioSystem.getClip();
+				    clip.open(audioInputStream);
+				    clip.start();
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		//first update the tiles from the model
@@ -461,7 +476,19 @@ public void update(Observable arg0, Object arg1) {
 		lblPoints.setText(Integer.toString(theGame.getPoints()));
 		if(theGame.isBonusMove()) {
 			//play a sound or animation
+			try {
+			    String soundName = "Resources/poof.wav";    
+			    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+			    //AudioPlayer.player.start(audioInputStream);
+			    Clip clip = AudioSystem.getClip();
+			    clip.open(audioInputStream);
+			    clip.start();
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
 			lblGameStatus.setText("Bonus Points Earned");
+			
 			final int labelWidth = 250;
 			final AtomicInteger labelPadding = new AtomicInteger();
 			times = new Timer(30, new ActionListener() {
@@ -491,6 +518,10 @@ public void update(Observable arg0, Object arg1) {
 			lblGameStatus.setText("Game Over!");
 			lblGameStatus.setForeground(Color.RED);
 			
+			//remove lblGameStatus if game end
+			lblGameStatus.setVisible(false);
+			
+			
 			//show high score list
 			showHighScores();
 			//disable refreshqueue
@@ -503,9 +534,7 @@ public void update(Observable arg0, Object arg1) {
 				}
 			}
 			
-			try {
-				
-				
+			try {				
 			    String soundName = "Resources/tada.wav";    
 			    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
 			    //AudioPlayer.player.start(audioInputStream);
@@ -522,6 +551,9 @@ public void update(Observable arg0, Object arg1) {
 			}
 			lblGameStatus.setText("Game Won! Legend!");
 			lblGameStatus.setForeground(Color.GREEN);
+			
+			//remove lblGameStatus if Game End
+			lblGameStatus.setVisible(false);
 			
 			/*//check if new TIME .If so, prompt for name input //TIMED only
 			if(leaderBoard[0].checkScore(theGame.getScore())) {
@@ -751,7 +783,36 @@ public class HintClickListener implements ActionListener{
 				theGame.witchCraft(((Tile)arg0.getSource()).getCoord());
 				witchCraft=false;
 			} else {
+				//sound on tile click
+				
 				Tile t=(Tile)arg0.getSource();
+				
+				//play sound on valid tile placement
+				if(theGame.getTileValue(t.getCoord())==-1) {
+					try {
+					    String soundName = "Resources/Tick.wav";    
+					    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+					    //AudioPlayer.player.start(audioInputStream);
+					    Clip clip = AudioSystem.getClip();
+					    clip.open(audioInputStream);
+					    clip.start();
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+				//play sound on invalid tile placement
+				} else {
+					try {
+					    String soundName = "Resources/wrongBuzzer.aif";    
+					    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(soundName).getAbsoluteFile());
+					    //AudioPlayer.player.start(audioInputStream);
+					    Clip clip = AudioSystem.getClip();
+					    clip.open(audioInputStream);
+					    clip.start();
+					} catch(Exception e) {
+						e.printStackTrace();
+					}
+				}
+				
 				theGame.updateTilesinBoard(t.getCoord());
 				if(hints==true) {
 					hints=false;
